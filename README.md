@@ -41,7 +41,7 @@ Eine App, die das Verleihen und Ausleihen von Gegenständen so einfach macht wie
 
 ```bash
 # Repository klonen
-git clone https://github.com/[username]/dorfkiste.git
+git clone https://github.com/nikolaus/dorfkiste.git
 cd dorfkiste
 
 # Dependencies installieren
