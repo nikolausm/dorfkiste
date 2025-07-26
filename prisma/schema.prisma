@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String    @id @default(cuid())
+  email           String    @unique
+  name            String?
+  avatarUrl       String?
+  bio             String?
+  verified        Boolean   @default(false)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  items           Item[]
+  rentalsAsOwner  Rental[]  @relation("OwnerRentals")
+  rentalsAsRenter Rental[]  @relation("RenterRentals")
+  reviewsGiven    Review[]  @relation("ReviewsGiven")
+  reviewsReceived Review[]  @relation("ReviewsReceived")
+  messages        Message[]
+}
+
+model Category {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  slug        String   @unique
+  description String?
+  icon        String?
+  
+  items       Item[]
+}
+model Item {
+  id              String    @id @default(cuid())
+  title           String
+  description     String?
+  imageUrls       String[]
+  condition       String    // neu, sehr gut, gut, gebraucht
+  pricePerDay     Float?
+  pricePerHour    Float?
+  deposit         Float?
+  available       Boolean   @default(true)
+  location        String
+  latitude        Float?
+  longitude       Float?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  userId          String
+  categoryId      String
+  
+  user            User      @relation(fields: [userId], references: [id])
+  category        Category  @relation(fields: [categoryId], references: [id])
+  rentals         Rental[]
+}
+
+model Rental {
+  id              String    @id @default(cuid())
+  startDate       DateTime
+  endDate         DateTime
+  totalPrice      Float
+  depositPaid     Float
+  status          String    // pending, confirmed, active, completed, cancelled
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  itemId          String
+  ownerId         String
+  renterId        String
+  
+  item            Item      @relation(fields: [itemId], references: [id])
+  owner           User      @relation("OwnerRentals", fields: [ownerId], references: [id])
+  renter          User      @relation("RenterRentals", fields: [renterId], references: [id])
+  reviews         Review[]
+  messages        Message[]
+}
+model Review {
+  id              String    @id @default(cuid())
+  rating          Int       // 1-5
+  comment         String?
+  createdAt       DateTime  @default(now())
+  
+  rentalId        String
+  reviewerId      String
+  reviewedId      String
+  
+  rental          Rental    @relation(fields: [rentalId], references: [id])
+  reviewer        User      @relation("ReviewsGiven", fields: [reviewerId], references: [id])
+  reviewed        User      @relation("ReviewsReceived", fields: [reviewedId], references: [id])
+}
+
+model Message {
+  id              String    @id @default(cuid())
+  content         String
+  read            Boolean   @default(false)
+  createdAt       DateTime  @default(now())
+  
+  senderId        String
+  rentalId        String
+  
+  sender          User      @relation(fields: [senderId], references: [id])
+  rental          Rental    @relation(fields: [rentalId], references: [id])
+}
