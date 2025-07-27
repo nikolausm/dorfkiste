@@ -1,23 +1,26 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import { MapPin, Star } from 'lucide-react'
 
 interface ItemCardProps {
   id: string
   title: string
-  imageUrl: string
-  pricePerDay?: number
-  pricePerHour?: number
+  imageUrl?: string
+  pricePerDay?: number | null
+  pricePerHour?: number | null
   location: string
   condition: string
   available: boolean
   user: {
-    name: string
-    avatarUrl?: string
+    id: string
+    name: string | null
+    avatarUrl?: string | null
     rating?: number
   }
 }
 
 export default function ItemCard({
+  id,
   title,
   imageUrl,
   pricePerDay,
@@ -28,8 +31,9 @@ export default function ItemCard({
   user
 }: ItemCardProps) {
   return (
-    <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden">
-      <div className="relative h-48 w-full">
+    <Link href={`/items/${id}`}>
+      <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden cursor-pointer">
+        <div className="relative h-48 w-full">
         <Image
           src={imageUrl || '/placeholder.jpg'}
           alt={title}
@@ -79,7 +83,7 @@ export default function ItemCard({
             {user.avatarUrl ? (
               <Image
                 src={user.avatarUrl}
-                alt={user.name}
+                alt={user.name || "User"}
                 width={32}
                 height={32}
                 className="rounded-full"
@@ -87,14 +91,15 @@ export default function ItemCard({
             ) : (
               <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
                 <span className="text-xs font-semibold text-gray-600">
-                  {user.name.charAt(0).toUpperCase()}
+                  {user.name ? user.name.charAt(0).toUpperCase() : '?'}
                 </span>
               </div>
             )}
-            <span className="text-sm text-gray-700">{user.name}</span>
+            <span className="text-sm text-gray-700">{user.name || 'Unbekannt'}</span>
           </div>
         </div>
       </div>
     </div>
+    </Link>
   )
 }

@@ -1,4 +1,5 @@
 import { Camera, Users, Shield, MessageCircle, Calendar, Star } from 'lucide-react'
+import Link from 'next/link'
 
 export default function Home() {
   return (
@@ -14,12 +15,18 @@ export default function Home() {
               Die Nachbarschafts-Verleihplattform, bei der ein Foto reicht
             </p>
             <div className="flex gap-4 justify-center">
-              <button className="bg-green-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-green-700 transition-colors">
+              <Link 
+                href="/auth/signup" 
+                className="bg-green-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-green-700 transition-colors inline-block"
+              >
                 Jetzt starten
-              </button>
-              <button className="bg-white text-gray-800 px-8 py-4 rounded-lg font-semibold border-2 border-gray-300 hover:border-gray-400 transition-colors">
-                Mehr erfahren
-              </button>
+              </Link>
+              <Link 
+                href="/items" 
+                className="bg-white text-gray-800 px-8 py-4 rounded-lg font-semibold border-2 border-gray-300 hover:border-gray-400 transition-colors inline-block"
+              >
+                Artikel entdecken
+              </Link>
             </div>
           </div>
         </div>
@@ -101,9 +108,12 @@ export default function Home() {
           <p className="text-xl text-green-100 mb-8 max-w-2xl mx-auto">
             Werde Teil der Dorfkiste-Community und entdecke, was deine Nachbarn alles zu bieten haben
           </p>
-          <button className="bg-white text-green-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+          <Link 
+            href="/auth/signup" 
+            className="bg-white text-green-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-block"
+          >
             Kostenlos registrieren
-          </button>
+          </Link>
         </div>
       </section>
     </main>

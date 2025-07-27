@@ -3,13 +3,14 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
 model User {
   id              String    @id @default(cuid())
   email           String    @unique
+  password        String?
   name            String?
   avatarUrl       String?
   bio             String?
@@ -38,7 +39,6 @@ model Item {
   id              String    @id @default(cuid())
   title           String
   description     String?
-  imageUrls       String[]
   condition       String    // neu, sehr gut, gut, gebraucht
   pricePerDay     Float?
   pricePerHour    Float?
@@ -56,6 +56,17 @@ model Item {
   user            User      @relation(fields: [userId], references: [id])
   category        Category  @relation(fields: [categoryId], references: [id])
   rentals         Rental[]
+  images          ItemImage[]
+}
+
+model ItemImage {
+  id              String    @id @default(cuid())
+  url             String
+  order           Int       @default(0)
+  createdAt       DateTime  @default(now())
+  
+  itemId          String
+  item            Item      @relation(fields: [itemId], references: [id], onDelete: Cascade)
 }
 
 model Rental {

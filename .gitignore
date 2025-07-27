@@ -19,3 +19,6 @@ yarn-error.log*
 *.swo
 coverage/
 .nyc_output/
+public/uploads/
+prisma/dev.db
+prisma/dev.db-journal
