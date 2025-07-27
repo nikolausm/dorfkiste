@@ -1,12 +1,16 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { auth } from "@/lib/auth"
+import { sendRentalConfirmationEmail } from "@/lib/email-service"
+import { getWebSocketServer } from "@/lib/websocket-server"
+import { logger } from "@/lib/logger"
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const session = await auth()
     
     if (!session?.user?.id) {
@@ -17,7 +21,7 @@ export async function GET(
     }
 
     const rental = await prisma.rental.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       include: {
         item: {
           include: {
@@ -96,9 +100,10 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const session = await auth()
     
     if (!session?.user?.id) {
@@ -109,7 +114,7 @@ export async function PUT(
     }
 
     const rental = await prisma.rental.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       select: {
         ownerId: true,
         renterId: true,
@@ -176,7 +181,7 @@ export async function PUT(
     }
 
     const updatedRental = await prisma.rental.update({
-      where: { id: params.id },
+      where: { id: id },
       data: { status },
       include: {
         item: {
@@ -204,6 +209,68 @@ export async function PUT(
         },
       },
     })
+
+    // Send notifications based on status change
+    try {
+      const wsServer = getWebSocketServer()
+      
+      if (status === 'confirmed') {
+        // Send confirmation email to renter
+        await sendRentalConfirmationEmail(updatedRental as any)
+        logger.info(`Rental confirmation email sent to renter: ${updatedRental.renter.id}`)
+        
+        // Send real-time notification
+        if (wsServer) {
+          await wsServer.createNotification({
+            userId: updatedRental.renterId,
+            type: 'rental_confirmed',
+            title: 'Buchung bestätigt!',
+            message: `Ihre Buchung für "${updatedRental.item.name}" wurde bestätigt.`,
+            data: { rentalId: updatedRental.id }
+          })
+          
+          // Send rental update to all users in rental room
+          wsServer.sendToRental(updatedRental.id, 'rental_updated', {
+            rentalId: updatedRental.id,
+            status: 'confirmed',
+            timestamp: new Date()
+          })
+        }
+      }
+      
+      if (status === 'completed') {
+        // Notify owner that rental is completed
+        if (wsServer) {
+          await wsServer.createNotification({
+            userId: updatedRental.ownerId,
+            type: 'rental_confirmed',
+            title: 'Miete abgeschlossen',
+            message: `Die Miete von "${updatedRental.item.name}" wurde als abgeschlossen markiert.`,
+            data: { rentalId: updatedRental.id }
+          })
+        }
+      }
+      
+      if (status === 'cancelled') {
+        // Notify the other party about cancellation
+        const notifyUserId = rental.ownerId === session.user.id 
+          ? updatedRental.renterId 
+          : updatedRental.ownerId
+          
+        if (wsServer) {
+          await wsServer.createNotification({
+            userId: notifyUserId,
+            type: 'rental_confirmed',
+            title: 'Buchung storniert',
+            message: `Die Buchung für "${updatedRental.item.name}" wurde storniert.`,
+            data: { rentalId: updatedRental.id }
+          })
+        }
+      }
+    } catch (notificationError) {
+      logger.error('Failed to send notifications:', notificationError)
+      // Don't fail the request if notifications fail
+    }
 
     return NextResponse.json(updatedRental)
   } catch (error) {

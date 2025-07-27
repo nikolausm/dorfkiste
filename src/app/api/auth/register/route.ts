@@ -1,25 +1,27 @@
 import { NextRequest, NextResponse } from "next/server"
 import bcrypt from "bcryptjs"
 import { prisma } from "@/lib/prisma"
+import { 
+  userRegistrationSchema, 
+  createValidationMiddleware,
+  createValidationErrorResponse 
+} from "@/lib/validation"
+import { sendWelcomeEmail, sendAdminNotificationEmail } from "@/lib/email-service"
+import { getJobQueue } from "@/lib/job-queue"
+import { logger } from "@/lib/logger"
+
+const validateRegistration = createValidationMiddleware(userRegistrationSchema)
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json()
-    const { name, email, password } = body
-
-    if (!email || !password) {
-      return NextResponse.json(
-        { message: "E-Mail und Passwort sind erforderlich" },
-        { status: 400 }
-      )
+    // Validate request body
+    const validation = await validateRegistration(request, 'body')
+    
+    if (!validation.success) {
+      return createValidationErrorResponse(validation.errors!)
     }
 
-    if (password.length < 6) {
-      return NextResponse.json(
-        { message: "Das Passwort muss mindestens 6 Zeichen lang sein" },
-        { status: 400 }
-      )
-    }
+    const { name, email, password } = validation.data!
 
     // Check if user already exists
     const existingUser = await prisma.user.findUnique({
@@ -44,6 +46,38 @@ export async function POST(request: NextRequest) {
         password: hashedPassword,
       },
     })
+
+    // Send welcome email (async, don't wait)
+    try {
+      await sendWelcomeEmail(user)
+      logger.info(`Welcome email sent to new user: ${user.email}`)
+    } catch (emailError) {
+      logger.error('Failed to send welcome email:', emailError)
+      // Don't fail registration if email fails
+    }
+
+    // Send admin notification (async, don't wait)
+    try {
+      await sendAdminNotificationEmail('new_user', {
+        name: user.name,
+        email: user.email,
+        id: user.id
+      })
+    } catch (adminEmailError) {
+      logger.error('Failed to send admin notification:', adminEmailError)
+    }
+
+    // Schedule follow-up email for 24 hours later (via job queue)
+    try {
+      const jobQueue = await getJobQueue()
+      await jobQueue.scheduleEmail(
+        'sendWelcomeEmail',
+        [{ ...user, name: user.name }],
+        24 * 60 * 60 * 1000 // 24 hours in milliseconds
+      )
+    } catch (jobError) {
+      logger.error('Failed to schedule follow-up email:', jobError)
+    }
 
     return NextResponse.json(
       {

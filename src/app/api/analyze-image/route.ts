@@ -15,6 +15,38 @@ const CATEGORY_KEYWORDS = {
   'Partybedarf': ['party', 'lichterkette', 'musikanlage', 'pavillon', 'biertisch', 'stehtisch', 'grill', 'zapfanlage', 'sound', 'deko'],
   'Kinderbedarf': ['kinderwagen', 'babysitz', 'spielzeug', 'hochstuhl', 'laufrad', 'kinderfahrrad', 'babyphone', 'wickeltisch', 'kind', 'baby'],
   'Haushalt': ['staubsauger', 'bügeleisen', 'nähmaschine', 'leiter', 'reinigung', 'putzen', 'wischen', 'kehren', 'haushalt'],
+  'Baumaschinen': ['bagger', 'minibagger', 'radlader', 'dumper', 'rüttelplatte', 'stampfer', 'betonmischer', 'baumaschine', 'kran', 'hebebühne'],
+}
+
+// Schweres Gerät Erkennung für Lieferempfehlung
+const HEAVY_EQUIPMENT_KEYWORDS = [
+  'bagger', 'minibagger', 'radlader', 'dumper', 'anhänger', 'hebebühne', 'arbeitsbühne',
+  'betonmischer', 'rüttelplatte', 'stampfer', 'stromaggregat', 'kompressor', 'häcksler',
+  'kran', 'gerüst', 'baumaschine', 'motorsäge', 'kreissäge', 'kappsäge', 'tischkreissäge'
+]
+
+// Lieferkosten-Empfehlungen basierend auf Gerätekategorie
+const DELIVERY_SUGGESTIONS: Record<string, { fee: number; radius: number; details: string }> = {
+  'Baumaschinen': { 
+    fee: 100, 
+    radius: 30, 
+    details: 'Lieferung und Abholung inklusive Einweisung. Transport mit Anhänger oder LKW.' 
+  },
+  'schweres_werkzeug': { 
+    fee: 50, 
+    radius: 20, 
+    details: 'Lieferung und Abholung möglich. Bei Bedarf kurze Einweisung vor Ort.' 
+  },
+  'großgeräte': { 
+    fee: 40, 
+    radius: 15, 
+    details: 'Lieferung gegen Aufpreis möglich. Abholung nach Vereinbarung.' 
+  },
+  'standard': { 
+    fee: 20, 
+    radius: 10, 
+    details: 'Lieferung im Nahbereich möglich.' 
+  }
 }
 
 // Verbesserte Zustandserkennung
@@ -57,7 +89,8 @@ async function analyzeImageWithAI(imageUrl: string) {
       const filePath = path.join(process.cwd(), 'public', imageUrl)
       const imageBuffer = await fs.readFile(filePath)
       const base64 = imageBuffer.toString('base64')
-      const fileExtension = path.extname(filePath).slice(1)
+      const extname = path.extname(filePath)
+      const fileExtension = typeof extname === 'string' && extname.length > 1 ? extname.slice(1) : 'jpg'
       const mimeType = fileExtension === 'jpg' ? 'jpeg' : fileExtension
       imageData = `data:image/${mimeType};base64,${base64}`
     } catch (error) {
@@ -115,7 +148,9 @@ Antworte IMMER in diesem JSON-Format:
   "beschreibung": "2-3 Sätze Beschreibung mit wichtigen Details",
   "marke": "Marke falls erkennbar",
   "besonderheiten": ["Feature 1", "Feature 2"],
-  "geschaetzter_neupreis": Zahl
+  "geschaetzter_neupreis": Zahl,
+  "gewicht_kategorie": "leicht/mittel/schwer/sehr_schwer",
+  "transport_erforderlich": true/false
 }`
           },
           {
@@ -166,6 +201,14 @@ Antworte IMMER in diesem JSON-Format:
           parsed.zustand || 'gut',
           parsed.geschaetzter_neupreis
         )
+        
+        // Lieferempfehlung basierend auf Produkt
+        const deliveryRecommendation = getDeliveryRecommendation(
+          parsed.produktname || '',
+          parsed.kategorie || '',
+          parsed.gewicht_kategorie || 'mittel',
+          parsed.transport_erforderlich
+        )
 
         return {
           title: parsed.produktname || parsed.titel || 'Unbekanntes Produkt',
@@ -175,10 +218,14 @@ Antworte IMMER in diesem JSON-Format:
           suggestedPricePerDay: suggestedPrice.perDay,
           suggestedPricePerHour: suggestedPrice.perHour,
           deposit: suggestedPrice.deposit,
+          isHeavyEquipment: deliveryRecommendation.isHeavy,
+          suggestedDeliveryFee: deliveryRecommendation.fee,
+          suggestedDeliveryRadius: deliveryRecommendation.radius,
           metadata: {
             brand: parsed.marke,
             features: parsed.besonderheiten,
-            estimatedNewPrice: parsed.geschaetzter_neupreis
+            estimatedNewPrice: parsed.geschaetzter_neupreis,
+            deliveryDetails: deliveryRecommendation.details
           }
         }
       } catch (e) {
@@ -269,6 +316,20 @@ async function getIntelligentMockAnalysis(imageUrl?: string) {
         features: ["52cm Schnittlänge", "22mm Schnittstärke", "Sehr leicht"],
         estimatedNewPrice: 150
       }
+    },
+    {
+      title: "Kubota U17-3α Minibagger 1.7t",
+      description: "Kompakter Minibagger mit 1.7 Tonnen Einsatzgewicht. Grabtiefe 2,3m, verstellbares Fahrwerk, Tieflöffel 30cm. Ideal für Garten- und Landschaftsbau. Stundenzähler: 1250h.",
+      categoryName: "Baumaschinen",
+      condition: "gut",
+      suggestedPricePerDay: 180,
+      suggestedPricePerHour: 35,
+      deposit: 500,
+      metadata: {
+        brand: "Kubota",
+        features: ["1.7t Gewicht", "Verstellbares Fahrwerk", "Tieflöffel 30cm"],
+        estimatedNewPrice: 28000
+      }
     }
   ]
   
@@ -283,9 +344,17 @@ async function getIntelligentMockAnalysis(imageUrl?: string) {
   // Kategorie-ID finden
   const category = categories.find(c => c.name === selected.categoryName)
   
+  // Add delivery recommendations for mock data
+  const isHeavy = selected.categoryName === 'Baumaschinen' || 
+    selected.title.toLowerCase().includes('bagger') ||
+    (selected.metadata?.estimatedNewPrice && selected.metadata.estimatedNewPrice > 1000)
+  
   return {
     ...selected,
-    categoryId: category?.id || categories.find(c => c.name === 'Sonstiges')?.id || ''
+    categoryId: category?.id || categories.find(c => c.name === 'Sonstiges')?.id || '',
+    isHeavyEquipment: isHeavy,
+    suggestedDeliveryFee: isHeavy ? 100 : null,
+    suggestedDeliveryRadius: isHeavy ? 30 : null
   }
 }
 
@@ -293,7 +362,7 @@ async function getIntelligentMockAnalysis(imageUrl?: string) {
 function findBestMatchingCategory(categoryName: string, categories: any[]) {
   if (!categoryName) return null
   
-  const normalizedInput = categoryName.toLowerCase()
+  const normalizedInput = typeof categoryName === 'string' ? categoryName.toLowerCase() : ''
   
   // Exakte Übereinstimmung
   const exactMatch = categories.find(c => 
@@ -323,7 +392,7 @@ function findBestMatchingCategory(categoryName: string, categories: any[]) {
 function normalizeCondition(condition: string): string {
   if (!condition) return 'gut'
   
-  const normalized = condition.toLowerCase()
+  const normalized = typeof condition === 'string' ? condition.toLowerCase() : ''
   
   for (const [conditionKey, indicators] of Object.entries(CONDITION_INDICATORS)) {
     if (indicators.some(indicator => normalized.includes(indicator))) {
@@ -374,13 +443,48 @@ function formatDescription(parsed: any): string {
   }
   
   if (parsed.besonderheiten && parsed.besonderheiten.length > 0) {
-    const features = parsed.besonderheiten.slice(0, 3).join(', ')
+    const features = Array.isArray(parsed.besonderheiten) ? parsed.besonderheiten.slice(0, 3).join(', ') : ''
     if (!description.includes(features)) {
       description += ` Besonderheiten: ${features}.`
     }
   }
   
   return description.trim()
+}
+
+function getDeliveryRecommendation(
+  productName: string, 
+  category: string, 
+  weightCategory: string,
+  transportRequired?: boolean
+) {
+  const lowerName = typeof productName === 'string' ? productName.toLowerCase() : ''
+  const lowerCategory = typeof category === 'string' ? category.toLowerCase() : ''
+  
+  // Check if it's heavy equipment
+  const isHeavyEquipment = HEAVY_EQUIPMENT_KEYWORDS.some(keyword => 
+    lowerName.includes(keyword) || lowerCategory.includes(keyword)
+  ) || transportRequired === true || weightCategory === 'schwer' || weightCategory === 'sehr_schwer'
+  
+  // Determine delivery category
+  let deliveryCategory = 'standard'
+  
+  if (category === 'Baumaschinen' || lowerName.includes('bagger') || lowerName.includes('baumaschine')) {
+    deliveryCategory = 'Baumaschinen'
+  } else if (isHeavyEquipment && (weightCategory === 'schwer' || weightCategory === 'sehr_schwer')) {
+    deliveryCategory = 'schweres_werkzeug'
+  } else if (isHeavyEquipment || weightCategory === 'mittel') {
+    deliveryCategory = 'großgeräte'
+  }
+  
+  const suggestion = DELIVERY_SUGGESTIONS[deliveryCategory]
+  
+  return {
+    isHeavy: isHeavyEquipment,
+    fee: suggestion.fee,
+    radius: suggestion.radius,
+    details: suggestion.details
+  }
 }
 
 export async function POST(request: NextRequest) {

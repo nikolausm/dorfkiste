@@ -13,6 +13,11 @@ yarn-debug.log*
 yarn-error.log*
 .DS_Store
 *.log
+# logs directory but keep structure
+logs/*.log
+logs/*.log.*
+logs/exceptions.log
+logs/rejections.log
 .idea/
 .vscode/
 *.swp

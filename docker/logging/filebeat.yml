@@ -1,0 +1,69 @@
+# Filebeat configuration for shipping logs to Elasticsearch
+filebeat.inputs:
+  # Application logs from Winston
+  - type: log
+    enabled: true
+    paths:
+      - /var/log/app/*.log
+    fields:
+      service: dorfkiste
+      environment: ${ENVIRONMENT:development}
+      logtype: application
+    fields_under_root: true
+    multiline.pattern: '^\{'
+    multiline.negate: true
+    multiline.match: after
+    json.keys_under_root: true
+    json.add_error_key: true
+
+  # Docker container logs
+  - type: container
+    enabled: true
+    paths:
+      - '/var/lib/docker/containers/*/*.log'
+    processors:
+      - add_docker_metadata:
+          host: "unix:///var/run/docker.sock"
+
+# Processing
+processors:
+  - add_host_metadata:
+      when.not.contains.tags: forwarded
+  - add_docker_metadata: ~
+  - timestamp:
+      field: timestamp
+      layouts:
+        - '2006-01-02 15:04:05.000'
+        - '2006-01-02T15:04:05.000Z'
+      test:
+        - '2023-05-15 14:42:35.123'
+
+# Output to Elasticsearch
+output.elasticsearch:
+  hosts: ["${ELASTICSEARCH_HOST:elasticsearch:9200}"]
+  index: "dorfkiste-logs-%{+yyyy.MM.dd}"
+  template.name: "dorfkiste"
+  template.pattern: "dorfkiste-*"
+  template.settings:
+    index.number_of_shards: 1
+    index.number_of_replicas: 0
+
+# Logging configuration
+logging.level: info
+logging.to_files: true
+logging.files:
+  path: /var/log/filebeat
+  name: filebeat
+  keepfiles: 7
+  permissions: 0644
+
+# Monitoring
+monitoring:
+  enabled: true
+  elasticsearch:
+    hosts: ["${ELASTICSEARCH_HOST:elasticsearch:9200}"]
+
+# Setup
+setup.ilm.enabled: auto
+setup.template.enabled: true
+setup.dashboards.enabled: true

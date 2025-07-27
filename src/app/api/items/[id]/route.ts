@@ -4,11 +4,12 @@ import { auth } from "@/lib/auth"
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const item = await prisma.item.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: {
         user: {
           select: {
@@ -56,9 +57,10 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const session = await auth()
     
     if (!session?.user?.id) {
@@ -70,7 +72,7 @@ export async function PUT(
 
     // Check if the user owns the item
     const existingItem = await prisma.item.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       select: { userId: true },
     })
 
@@ -106,7 +108,7 @@ export async function PUT(
 
     // Update item
     const item = await prisma.item.update({
-      where: { id: params.id },
+      where: { id: id },
       data: {
         title,
         description,
@@ -139,7 +141,7 @@ export async function PUT(
     if (imageUrls && Array.isArray(imageUrls)) {
       // Delete existing images
       await prisma.itemImage.deleteMany({
-        where: { itemId: params.id },
+        where: { itemId: id },
       })
 
       // Create new images
@@ -147,13 +149,13 @@ export async function PUT(
         data: imageUrls.map((url: string, index: number) => ({
           url,
           order: index,
-          itemId: params.id,
+          itemId: id,
         })),
       })
 
       // Fetch updated item with new images
       const updatedItem = await prisma.item.findUnique({
-        where: { id: params.id },
+        where: { id: id },
         include: {
           user: {
             select: {
@@ -184,9 +186,10 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const session = await auth()
     
     if (!session?.user?.id) {
@@ -198,7 +201,7 @@ export async function DELETE(
 
     // Check if the user owns the item
     const existingItem = await prisma.item.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       select: { userId: true },
     })
 
@@ -219,7 +222,7 @@ export async function DELETE(
     // Check if there are active rentals
     const activeRentals = await prisma.rental.count({
       where: {
-        itemId: params.id,
+        itemId: id,
         status: {
           in: ['confirmed', 'active'],
         },
@@ -234,7 +237,7 @@ export async function DELETE(
     }
 
     await prisma.item.delete({
-      where: { id: params.id },
+      where: { id: id },
     })
 
     return NextResponse.json({ success: true })

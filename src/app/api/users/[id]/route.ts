@@ -1,14 +1,26 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { auth } from "@/lib/auth"
+import { userUpdateSchema, validatePathParams } from "@/lib/validation"
+import { 
+  idParamSchema,
+  withErrorHandling,
+  validateRequestWithAuth
+} from "@/lib/validation-middleware"
 
-export async function GET(
+export const GET = withErrorHandling(async function(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  try {
+  const { id } = await params
+  
+  // Validate ID parameter
+  const paramValidation = validatePathParams({ id }, idParamSchema)
+  if (!paramValidation.success) {
+    return NextResponse.json({ error: 'Invalid user ID' }, { status: 400 })
+  }
     const user = await prisma.user.findUnique({
-      where: { id: params.id },
+      where: { id },
       select: {
         id: true,
         name: true,
@@ -35,7 +47,7 @@ export async function GET(
 
     // Calculate average rating
     const reviews = await prisma.review.findMany({
-      where: { reviewedId: params.id },
+      where: { reviewedId: id },
       select: { rating: true },
     })
 
@@ -43,69 +55,55 @@ export async function GET(
       ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
       : null
 
-    return NextResponse.json({
-      ...user,
-      avgRating,
-      totalReviews: reviews.length,
-    })
-  } catch (error) {
-    console.error("Error fetching user:", error)
-    return NextResponse.json(
-      { error: "Failed to fetch user" },
-      { status: 500 }
-    )
-  }
-}
+  return NextResponse.json({
+    ...user,
+    avgRating,
+    totalReviews: reviews.length,
+  })
+})
 
-export async function PUT(
+export const PUT = withErrorHandling(async function(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  try {
-    const session = await auth()
-    
-    if (!session?.user?.id) {
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 }
-      )
-    }
+  const { id } = await params
+  
+  // Validate ID parameter
+  const paramValidation = validatePathParams({ id }, idParamSchema)
+  if (!paramValidation.success) {
+    return NextResponse.json({ error: 'Invalid user ID' }, { status: 400 })
+  }
 
-    // Check if user is updating their own profile
-    if (session.user.id !== params.id) {
-      return NextResponse.json(
-        { error: "Forbidden" },
-        { status: 403 }
-      )
-    }
+  // Validate authentication and request body
+  const validation = await validateRequestWithAuth(request, userUpdateSchema)
+  
+  if (!validation.success) {
+    return validation.response!
+  }
 
-    const body = await request.json()
-    const { name, bio, avatarUrl } = body
+  const { data: updateData, user } = validation
 
-    const updatedUser = await prisma.user.update({
-      where: { id: params.id },
-      data: {
-        name,
-        bio,
-        avatarUrl,
-      },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        avatarUrl: true,
-        bio: true,
-        verified: true,
-        createdAt: true,
-      },
-    })
-
-    return NextResponse.json(updatedUser)
-  } catch (error) {
-    console.error("Error updating user:", error)
+  // Check if user is updating their own profile or is admin
+  if (user!.id !== id && !user!.isAdmin) {
     return NextResponse.json(
-      { error: "Failed to update user" },
-      { status: 500 }
+      { error: "Forbidden - Can only update own profile" },
+      { status: 403 }
     )
   }
-}
+
+  const updatedUser = await prisma.user.update({
+    where: { id: id },
+    data: updateData!,
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      bio: true,
+      avatarUrl: true,
+      createdAt: true,
+      updatedAt: true,
+    },
+  })
+
+  return NextResponse.json(updatedUser)
+})

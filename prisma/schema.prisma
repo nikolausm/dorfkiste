@@ -15,6 +15,9 @@ model User {
   avatarUrl       String?
   bio             String?
   verified        Boolean   @default(false)
+  isAdmin         Boolean   @default(false)
+  stripeCustomerId String?
+  paypalEmail     String?
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
   
@@ -24,6 +27,10 @@ model User {
   reviewsGiven    Review[]  @relation("ReviewsGiven")
   reviewsReceived Review[]  @relation("ReviewsReceived")
   messages        Message[]
+  payments        Payment[]
+  payouts         Payout[]
+  watchlistItems  WatchlistItem[]
+  passwordResetTokens PasswordResetToken[]
 }
 
 model Category {
@@ -47,6 +54,14 @@ model Item {
   location        String
   latitude        Float?
   longitude       Float?
+  
+  // Delivery options
+  deliveryAvailable Boolean @default(false)
+  deliveryFee     Float?    // One-time delivery fee
+  deliveryRadius  Float?    // Delivery radius in km
+  deliveryDetails String?   // Additional delivery information
+  pickupAvailable Boolean   @default(true)
+  
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
   
@@ -57,6 +72,7 @@ model Item {
   category        Category  @relation(fields: [categoryId], references: [id])
   rentals         Rental[]
   images          ItemImage[]
+  watchlistItems  WatchlistItem[]
 }
 
 model ItemImage {
@@ -75,7 +91,18 @@ model Rental {
   endDate         DateTime
   totalPrice      Float
   depositPaid     Float
+  platformFee     Float     @default(0)
   status          String    // pending, confirmed, active, completed, cancelled
+  paymentStatus   String    @default("pending") // pending, paid, refunded
+  paymentMethod   String?   // stripe, paypal
+  stripePaymentIntentId String?
+  paypalOrderId   String?
+  
+  // Delivery information
+  deliveryRequested Boolean @default(false)
+  deliveryAddress String?
+  deliveryFee     Float?
+  
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
   
@@ -88,6 +115,7 @@ model Rental {
   renter          User      @relation("RenterRentals", fields: [renterId], references: [id])
   reviews         Review[]
   messages        Message[]
+  payments        Payment[]
 }
 model Review {
   id              String    @id @default(cuid())
@@ -115,4 +143,75 @@ model Message {
   
   sender          User      @relation(fields: [senderId], references: [id])
   rental          Rental    @relation(fields: [rentalId], references: [id])
+}
+
+model PlatformSettings {
+  id              String    @id @default(cuid())
+  platformFeePercentage Float @default(10) // Platform fee as percentage
+  stripeSecretKey String?
+  stripePublishableKey String?
+  stripeWebhookSecret String?
+  paypalClientId  String?
+  paypalClientSecret String?
+  paypalMode      String    @default("sandbox") // sandbox or live
+  updatedAt       DateTime  @updatedAt
+}
+
+model Payment {
+  id              String    @id @default(cuid())
+  amount          Float
+  currency        String    @default("EUR")
+  status          String    // pending, succeeded, failed, refunded
+  type            String    // rental_payment, deposit, platform_fee
+  method          String    // stripe, paypal
+  stripePaymentIntentId String?
+  paypalPaymentId String?
+  metadata        String?   // JSON string for additional data
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  userId          String
+  rentalId        String?
+  
+  user            User      @relation(fields: [userId], references: [id])
+  rental          Rental?   @relation(fields: [rentalId], references: [id])
+}
+
+model Payout {
+  id              String    @id @default(cuid())
+  amount          Float
+  currency        String    @default("EUR")
+  status          String    // pending, processing, completed, failed
+  method          String    // stripe, paypal, bank_transfer
+  stripePayoutId  String?
+  paypalPayoutId  String?
+  createdAt       DateTime  @default(now())
+  processedAt     DateTime?
+  
+  userId          String
+  
+  user            User      @relation(fields: [userId], references: [id])
+}
+
+model WatchlistItem {
+  id              String    @id @default(cuid())
+  createdAt       DateTime  @default(now())
+  
+  userId          String
+  itemId          String
+  
+  user            User      @relation(fields: [userId], references: [id])
+  item            Item      @relation(fields: [itemId], references: [id])
+  
+  @@unique([userId, itemId])
+}
+
+model PasswordResetToken {
+  id              String    @id @default(cuid())
+  token           String    @unique
+  expiresAt       DateTime
+  createdAt       DateTime  @default(now())
+  
+  userId          String
+  user            User      @relation(fields: [userId], references: [id])
 }

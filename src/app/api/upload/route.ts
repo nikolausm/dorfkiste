@@ -3,50 +3,51 @@ import { auth } from "@/lib/auth"
 import { writeFile, mkdir } from "fs/promises"
 import { join } from "path"
 import { randomUUID } from "crypto"
+import { fileUploadSchema, validateData } from "@/lib/validation"
+import { validateAuth, withErrorHandling } from "@/lib/validation-middleware"
 
-export async function POST(request: NextRequest) {
-  try {
-    const session = await auth()
-    
-    if (!session?.user?.id) {
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 }
-      )
-    }
+export const POST = withErrorHandling(async function(request: NextRequest) {
+  // Validate authentication
+  const authResult = await validateAuth()
+  
+  if (!authResult.success) {
+    return authResult.response!
+  }
 
-    const formData = await request.formData()
-    const file = formData.get("file") as File
+  const formData = await request.formData()
+  const file = formData.get("file") as File
 
-    if (!file) {
-      return NextResponse.json(
-        { error: "No file provided" },
-        { status: 400 }
-      )
-    }
+  if (!file) {
+    return NextResponse.json(
+      { error: "No file provided" },
+      { status: 400 }
+    )
+  }
 
-    // Validate file type
-    const validTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"]
-    if (!validTypes.includes(file.type)) {
-      return NextResponse.json(
-        { error: "Invalid file type. Only JPEG, PNG, and WebP are allowed." },
-        { status: 400 }
-      )
-    }
+  // Validate file using schema
+  const fileData = {
+    filename: file.name,
+    fileType: file.type,
+    fileSize: file.size
+  }
 
-    // Validate file size (max 5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      return NextResponse.json(
-        { error: "File too large. Maximum size is 5MB." },
-        { status: 400 }
-      )
-    }
+  const validation = validateData(fileUploadSchema, fileData)
+  
+  if (!validation.success) {
+    return NextResponse.json(
+      { 
+        error: "File validation failed",
+        details: validation.errors
+      },
+      { status: 400 }
+    )
+  }
 
     const bytes = await file.arrayBuffer()
     const buffer = Buffer.from(bytes)
 
     // Create unique filename
-    const fileExtension = file.name.split(".").pop()
+    const fileExtension = typeof file.name === 'string' ? file.name.split(".").pop() : undefined
     const filename = `${randomUUID()}.${fileExtension}`
     
     // Create upload directory if it doesn't exist
@@ -64,12 +65,5 @@ export async function POST(request: NextRequest) {
     // Return the public URL
     const url = `/uploads/${filename}`
 
-    return NextResponse.json({ url })
-  } catch (error) {
-    console.error("Error uploading file:", error)
-    return NextResponse.json(
-      { error: "Failed to upload file" },
-      { status: 500 }
-    )
-  }
-}
+  return NextResponse.json({ url })
+})

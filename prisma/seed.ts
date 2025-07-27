@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import { hash } from 'bcryptjs'
+import { getImages } from '../src/lib/images'
 
 const prisma = new PrismaClient()
 
@@ -81,6 +82,7 @@ async function main() {
   }
 
   // Create items for user1
+  const bohrmaschineImages = await getImages('drill');
   const bohrmaschine = await prisma.item.upsert({
     where: { 
       id: 'bohrmaschine-1' // Using a stable ID for upsert
@@ -101,16 +103,12 @@ async function main() {
       userId: user1.id,
       categoryId: werkzeugCategory.id,
       images: {
-        create: [
-          {
-            url: '/placeholder.jpg',
-            order: 0
-          }
-        ]
+        create: bohrmaschineImages.map((url: string, i: number) => ({ url, order: i }))
       }
     }
   })
 
+  const rasenmaeherImages = await getImages('lawn mower');
   const rasenmaeher = await prisma.item.upsert({
     where: { id: 'rasenmaeher-1' },
     update: {},
@@ -128,17 +126,13 @@ async function main() {
       userId: user1.id,
       categoryId: gartenCategory.id,
       images: {
-        create: [
-          {
-            url: '/placeholder.jpg',
-            order: 0
-          }
-        ]
+        create: rasenmaeherImages.map((url: string, i: number) => ({ url, order: i }))
       }
     }
   })
 
   // Create items for user2
+  const heckenschereImages = await getImages('hedge trimmer');
   const heckenschere = await prisma.item.upsert({
     where: { id: 'heckenschere-1' },
     update: {},
@@ -157,16 +151,12 @@ async function main() {
       userId: user2.id,
       categoryId: gartenCategory.id,
       images: {
-        create: [
-          {
-            url: '/placeholder.jpg',
-            order: 0
-          }
-        ]
+        create: heckenschereImages.map((url: string, i: number) => ({ url, order: i }))
       }
     }
   })
 
+  const beamerImages = await getImages('projector');
   const beamer = await prisma.item.upsert({
     where: { id: 'beamer-1' },
     update: {},
@@ -184,16 +174,12 @@ async function main() {
       userId: user2.id,
       categoryId: elektronikCategory.id,
       images: {
-        create: [
-          {
-            url: '/placeholder.jpg',
-            order: 0
-          }
-        ]
+        create: beamerImages.map((url: string, i: number) => ({ url, order: i }))
       }
     }
   })
 
+  const fahrradanhaengerImages = await getImages('bike trailer');
   const fahrradanhaenger = await prisma.item.upsert({
     where: { id: 'fahrradanhaenger-1' },
     update: {},
@@ -211,12 +197,7 @@ async function main() {
       userId: user2.id,
       categoryId: sportCategory.id,
       images: {
-        create: [
-          {
-            url: '/placeholder.jpg',
-            order: 0
-          }
-        ]
+        create: fahrradanhaengerImages.map((url: string, i: number) => ({ url, order: i }))
       }
     }
   })

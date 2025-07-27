@@ -1,0 +1,124 @@
+# Docker Compose configuration for centralized logging
+# Use with: docker-compose -f docker-compose.yml -f docker/logging/docker-compose.logging.yml up
+
+version: '3.8'
+
+services:
+  # Application service (extends main app)
+  app:
+    environment:
+      # Logging configuration for containerized environment
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      LOG_DIRECTORY: /app/logs
+      LOG_FORMAT: json
+      LOG_TIMEZONE: UTC
+      DISABLE_CONSOLE_LOGGING: "false"
+      SLOW_QUERY_THRESHOLD: ${SLOW_QUERY_THRESHOLD:-1000}
+      PERFORMANCE_THRESHOLD: ${PERFORMANCE_THRESHOLD:-5000}
+    volumes:
+      # Mount logs directory for persistence
+      - app_logs:/app/logs
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        tag: "dorfkiste-app"
+
+  # Elasticsearch for log storage and search
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    container_name: dorfkiste-elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+    networks:
+      - logging
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail localhost:9200/_cluster/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Kibana for log visualization
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.11.0
+    container_name: dorfkiste-kibana
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    ports:
+      - "5601:5601"
+    networks:
+      - logging
+    depends_on:
+      - elasticsearch
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail localhost:5601/api/status || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Filebeat for log shipping
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:8.11.0
+    container_name: dorfkiste-filebeat
+    user: root
+    command: filebeat -e -strict.perms=false
+    volumes:
+      - ./filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - app_logs:/var/log/app:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - logging
+    depends_on:
+      - elasticsearch
+    environment:
+      - ELASTICSEARCH_HOST=elasticsearch:9200
+
+  # Redis for rate limiting and caching (production-ready)
+  redis:
+    image: redis:7-alpine
+    container_name: dorfkiste-redis
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - logging
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # Log aggregator and processor
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.11.0
+    container_name: dorfkiste-logstash
+    volumes:
+      - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf:ro
+    networks:
+      - logging
+    depends_on:
+      - elasticsearch
+    environment:
+      - "LS_JAVA_OPTS=-Xmx256m -Xms256m"
+
+volumes:
+  app_logs:
+    driver: local
+  elasticsearch_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  logging:
+    driver: bridge
