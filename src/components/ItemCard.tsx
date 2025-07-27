@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { MapPin, Star } from 'lucide-react'
+import { useState } from 'react'
 
 interface ItemCardProps {
   id: string
@@ -30,15 +31,18 @@ export default function ItemCard({
   available,
   user
 }: ItemCardProps) {
+  const [imgError, setImgError] = useState(false)
+  
   return (
     <Link href={`/items/${id}`}>
       <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden cursor-pointer">
         <div className="relative h-48 w-full">
         <Image
-          src={imageUrl || '/placeholder.jpg'}
+          src={imgError || !imageUrl ? '/placeholder.svg' : imageUrl}
           alt={title}
           fill
           className="object-cover"
+          onError={() => setImgError(true)}
         />
         {!available && (
           <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
