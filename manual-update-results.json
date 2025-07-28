@@ -1,0 +1,82 @@
+{
+  "timestamp": "2025-07-28T07:33:26.552Z",
+  "summary": {
+    "total": 12,
+    "success": 12,
+    "failed": 0
+  },
+  "details": [
+    {
+      "title": "Bosch Professional Schlagbohrmaschine",
+      "status": "success",
+      "newImage": "https://images.unsplash.com/photo-1504148455328-c376907d081c?ixlib=rb-4.0.3&w=800&h=600&fit=crop",
+      "description": "Professional blue Bosch hammer drill"
+    },
+    {
+      "title": "Makita Akkuschrauber Set",
+      "status": "success",
+      "newImage": "https://images.unsplash.com/photo-1513467535987-fd81bc7d62f8?ixlib=rb-4.0.3&w=800&h=600&fit=crop",
+      "description": "Complete Makita drill set with case"
+    },
+    {
+      "title": "Fliesenschneider Profi",
+      "status": "success",
+      "newImage": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&w=800&h=600&fit=crop",
+      "description": "Professional tile cutting machine"
+    },
+    {
+      "title": "Vertikutierer elektrisch",
+      "status": "success",
+      "newImage": "https://images.unsplash.com/photo-1564869733874-79e73b37de7e?ixlib=rb-4.0.3&w=800&h=600&fit=crop",
+      "description": "Electric lawn scarifier/dethatcher"
+    },
+    {
+      "title": "Gartenhäcksler",
+      "status": "success",
+      "newImage": "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?ixlib=rb-4.0.3&w=800&h=600&fit=crop",
+      "description": "Garden wood chipper/shredder machine"
+    },
+    {
+      "title": "Motorhacke/Gartenfräse",
+      "status": "success",
+      "newImage": "https://images.unsplash.com/photo-1601986571921-e8d13c3d47aa?ixlib=rb-4.0.3&w=800&h=600&fit=crop",
+      "description": "Garden tiller/cultivator machine"
+    },
+    {
+      "title": "Thermomix TM6",
+      "status": "success",
+      "newImage": "https://images.unsplash.com/photo-1556912167-f556f1f39faa?ixlib=rb-4.0.3&w=800&h=600&fit=crop",
+      "description": "Thermomix TM6 kitchen appliance"
+    },
+    {
+      "title": "Raclette-Grill für 8 Personen",
+      "status": "success",
+      "newImage": "https://images.unsplash.com/photo-1556909212-d5b604d0c90d?ixlib=rb-4.0.3&w=800&h=600&fit=crop",
+      "description": "Raclette party grill for 8 people"
+    },
+    {
+      "title": "Stand-Up-Paddle Board Set",
+      "status": "success",
+      "newImage": "https://images.unsplash.com/photo-1570406028519-e02a27565308?ixlib=rb-4.0.3&w=800&h=600&fit=crop",
+      "description": "Complete SUP board set with paddle"
+    },
+    {
+      "title": "Kitchenaid Küchenmaschine",
+      "status": "success",
+      "newImage": "https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-4.0.3&w=800&h=600&fit=crop",
+      "description": "KitchenAid stand mixer"
+    },
+    {
+      "title": "Powerstation 1000W Solar",
+      "status": "success",
+      "newImage": "https://images.unsplash.com/photo-1605289355680-75fb41239154?ixlib=rb-4.0.3&w=800&h=600&fit=crop",
+      "description": "Portable power station with solar capability"
+    },
+    {
+      "title": "Betonmischer 140L",
+      "status": "success",
+      "newImage": "https://images.unsplash.com/photo-1581094288338-2314dddb7ece?ixlib=rb-4.0.3&w=800&h=600&fit=crop",
+      "description": "140L concrete mixer machine"
+    }
+  ]
+}
