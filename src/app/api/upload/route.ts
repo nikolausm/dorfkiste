@@ -3,67 +3,111 @@ import { auth } from "@/lib/auth"
 import { writeFile, mkdir } from "fs/promises"
 import { join } from "path"
 import { randomUUID } from "crypto"
-import { fileUploadSchema, validateData } from "@/lib/validation"
-import { validateAuth, withErrorHandling } from "@/lib/validation-middleware"
+import { 
+  ApiErrors, 
+  withApiErrorHandling,
+  RequestSizeLimits 
+} from "@/lib/api-errors"
+import { 
+  validateFileUpload, 
+  validateImageMetadata,
+  processUploadedImage,
+  validateMultipartUpload 
+} from "@/lib/upload-validation"
+import { uploadRateLimit } from "@/lib/security/rate-limit"
+import { log } from "@/lib/logger"
 
-export const POST = withErrorHandling(async function(request: NextRequest) {
+export const POST = withApiErrorHandling(async function(request: NextRequest) {
   // Validate authentication
-  const authResult = await validateAuth()
+  const session = await auth()
   
-  if (!authResult.success) {
-    return authResult.response!
+  if (!session?.user?.id) {
+    throw ApiErrors.unauthorized()
   }
 
-  const formData = await request.formData()
-  const file = formData.get("file") as File
-
-  if (!file) {
-    return NextResponse.json(
-      { error: "No file provided" },
-      { status: 400 }
-    )
+  // Check request size
+  const contentLength = request.headers.get('content-length')
+  if (contentLength && parseInt(contentLength) > RequestSizeLimits.FILE_MAX_SIZE) {
+    throw ApiErrors.fileTooLarge(RequestSizeLimits.FILE_MAX_SIZE / 1024 / 1024)
   }
 
-  // Validate file using schema
-  const fileData = {
-    filename: file.name,
-    fileType: file.type,
-    fileSize: file.size
+  // Apply rate limiting
+  const rateLimitResponse = await uploadRateLimit(request, session.user.id)
+  if (rateLimitResponse) {
+    return rateLimitResponse
   }
 
-  const validation = validateData(fileUploadSchema, fileData)
+  // Validate multipart upload
+  const multipartValidation = await validateMultipartUpload(request, 1)
+  if (!multipartValidation.valid) {
+    return multipartValidation.error!
+  }
+
+  const file = multipartValidation.files![0]
   
-  if (!validation.success) {
-    return NextResponse.json(
-      { 
-        error: "File validation failed",
-        details: validation.errors
-      },
-      { status: 400 }
-    )
+  // Validate file upload with enhanced security
+  const fileValidation = await validateFileUpload(file, 'image')
+  
+  if (!fileValidation.valid) {
+    throw ApiErrors.invalidInput('file', fileValidation.error!)
   }
 
-    const bytes = await file.arrayBuffer()
-    const buffer = Buffer.from(bytes)
+  // Read and validate image
+  const arrayBuffer = await file.arrayBuffer()
+  const buffer = Buffer.from(arrayBuffer)
+  
+  // Validate image metadata
+  const metadataValidation = await validateImageMetadata(buffer)
+  
+  if (!metadataValidation.valid) {
+    throw ApiErrors.invalidInput('image', metadataValidation.error!)
+  }
 
-    // Create unique filename
-    const fileExtension = typeof file.name === 'string' ? file.name.split(".").pop() : undefined
-    const filename = `${randomUUID()}.${fileExtension}`
-    
-    // Create upload directory if it doesn't exist
-    const uploadDir = join(process.cwd(), "public", "uploads")
-    try {
-      await mkdir(uploadDir, { recursive: true })
-    } catch (error) {
-      // Directory might already exist
-    }
+  // Process and optimize image
+  const processedBuffer = await processUploadedImage(buffer, {
+    maxWidth: 2000,
+    maxHeight: 2000,
+    quality: 85,
+    format: 'webp',
+  })
 
-    // Save file
-    const filepath = join(uploadDir, filename)
-    await writeFile(filepath, buffer)
+  // Generate secure filename
+  const fileExtension = 'webp' // Always save as webp after processing
+  const filename = `${session.user.id}_${randomUUID()}.${fileExtension}`
+  
+  // Create upload directory structure
+  const userUploadDir = join(process.cwd(), "public", "uploads", session.user.id)
+  try {
+    await mkdir(userUploadDir, { recursive: true })
+  } catch (error) {
+    log.error('Failed to create upload directory', { error, path: userUploadDir })
+  }
 
-    // Return the public URL
-    const url = `/uploads/${filename}`
+  // Save processed file
+  const filepath = join(userUploadDir, filename)
+  await writeFile(filepath, processedBuffer)
 
-  return NextResponse.json({ url })
+  // Log successful upload
+  log.info('File uploaded successfully', {
+    userId: session.user.id,
+    filename: fileValidation.sanitizedFilename,
+    processedFilename: filename,
+    originalSize: fileValidation.fileSize,
+    processedSize: processedBuffer.length,
+    metadata: metadataValidation.metadata,
+  })
+
+  // Return the public URL and metadata
+  const url = `/uploads/${session.user.id}/${filename}`
+
+  return NextResponse.json({ 
+    url,
+    filename: fileValidation.sanitizedFilename,
+    size: processedBuffer.length,
+    dimensions: {
+      width: metadataValidation.metadata!.width,
+      height: metadataValidation.metadata!.height,
+    },
+    format: 'webp',
+  })
 })

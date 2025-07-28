@@ -9,11 +9,18 @@ import {
 import { sendWelcomeEmail, sendAdminNotificationEmail } from "@/lib/email-service"
 import { getJobQueue } from "@/lib/job-queue"
 import { logger } from "@/lib/logger"
+import { authRateLimit } from "@/lib/security/rate-limit"
 
 const validateRegistration = createValidationMiddleware(userRegistrationSchema)
 
 export async function POST(request: NextRequest) {
   try {
+    // Apply rate limiting
+    const rateLimitResponse = await authRateLimit(request)
+    if (rateLimitResponse) {
+      return rateLimitResponse
+    }
+
     // Validate request body
     const validation = await validateRegistration(request, 'body')
     

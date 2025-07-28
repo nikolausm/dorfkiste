@@ -1,9 +1,9 @@
 "use client"
 
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useSearchParams, useRouter } from "next/navigation"
 import { ChevronRight, Filter } from "lucide-react"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 
 interface Category {
   id: string
@@ -14,6 +14,8 @@ interface Category {
 
 export default function CategorySidebar() {
   const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const router = useRouter()
   const [categories, setCategories] = useState<Category[]>([])
   const [selectedCategory, setSelectedCategory] = useState<string>("")
   const [priceRange, setPriceRange] = useState({ min: "", max: "" })
@@ -23,6 +25,26 @@ export default function CategorySidebar() {
   useEffect(() => {
     fetchCategories()
   }, [])
+
+  // Initialize filters from URL parameters
+  useEffect(() => {
+    const category = searchParams.get("category") || ""
+    const minPrice = searchParams.get("minPrice") || ""
+    const maxPrice = searchParams.get("maxPrice") || ""
+    const conditionParam = searchParams.get("condition")
+    const availabilityParam = searchParams.get("availability")
+    
+    setSelectedCategory(category)
+    setPriceRange({ min: minPrice, max: maxPrice })
+    
+    if (conditionParam) {
+      setCondition(conditionParam.split(","))
+    }
+    
+    if (availabilityParam) {
+      setAvailability(availabilityParam.split(","))
+    }
+  }, [searchParams])
 
   useEffect(() => {
     // Extract category from pathname
@@ -44,6 +66,33 @@ export default function CategorySidebar() {
     }
   }
 
+  // Helper function to build URL with filters
+  const buildFilterUrl = useCallback((categoryId?: string, categoryName?: string) => {
+    const params = new URLSearchParams()
+    
+    // Preserve existing search parameter
+    const currentSearch = searchParams.get("search")
+    if (currentSearch) {
+      params.append("search", currentSearch)
+    }
+    
+    // Add category if provided
+    if (categoryId) {
+      params.append("category", categoryId)
+      if (categoryName) {
+        params.append("categoryName", categoryName)
+      }
+    }
+    
+    // Add other active filters
+    if (priceRange.min) params.append("minPrice", priceRange.min)
+    if (priceRange.max) params.append("maxPrice", priceRange.max)
+    if (condition.length > 0) params.append("condition", condition.join(","))
+    if (availability.length > 0) params.append("availability", availability.join(","))
+    
+    return `/items?${params.toString()}`
+  }, [searchParams, priceRange, condition, availability])
+
   const handleConditionChange = (value: string) => {
     setCondition(prev => 
       prev.includes(value) 
@@ -60,16 +109,32 @@ export default function CategorySidebar() {
     )
   }
 
-  const applyFilters = () => {
+  const applyFilters = useCallback(() => {
     const params = new URLSearchParams()
-    if (selectedCategory) params.append("category", selectedCategory)
+    
+    // Preserve existing search parameter
+    const currentSearch = searchParams.get("search")
+    if (currentSearch) {
+      params.append("search", currentSearch)
+    }
+    
+    // Add filters
+    if (selectedCategory) {
+      params.append("category", selectedCategory)
+      // Find and add category name
+      const category = categories.find(c => c.id === selectedCategory)
+      if (category) {
+        params.append("categoryName", category.name)
+      }
+    }
     if (priceRange.min) params.append("minPrice", priceRange.min)
     if (priceRange.max) params.append("maxPrice", priceRange.max)
     if (condition.length > 0) params.append("condition", condition.join(","))
     if (availability.length > 0) params.append("availability", availability.join(","))
     
-    window.location.href = `/items?${params.toString()}`
-  }
+    // Use Next.js router for smooth navigation
+    router.push(`/items?${params.toString()}`)
+  }, [selectedCategory, priceRange, condition, availability, categories, searchParams, router])
 
   return (
     <aside className="w-64 bg-white border border-gray-200 rounded-lg p-4">
@@ -77,25 +142,25 @@ export default function CategorySidebar() {
       <div className="mb-6">
         <h2 className="font-bold text-sm mb-3">Kategorien</h2>
         <nav>
-          <Link 
-            href="/items"
-            className={`block py-2 px-3 text-sm rounded hover:bg-gray-100 ${
+          <button
+            onClick={() => router.push(buildFilterUrl())}
+            className={`block w-full text-left py-2 px-3 text-sm rounded hover:bg-gray-100 ${
               pathname === "/items" && !selectedCategory ? "bg-gray-100 font-semibold" : ""
             }`}
           >
             Alle Kategorien
-          </Link>
+          </button>
           {categories.map((category) => (
-            <Link
+            <button
               key={category.id}
-              href={`/categories/${category.id}`}
-              className={`block py-2 px-3 text-sm rounded hover:bg-gray-100 flex items-center justify-between group ${
+              onClick={() => router.push(buildFilterUrl(category.id, category.name))}
+              className={`block w-full text-left py-2 px-3 text-sm rounded hover:bg-gray-100 flex items-center justify-between group ${
                 selectedCategory === category.id ? "bg-gray-100 font-semibold" : ""
               }`}
             >
               <span>{category.name}</span>
               <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-gray-600" />
-            </Link>
+            </button>
           ))}
         </nav>
       </div>
@@ -179,13 +244,33 @@ export default function CategorySidebar() {
           </div>
         </div>
 
-        {/* Apply Filters Button */}
-        <button
-          onClick={applyFilters}
-          className="w-full py-2 bg-[#3665f3] text-white font-semibold rounded hover:bg-[#1e49c7] transition-colors text-sm"
-        >
-          Filter anwenden
-        </button>
+        {/* Filter Action Buttons */}
+        <div className="space-y-2">
+          <button
+            onClick={applyFilters}
+            className="w-full py-2 bg-[#3665f3] text-white font-semibold rounded hover:bg-[#1e49c7] transition-colors text-sm"
+          >
+            Filter anwenden
+          </button>
+          
+          {/* Reset Filters Button - only show if filters are active */}
+          {(priceRange.min || priceRange.max || condition.length > 0 || 
+            (availability.length > 0 && !availability.includes("available")) || 
+            selectedCategory) && (
+            <button
+              onClick={() => {
+                setPriceRange({ min: "", max: "" })
+                setCondition([])
+                setAvailability(["available"])
+                setSelectedCategory("")
+                router.push("/items")
+              }}
+              className="w-full py-2 bg-gray-100 text-gray-700 font-semibold rounded hover:bg-gray-200 transition-colors text-sm"
+            >
+              Filter zurücksetzen
+            </button>
+          )}
+        </div>
       </div>
     </aside>
   )

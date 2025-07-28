@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { createStripeCustomer, createPaymentIntent, calculatePlatformFee } from '@/lib/stripe'
@@ -8,8 +8,9 @@ import {
   createValidationErrorResponse
 } from '@/lib/validation'
 import { log, PerformanceTimer } from '@/lib/logger'
+import { paymentRateLimit } from '@/lib/security/rate-limit'
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   const timer = new PerformanceTimer();
   
   try {
@@ -23,6 +24,12 @@ export async function POST(request: Request) {
         type: 'payment_unauthorized'
       });
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    // Apply rate limiting
+    const rateLimitResponse = await paymentRateLimit(request, session.user.id)
+    if (rateLimitResponse) {
+      return rateLimitResponse
     }
 
     // Validate request body

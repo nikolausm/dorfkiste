@@ -708,6 +708,5 @@ export {
   sendAdminNotificationEmail
 }
 
-// Export legacy function for compatibility
-export { sendPasswordResetEmail as sendPasswordResetEmail_Legacy } from './email'
+// Export legacy functions for compatibility
 export { sendPasswordResetConfirmationEmail } from './email'

@@ -1,11 +1,18 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { sendPasswordResetConfirmationEmail } from '@/lib/email'
 import bcrypt from 'bcryptjs'
 import crypto from 'crypto'
+import { passwordResetRateLimit } from '@/lib/security/rate-limit'
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
+    // Apply rate limiting
+    const rateLimitResponse = await passwordResetRateLimit(request)
+    if (rateLimitResponse) {
+      return rateLimitResponse
+    }
+
     const { token, password } = await request.json()
 
     if (!token || !password) {
@@ -93,8 +100,14 @@ export async function POST(request: Request) {
 }
 
 // GET endpoint to verify token validity
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   try {
+    // Apply rate limiting for GET requests too
+    const rateLimitResponse = await passwordResetRateLimit(request)
+    if (rateLimitResponse) {
+      return rateLimitResponse
+    }
+
     const { searchParams } = new URL(request.url)
     const token = searchParams.get('token')
 

@@ -1,6 +1,7 @@
 // Dynamic image generation service
 const UNSPLASH_ACCESS_KEY = process.env.NEXT_PUBLIC_UNSPLASH_ACCESS_KEY || 'demo'
 const PLACEHOLDER_API = 'https://source.unsplash.com'
+const FALLBACK_IMAGE = '/placeholder.svg'
 
 // Category to search terms mapping
 const categoryImageMap: Record<string, string[]> = {
@@ -21,24 +22,29 @@ export function generateItemImageUrl(
   category?: string,
   index: number = 0
 ): string {
-  // Extract keywords from title
-  const titleWords = typeof title === 'string' ? title.toLowerCase().split(' ').filter(word => word.length > 3) : []
-  const searchTerm = titleWords[0] || 'item'
-  
-  // Get category-specific terms
-  const categoryTerms = category && typeof category === 'string' ? categoryImageMap[category.toLowerCase()] || ['rental'] : ['rental']
-  const categoryTerm = categoryTerms[index % categoryTerms.length]
-  
-  // Use Unsplash Source API for high-quality images
-  // Format: https://source.unsplash.com/640x480/?{keyword}
-  const width = 640
-  const height = 480
-  const query = `${categoryTerm},${searchTerm}`
-  
-  // Add randomness based on itemId to get different images for same category
-  const seed = (itemId && typeof itemId === 'string') ? itemId.slice(-6) : '000000'
-  
-  return `${PLACEHOLDER_API}/${width}x${height}/?${encodeURIComponent(query)}&sig=${seed}`
+  try {
+    // Extract keywords from title
+    const titleWords = typeof title === 'string' ? title.toLowerCase().split(' ').filter(word => word.length > 3) : []
+    const searchTerm = titleWords[0] || 'item'
+    
+    // Get category-specific terms
+    const categoryTerms = category && typeof category === 'string' ? categoryImageMap[category.toLowerCase()] || ['rental'] : ['rental']
+    const categoryTerm = categoryTerms[index % categoryTerms.length]
+    
+    // Use Unsplash Source API for high-quality images
+    // Format: https://source.unsplash.com/640x480/?{keyword}
+    const width = 640
+    const height = 480
+    const query = `${categoryTerm},${searchTerm}`
+    
+    // Add randomness based on itemId to get different images for same category
+    const seed = (itemId && typeof itemId === 'string') ? itemId.slice(-6) : '000000'
+    
+    return `${PLACEHOLDER_API}/${width}x${height}/?${encodeURIComponent(query)}&sig=${seed}`
+  } catch (error) {
+    console.error('Error generating image URL:', error)
+    return FALLBACK_IMAGE
+  }
 }
 
 // Generate placeholder with text overlay (for fallback)
@@ -122,6 +128,11 @@ export function generateItemImages(
   category?: string,
   count: number = 3
 ): string[] {
+  // If no valid data provided, return single placeholder
+  if (!itemId || !title) {
+    return [FALLBACK_IMAGE]
+  }
+  
   return Array.from({ length: count }, (_, index) => 
     generateItemImageUrl(itemId, title, category, index)
   )

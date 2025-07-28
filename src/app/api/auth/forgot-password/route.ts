@@ -1,10 +1,17 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { sendPasswordResetEmail } from '@/lib/email'
 import crypto from 'crypto'
+import { passwordResetRateLimit } from '@/lib/security/rate-limit'
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
+    // Apply rate limiting
+    const rateLimitResponse = await passwordResetRateLimit(request)
+    if (rateLimitResponse) {
+      return rateLimitResponse
+    }
+
     const { email } = await request.json()
 
     if (!email) {
