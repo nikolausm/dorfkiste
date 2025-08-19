@@ -1,0 +1,411 @@
+@inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
+@inject ISnackbar Snackbar
+
+<MudCard Class="item-card" Elevation="2">
+    <!-- Image Section -->
+    <div class="item-image-container" @onclick="@(() => NavigateToItem())">
+        @if (!string.IsNullOrEmpty(ImageUrl))
+        {
+            <MudCardMedia Image="@ImageUrl" Alt="@Title" Height="200" />
+        }
+        else
+        {
+            <div class="item-image-placeholder">
+                <MudIcon Icon="@Icons.Material.Filled.Image" Size="Size.Large" Color="Color.Secondary" />
+            </div>
+        }
+        
+        <!-- Availability Badge -->
+        <MudChip Class="availability-badge" 
+                 Size="Size.Small" 
+                 Color="@(Available ? Color.Success : Color.Warning)"
+                 Text="@(Available ? "Verfügbar" : "Belegt")" />
+        
+        <!-- Condition Badge -->
+        @if (!string.IsNullOrEmpty(Condition))
+        {
+            <MudChip Class="condition-badge" 
+                     Size="Size.Small" 
+                     Color="@GetConditionColor()"
+                     Text="@Condition" />
+        }
+        
+        <!-- Favorite Button -->
+        <MudIconButton Icon="@(IsFavorite ? Icons.Material.Filled.Favorite : Icons.Material.Filled.FavoriteBorder)"
+                       Color="@(IsFavorite ? Color.Error : Color.Default)"
+                       Class="favorite-button"
+                       OnClick="@ToggleFavorite"
+                       OnClick:stopPropagation="true" />
+    </div>
+    
+    <!-- Content Section -->
+    <MudCardContent Class="pa-3">
+        <!-- Title -->
+        <MudText Typo="Typo.h6" 
+                 Class="item-title cursor-pointer" 
+                 @onclick="@(() => NavigateToItem())">
+            @Title
+        </MudText>
+        
+        <!-- Location and View Count -->
+        <div class="d-flex align-center justify-space-between mb-2">
+            <div class="d-flex align-center">
+                <MudIcon Icon="@Icons.Material.Filled.LocationOn" Size="Size.Small" Color="Color.Secondary" />
+                <MudText Typo="Typo.caption" Color="Color.Secondary" Class="ml-1">
+                    @Location
+                </MudText>
+            </div>
+            <MudText Typo="Typo.caption" Color="Color.Secondary">
+                <MudIcon Icon="@Icons.Material.Filled.Visibility" Size="Size.Small" Class="mr-1" />
+                @ViewCount Aufrufe
+            </MudText>
+        </div>
+        
+        <!-- Price -->
+        <div class="price-section mb-2">
+            @if (PricePerDay.HasValue)
+            {
+                <MudText Typo="Typo.h6" Color="Color.Success" Class="price-main">
+                    @PricePerDay.Value.ToString("C")<span class="price-unit">/Tag</span>
+                </MudText>
+                @if (PricePerHour.HasValue)
+                {
+                    <MudText Typo="Typo.caption" Color="Color.Secondary">
+                        oder @PricePerHour.Value.ToString("C")/Stunde
+                    </MudText>
+                }
+            }
+            else
+            {
+                <MudText Typo="Typo.body2" Color="Color.Secondary">
+                    Preis auf Anfrage
+                </MudText>
+            }
+        </div>
+        
+        <!-- User Info -->
+        @if (User != null)
+        {
+            <div class="d-flex align-center justify-space-between">
+                <div class="d-flex align-center">
+                    <MudAvatar Size="Size.Small" Class="mr-2">
+                        @if (!string.IsNullOrEmpty(User.AvatarUrl))
+                        {
+                            <MudImage Src="@User.AvatarUrl" Alt="@User.Name" />
+                        }
+                        else
+                        {
+                            <MudIcon Icon="@Icons.Material.Filled.Person" />
+                        }
+                    </MudAvatar>
+                    <div>
+                        <MudText Typo="Typo.caption" Class="font-weight-medium">
+                            @User.Name
+                        </MudText>
+                        <div class="d-flex align-center">
+                            <MudRating ReadOnly="true" SelectedValue="@((int)User.Rating)" Size="Size.Small" />
+                            <MudText Typo="Typo.caption" Color="Color.Secondary" Class="ml-1">
+                                (@User.ReviewCount)
+                            </MudText>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </MudCardContent>
+    
+    <!-- Action Buttons -->
+    <MudCardActions Class="pa-3 pt-0">
+        <MudButton Variant="Variant.Outlined" 
+                   Color="Color.Success" 
+                   FullWidth="true"
+                   StartIcon="@Icons.Material.Filled.Event"
+                   OnClick="@(() => ShowRentalDialog())"
+                   Disabled="@(!Available)">
+            @(Available ? "Jetzt buchen" : "Nicht verfügbar")
+        </MudButton>
+        
+        <MudMenu Icon="@Icons.Material.Filled.MoreVert" 
+                 Color="Color.Default" 
+                 Dense="true"
+                 AnchorOrigin="Origin.BottomRight"
+                 TransformOrigin="Origin.TopRight">
+            <MudMenuItem Icon="@Icons.Material.Filled.Share" OnClick="@ShareItem">
+                Teilen
+            </MudMenuItem>
+            <MudMenuItem Icon="@Icons.Material.Filled.Report" OnClick="@ReportItem">
+                Melden
+            </MudMenuItem>
+        </MudMenu>
+    </MudCardActions>
+</MudCard>
+
+@code {
+    [Parameter] public int Id { get; set; }
+    [Parameter] public string Title { get; set; } = string.Empty;
+    [Parameter] public string? ImageUrl { get; set; }
+    [Parameter] public decimal? PricePerDay { get; set; }
+    [Parameter] public decimal? PricePerHour { get; set; }
+    [Parameter] public string Location { get; set; } = string.Empty;
+    [Parameter] public string? Condition { get; set; }
+    [Parameter] public bool Available { get; set; } = true;
+    [Parameter] public UserInfo? User { get; set; }
+    [Parameter] public int ViewCount { get; set; }
+    [Parameter] public bool IsFavorite { get; set; }
+    [Parameter] public EventCallback<int> OnFavoriteToggle { get; set; }
+    [Parameter] public EventCallback<int> OnRentalRequest { get; set; }
+    
+    // Alternative parameter to accept an ItemModel
+    [Parameter] public ItemModel? Item { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // If an ItemModel is provided, populate individual parameters
+        if (Item != null)
+        {
+            Id = Item.Id;
+            Title = Item.Title;
+            ImageUrl = Item.ImageUrl;
+            PricePerDay = Item.PricePerDay;
+            PricePerHour = Item.PricePerHour;
+            Location = Item.Location;
+            Condition = Item.Condition;
+            Available = Item.Available;
+            User = Item.User;
+            ViewCount = Item.ViewCount;
+            IsFavorite = Item.IsFavorite;
+        }
+        
+        await JSRuntime.InvokeVoidAsync("console.log", $"UI-Dev: Initializing ItemCard for item {Id}");
+    }
+
+    private void NavigateToItem()
+    {
+        Navigation.NavigateTo($"/items/{Id}");
+    }
+
+    private async Task ToggleFavorite()
+    {
+        IsFavorite = !IsFavorite;
+        
+        if (OnFavoriteToggle.HasDelegate)
+        {
+            await OnFavoriteToggle.InvokeAsync(Id);
+        }
+        
+        var message = IsFavorite ? "Zur Watchlist hinzugefügt" : "Aus Watchlist entfernt";
+        Snackbar.Add(message, IsFavorite ? Severity.Success : Severity.Info);
+        
+        await JSRuntime.InvokeVoidAsync("console.log", $"UI-Dev: Favorite toggled for item {Id}: {IsFavorite}");
+    }
+
+    private async Task ShowRentalDialog()
+    {
+        if (OnRentalRequest.HasDelegate)
+        {
+            await OnRentalRequest.InvokeAsync(Id);
+        }
+        else
+        {
+            // Navigate to rental page as fallback
+            Navigation.NavigateTo($"/rentals/new?itemId={Id}");
+        }
+        
+        await JSRuntime.InvokeVoidAsync("console.log", $"UI-Dev: Rental dialog requested for item {Id}");
+    }
+
+    private async Task ShareItem()
+    {
+        try
+        {
+            var url = $"{Navigation.BaseUri}items/{Id}";
+            await JSRuntime.InvokeVoidAsync("navigator.share", new
+            {
+                title = Title,
+                text = $"Schau dir diesen Artikel auf Dorfkiste an: {Title}",
+                url = url
+            });
+        }
+        catch
+        {
+            // Fallback to clipboard
+            var url = $"{Navigation.BaseUri}items/{Id}";
+            await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", url);
+            Snackbar.Add("Link in Zwischenablage kopiert", Severity.Success);
+        }
+        
+        await JSRuntime.InvokeVoidAsync("console.log", $"UI-Dev: Item shared: {Id}");
+    }
+
+    private async Task ReportItem()
+    {
+        Snackbar.Add("Artikel wurde gemeldet. Vielen Dank für den Hinweis.", Severity.Info);
+        await JSRuntime.InvokeVoidAsync("console.log", $"UI-Dev: Item reported: {Id}");
+    }
+
+    private Color GetConditionColor()
+    {
+        return Condition?.ToLower() switch
+        {
+            "neu" => Color.Success,
+            "sehr gut" => Color.Info,
+            "gut" => Color.Primary,
+            "gebraucht" => Color.Warning,
+            "defekt" => Color.Error,
+            _ => Color.Default
+        };
+    }
+
+    public class UserInfo
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string? AvatarUrl { get; set; }
+        public double Rating { get; set; } = 4.5;
+        public int ReviewCount { get; set; }
+    }
+
+    public class ItemModel
+    {
+        public int Id { get; set; }
+        public string Title { get; set; } = string.Empty;
+        public string? ImageUrl { get; set; }
+        public decimal? PricePerDay { get; set; }
+        public decimal? PricePerHour { get; set; }
+        public string Location { get; set; } = string.Empty;
+        public string? Condition { get; set; }
+        public bool Available { get; set; } = true;
+        public UserInfo? User { get; set; }
+        public int ViewCount { get; set; }
+        public bool IsFavorite { get; set; }
+    }
+}
+
+<style>
+    .item-card {
+        transition: all 0.2s ease-in-out;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+    
+    .item-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+    }
+    
+    .item-image-container {
+        position: relative;
+        cursor: pointer;
+        overflow: hidden;
+    }
+    
+    .item-image-container .mud-card-media {
+        transition: transform 0.3s ease;
+    }
+    
+    .item-card:hover .mud-card-media {
+        transform: scale(1.05);
+    }
+    
+    .item-image-placeholder {
+        height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f5f5f5;
+    }
+    
+    .availability-badge {
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        z-index: 2;
+    }
+    
+    .condition-badge {
+        position: absolute;
+        top: 8px;
+        right: 50px;
+        z-index: 2;
+    }
+    
+    .favorite-button {
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        z-index: 3;
+        background-color: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(4px);
+        border-radius: 50%;
+        transition: all 0.2s ease;
+    }
+    
+    .favorite-button:hover {
+        background-color: rgba(255, 255, 255, 1);
+        transform: scale(1.1);
+    }
+    
+    .item-title {
+        font-weight: 600;
+        line-height: 1.3;
+        margin-bottom: 8px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        transition: color 0.2s ease;
+    }
+    
+    .item-title:hover {
+        color: var(--mud-palette-success);
+    }
+    
+    .price-section {
+        border-top: 1px solid rgba(0, 0, 0, 0.08);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        padding: 8px 0;
+        margin: 8px 0;
+    }
+    
+    .price-main {
+        font-weight: 700;
+        margin-bottom: 2px;
+    }
+    
+    .price-unit {
+        font-size: 0.8em;
+        font-weight: 400;
+        color: var(--mud-palette-text-secondary);
+    }
+    
+    .mud-card-content {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .mud-card-actions {
+        margin-top: auto;
+        border-top: 1px solid rgba(0, 0, 0, 0.04);
+    }
+    
+    @@media (max-width: 600px) {
+        .item-card {
+            margin-bottom: 16px;
+        }
+        
+        .condition-badge {
+            right: 40px;
+            transform: scale(0.9);
+        }
+        
+        .availability-badge {
+            transform: scale(0.9);
+        }
+    }
+</style>

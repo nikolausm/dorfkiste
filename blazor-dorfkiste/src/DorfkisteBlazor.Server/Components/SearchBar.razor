@@ -1,0 +1,278 @@
+@inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
+@inject IHttpClientFactory HttpClientFactory
+@implements IAsyncDisposable
+
+<div class="search-container">
+    <MudAutocomplete T="SearchResultItem"
+                     @bind-Value="_selectedItem"
+                     SearchFunc="SearchItems"
+                     Placeholder="Suche nach Artikeln..."
+                     Variant="Variant.Outlined"
+                     Dense="true"
+                     Clearable="true"
+                     ShowProgressIndicator="true"
+                     ProgressIndicatorColor="Color.Success"
+                     AdornmentIcon="@Icons.Material.Filled.Search"
+                     AdornmentColor="Color.Success"
+                     Class="search-input"
+                     OnAdornmentClick="HandleSearch"
+                     @onkeypress="HandleKeyPress">
+        <ItemTemplate Context="item">
+            <div class="d-flex align-center gap-3 pa-2">
+                <MudAvatar Size="Size.Medium" Class="flex-shrink-0">
+                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                    {
+                        <MudImage Src="@item.ImageUrl" Alt="@item.Title" />
+                    }
+                    else
+                    {
+                        <MudIcon Icon="@Icons.Material.Filled.Image" />
+                    }
+                </MudAvatar>
+                <div class="flex-grow-1 min-width-0">
+                    <MudText Typo="Typo.body2" Class="font-weight-medium text-truncate">
+                        @item.Title
+                    </MudText>
+                    <MudText Typo="Typo.caption" Color="Color.Secondary">
+                        @item.Location • @(item.PricePerDay?.ToString("C") ?? "Preis auf Anfrage")/Tag
+                    </MudText>
+                </div>
+                <MudChip Size="Size.Small" 
+                         Color="@(item.Available ? Color.Success : Color.Warning)"
+                         Text="@(item.Available ? "Verfügbar" : "Belegt")" />
+            </div>
+        </ItemTemplate>
+        <ItemSelectedTemplate Context="item">
+            @item.Title
+        </ItemSelectedTemplate>
+        <MoreItemsTemplate>
+            <div class="pa-3 text-center">
+                <MudButton Variant="Variant.Text" 
+                           Color="Color.Success" 
+                           OnClick="@(() => NavigateToFullSearch())">
+                    Alle Ergebnisse anzeigen
+                    <MudIcon Icon="@Icons.Material.Filled.ArrowForward" Class="ml-2" />
+                </MudButton>
+            </div>
+        </MoreItemsTemplate>
+    </MudAutocomplete>
+</div>
+
+@code {
+    [Parameter] public string InitialQuery { get; set; } = string.Empty;
+    [Parameter] public EventCallback<string> OnSearch { get; set; }
+    
+    private SearchResultItem? _selectedItem;
+    private string _currentQuery = string.Empty;
+    private Timer? _debounceTimer;
+    private readonly HttpClient _httpClient;
+
+    public SearchBar()
+    {
+        _httpClient = new HttpClient();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await JSRuntime.InvokeVoidAsync("console.log", "UI-Dev: Initializing SearchBar component");
+        
+        if (!string.IsNullOrEmpty(InitialQuery))
+        {
+            _currentQuery = InitialQuery;
+        }
+        
+        await JSRuntime.InvokeVoidAsync("console.log", "UI-Dev: SearchBar initialized with autocomplete and filtering");
+    }
+
+    private async Task<IEnumerable<SearchResultItem>> SearchItems(string searchText)
+    {
+        if (string.IsNullOrWhiteSpace(searchText) || searchText.Length < 2)
+        {
+            return Array.Empty<SearchResultItem>();
+        }
+
+        _currentQuery = searchText;
+
+        try
+        {
+            // Debounce the search to avoid too many API calls
+            if (_debounceTimer != null)
+            {
+                _debounceTimer.Dispose();
+            }
+
+            var tcs = new TaskCompletionSource<IEnumerable<SearchResultItem>>();
+            _debounceTimer = new Timer(async _ =>
+            {
+                try
+                {
+                    var results = await PerformSearch(searchText);
+                    tcs.SetResult(results);
+                }
+                catch (Exception ex)
+                {
+                    await JSRuntime.InvokeVoidAsync("console.error", "Search error:", ex.Message);
+                    tcs.SetResult(Array.Empty<SearchResultItem>());
+                }
+            }, null, 300, Timeout.Infinite);
+
+            return await tcs.Task;
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("console.error", "Search error:", ex.Message);
+            return Array.Empty<SearchResultItem>();
+        }
+    }
+
+    private async Task<IEnumerable<SearchResultItem>> PerformSearch(string query)
+    {
+        try
+        {
+            // In a real application, this would call your API
+            // For now, return mock data
+            var mockResults = new List<SearchResultItem>
+            {
+                new()
+                {
+                    Id = 1,
+                    Title = $"Bohrmaschine - Passt zu '{query}'",
+                    Location = "Berlin Mitte",
+                    PricePerDay = 15.00m,
+                    Available = true,
+                    ImageUrl = "/images/drill.jpg",
+                    CategoryName = "Werkzeuge"
+                },
+                new()
+                {
+                    Id = 2,
+                    Title = $"Gartenmöbel Set - Ähnlich '{query}'",
+                    Location = "Hamburg",
+                    PricePerDay = 25.00m,
+                    Available = false,
+                    ImageUrl = "/images/furniture.jpg",
+                    CategoryName = "Garten"
+                },
+                new()
+                {
+                    Id = 3,
+                    Title = $"Kamera Equipment - Enthält '{query}'",
+                    Location = "München",
+                    PricePerDay = 35.00m,
+                    Available = true,
+                    ImageUrl = "/images/camera.jpg",
+                    CategoryName = "Elektronik"
+                }
+            };
+
+            // Filter results based on query
+            var filteredResults = mockResults
+                .Where(r => r.Title.Contains(query, StringComparison.OrdinalIgnoreCase) ||
+                           r.CategoryName.Contains(query, StringComparison.OrdinalIgnoreCase))
+                .Take(5)
+                .ToList();
+
+            await JSRuntime.InvokeVoidAsync("console.log", $"UI-Dev: Search performed for '{query}', found {filteredResults.Count} results");
+            
+            return filteredResults;
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("console.error", "API search error:", ex.Message);
+            return Array.Empty<SearchResultItem>();
+        }
+    }
+
+    private async Task HandleSearch()
+    {
+        if (!string.IsNullOrWhiteSpace(_currentQuery))
+        {
+            await NavigateToFullSearch();
+        }
+    }
+
+    private async Task HandleKeyPress(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter" && !string.IsNullOrWhiteSpace(_currentQuery))
+        {
+            await NavigateToFullSearch();
+        }
+    }
+
+    private async Task NavigateToFullSearch()
+    {
+        var query = _selectedItem?.Title ?? _currentQuery;
+        if (!string.IsNullOrWhiteSpace(query))
+        {
+            var encodedQuery = Uri.EscapeDataString(query);
+            Navigation.NavigateTo($"/items?search={encodedQuery}");
+            
+            // Clear selection after navigation
+            _selectedItem = null;
+            StateHasChanged();
+            
+            // Notify parent component
+            if (OnSearch.HasDelegate)
+            {
+                await OnSearch.InvokeAsync(query);
+            }
+            
+            await JSRuntime.InvokeVoidAsync("console.log", $"UI-Dev: Navigated to full search for '{query}'");
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        _debounceTimer?.Dispose();
+        _httpClient?.Dispose();
+        await JSRuntime.InvokeVoidAsync("console.log", "UI-Dev: SearchBar disposed");
+    }
+
+    public class SearchResultItem
+    {
+        public int Id { get; set; }
+        public string Title { get; set; } = string.Empty;
+        public string Location { get; set; } = string.Empty;
+        public decimal? PricePerDay { get; set; }
+        public bool Available { get; set; }
+        public string? ImageUrl { get; set; }
+        public string CategoryName { get; set; } = string.Empty;
+
+        public override string ToString() => Title;
+    }
+}
+
+<style>
+    .search-container {
+        width: 100%;
+        max-width: 400px;
+    }
+    
+    .search-input .mud-input-control {
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 8px;
+    }
+    
+    .search-input .mud-input-control:focus-within {
+        background-color: white;
+        box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
+    }
+    
+    .search-input .mud-autocomplete-popover {
+        border-radius: 8px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        max-height: 400px;
+        overflow-y: auto;
+    }
+    
+    .search-input .mud-list-item:hover {
+        background-color: rgba(34, 197, 94, 0.04);
+    }
+    
+    @@media (max-width: 960px) {
+        .search-container {
+            max-width: 100%;
+        }
+    }
+</style>

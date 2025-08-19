@@ -223,7 +223,7 @@ async function sendEmail(options: EmailOptions): Promise<any> {
 }
 
 // 1. Welcome Email (User Registration)
-export async function sendWelcomeEmail(user: User): Promise<any> {
+async function sendWelcomeEmail(user: User): Promise<any> {
   const loginUrl = `${EMAIL_CONFIG.baseUrl}/auth/signin`
   const profileUrl = `${EMAIL_CONFIG.baseUrl}/profile`
   
@@ -285,7 +285,7 @@ Ihr Dorfkiste-Team
 }
 
 // 2. Rental Confirmation Email (for Renter)
-export async function sendRentalConfirmationEmail(rental: Rental): Promise<any> {
+async function sendRentalConfirmationEmail(rental: Rental): Promise<any> {
   const rentalUrl = `${EMAIL_CONFIG.baseUrl}/rentals/${rental.id}`
   const itemUrl = `${EMAIL_CONFIG.baseUrl}/items/${rental.item.id}`
   const startDate = rental.startDate.toLocaleDateString('de-DE')
@@ -350,7 +350,7 @@ Ihr Dorfkiste-Team
 }
 
 // 3. New Rental Request Email (for Owner)
-export async function sendNewRentalRequestEmail(rental: Rental): Promise<any> {
+async function sendNewRentalRequestEmail(rental: Rental): Promise<any> {
   const rentalUrl = `${EMAIL_CONFIG.baseUrl}/rentals/${rental.id}`
   const startDate = rental.startDate.toLocaleDateString('de-DE')
   const endDate = rental.endDate.toLocaleDateString('de-DE')
@@ -413,7 +413,7 @@ Ihr Dorfkiste-Team
 }
 
 // 4. Payment Receipt Email
-export async function sendPaymentReceiptEmail(
+async function sendPaymentReceiptEmail(
   rental: Rental, 
   paymentId: string, 
   paymentMethod: string = 'Kreditkarte'
@@ -478,7 +478,7 @@ Ihr Dorfkiste-Team
 }
 
 // 5. Rental Reminder Email (1 day before start)
-export async function sendRentalReminderEmail(rental: Rental): Promise<any> {
+async function sendRentalReminderEmail(rental: Rental): Promise<any> {
   const rentalUrl = `${EMAIL_CONFIG.baseUrl}/rentals/${rental.id}`
   const startDate = rental.startDate.toLocaleDateString('de-DE')
   
@@ -528,7 +528,7 @@ Ihr Dorfkiste-Team
 }
 
 // 6. Review Request Email (after rental ends)
-export async function sendReviewRequestEmail(rental: Rental): Promise<any> {
+async function sendReviewRequestEmail(rental: Rental): Promise<any> {
   const reviewUrl = `${EMAIL_CONFIG.baseUrl}/rentals/${rental.id}/review`
   
   const htmlContent = createEmailTemplate(`
@@ -579,7 +579,7 @@ Ihr Dorfkiste-Team
 }
 
 // 7. Password Reset Email (from existing email.ts, enhanced)
-export async function sendPasswordResetEmail(
+async function sendPasswordResetEmail(
   email: string,
   resetUrl: string,
   userName?: string
@@ -628,7 +628,7 @@ Ihr Dorfkiste-Team
 }
 
 // 8. Admin Notification Email
-export async function sendAdminNotificationEmail(
+async function sendAdminNotificationEmail(
   type: 'new_user' | 'new_item' | 'rental_issue' | 'payment_failed' | 'report',
   data: any
 ): Promise<any> {
@@ -708,5 +708,5 @@ export {
   sendAdminNotificationEmail
 }
 
-// Export legacy functions for compatibility
+// Re-export legacy function for compatibility
 export { sendPasswordResetConfirmationEmail } from './email'

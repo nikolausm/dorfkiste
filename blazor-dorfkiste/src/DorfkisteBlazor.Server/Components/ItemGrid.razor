@@ -1,0 +1,565 @@
+@inject IJSRuntime JSRuntime
+@inject IHttpClientFactory HttpClientFactory
+@inject ISnackbar Snackbar
+
+<div class="item-grid-container">
+    <!-- Header Section -->
+    <div class="grid-header">
+        <div class="d-flex align-center justify-space-between mb-4">
+            <div>
+                <MudText Typo="Typo.h4" Class="mb-1">
+                    @if (!string.IsNullOrEmpty(SearchQuery))
+                    {
+                        <span>Suchergebnisse für "@SearchQuery"</span>
+                    }
+                    else if (!string.IsNullOrEmpty(CategoryName))
+                    {
+                        <span>@CategoryName</span>
+                    }
+                    else
+                    {
+                        <span>Alle Artikel</span>
+                    }
+                </MudText>
+                @if (TotalItems > 0)
+                {
+                    <MudText Typo="Typo.body2" Color="Color.Secondary">
+                        @TotalItems Artikel gefunden
+                    </MudText>
+                }
+            </div>
+            
+            <!-- View Mode and Sort Controls -->
+            <div class="d-flex align-center gap-2">
+                <!-- View Mode Toggle -->
+                <MudToggleIconButton @bind-Toggled="@_isListView"
+                                     Icon="@Icons.Material.Filled.GridView"
+                                     ToggledIcon="@Icons.Material.Filled.ViewList"
+                                     Color="Color.Primary"
+                                     ToggledColor="Color.Primary"
+                                     Title="@(_isListView ? "Grid-Ansicht" : "Listen-Ansicht")" />
+                
+                <!-- Sort Dropdown -->
+                <MudSelect T="SortOption" 
+                           @bind-Value="@_currentSort" 
+                           Dense="true" 
+                           Variant="Variant.Outlined"
+                           AnchorOrigin="Origin.BottomCenter"
+                           Class="sort-select">
+                    <MudSelectItem Value="@SortOption.Newest">Neueste zuerst</MudSelectItem>
+                    <MudSelectItem Value="@SortOption.PriceLow">Preis: Niedrig bis Hoch</MudSelectItem>
+                    <MudSelectItem Value="@SortOption.PriceHigh">Preis: Hoch bis Niedrig</MudSelectItem>
+                    <MudSelectItem Value="@SortOption.Popular">Beliebteste</MudSelectItem>
+                    <MudSelectItem Value="@SortOption.Distance">Entfernung</MudSelectItem>
+                </MudSelect>
+                
+                <!-- Filter Button -->
+                <MudButton Variant="Variant.Outlined" 
+                           StartIcon="@Icons.Material.Filled.FilterList"
+                           OnClick="@ShowFilters"
+                           Class="d-none d-md-flex">
+                    Filter
+                </MudButton>
+                
+                <!-- Mobile Filter Button -->
+                <MudIconButton Icon="@Icons.Material.Filled.FilterList"
+                               OnClick="@ShowFilters"
+                               Class="d-md-none" />
+            </div>
+        </div>
+        
+        <!-- Active Filters -->
+        @if (ActiveFilters.Any())
+        {
+            <div class="active-filters mb-3">
+                <MudText Typo="Typo.caption" Class="mr-2">Aktive Filter:</MudText>
+                @foreach (var filter in ActiveFilters)
+                {
+                    <MudChip Size="Size.Small" 
+                             OnClose="@(() => RemoveFilter(filter))"
+                             Color="Color.Primary"
+                             Text="@filter" 
+                             Class="mr-1 mb-1" />
+                }
+                <MudButton Size="Size.Small" 
+                           Variant="Variant.Text" 
+                           Color="Color.Error"
+                           OnClick="@ClearAllFilters">
+                    Alle löschen
+                </MudButton>
+            </div>
+        }
+    </div>
+    
+    <!-- Loading State -->
+    @if (IsLoading)
+    {
+        <div class="loading-container">
+            <MudProgressCircular Color="Color.Success" Indeterminate="true" Size="Size.Large" />
+            <MudText Typo="Typo.body1" Class="mt-4">Artikel werden geladen...</MudText>
+        </div>
+    }
+    <!-- Empty State -->
+    else if (!Items.Any())
+    {
+        <div class="empty-state">
+            <MudIcon Icon="@Icons.Material.Filled.SearchOff" Size="Size.Large" Color="Color.Secondary" />
+            <MudText Typo="Typo.h6" Class="mt-4 mb-2">Keine Artikel gefunden</MudText>
+            <MudText Typo="Typo.body2" Color="Color.Secondary" Class="mb-4">
+                Versuchen Sie es mit anderen Suchbegriffen oder Filtern.
+            </MudText>
+            <MudButton Variant="Variant.Filled" 
+                       Color="Color.Success" 
+                       StartIcon="@Icons.Material.Filled.Add"
+                       Href="/items/new">
+                Ersten Artikel einstellen
+            </MudButton>
+        </div>
+    }
+    <!-- Items Display -->
+    else
+    {
+        <div class="@GetGridClass()">
+            @foreach (var item in Items)
+            {
+                <div class="@GetItemClass()">
+                    @if (_isListView)
+                    {
+                        <!-- List View Item -->
+                        <MudCard Class="list-item-card" Elevation="1">
+                            <div class="d-flex">
+                                <div class="item-image-section">
+                                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                    {
+                                        <MudCardMedia Image="@item.ImageUrl" 
+                                                      Alt="@item.Title" 
+                                                      Height="120" 
+                                                      Style="width: 160px; cursor: pointer;"
+                                                      @onclick="@(() => NavigateToItem(item.Id))" />
+                                    }
+                                    else
+                                    {
+                                        <div class="list-image-placeholder" @onclick="@(() => NavigateToItem(item.Id))">
+                                            <MudIcon Icon="@Icons.Material.Filled.Image" Size="Size.Large" />
+                                        </div>
+                                    }
+                                </div>
+                                <MudCardContent Class="flex-grow-1 d-flex flex-column justify-space-between">
+                                    <div>
+                                        <MudText Typo="Typo.h6" Class="cursor-pointer mb-2" @onclick="@(() => NavigateToItem(item.Id))">
+                                            @item.Title
+                                        </MudText>
+                                        <div class="d-flex align-center mb-2">
+                                            <MudIcon Icon="@Icons.Material.Filled.LocationOn" Size="Size.Small" Color="Color.Secondary" />
+                                            <MudText Typo="Typo.body2" Class="ml-1">@item.Location</MudText>
+                                            <MudChip Size="Size.Small" 
+                                                     Color="@(item.Available ? Color.Success : Color.Warning)"
+                                                     Text="@(item.Available ? "Verfügbar" : "Belegt")"
+                                                     Class="ml-auto" />
+                                        </div>
+                                        <MudText Typo="Typo.body2" Color="Color.Secondary" Class="item-description">
+                                            @item.Description
+                                        </MudText>
+                                    </div>
+                                    <div class="d-flex align-center justify-space-between mt-2">
+                                        <div>
+                                            @if (item.PricePerDay.HasValue)
+                                            {
+                                                <MudText Typo="Typo.h6" Color="Color.Success">
+                                                    @item.PricePerDay.Value.ToString("C")/Tag
+                                                </MudText>
+                                            }
+                                            else
+                                            {
+                                                <MudText Typo="Typo.body2" Color="Color.Secondary">
+                                                    Preis auf Anfrage
+                                                </MudText>
+                                            }
+                                        </div>
+                                        <MudButton Variant="Variant.Outlined" 
+                                                   Color="Color.Success" 
+                                                   Size="Size.Small"
+                                                   OnClick="@(() => RequestRental(item.Id))"
+                                                   Disabled="@(!item.Available)">
+                                            Buchen
+                                        </MudButton>
+                                    </div>
+                                </MudCardContent>
+                            </div>
+                        </MudCard>
+                    }
+                    else
+                    {
+                        <!-- Grid View Item -->
+                        <ItemCard Id="@item.Id"
+                                  Title="@item.Title"
+                                  ImageUrl="@item.ImageUrl"
+                                  PricePerDay="@item.PricePerDay"
+                                  PricePerHour="@item.PricePerHour"
+                                  Location="@item.Location"
+                                  Condition="@item.Condition"
+                                  Available="@item.Available"
+                                  User="@item.User"
+                                  ViewCount="@item.ViewCount"
+                                  IsFavorite="@item.IsFavorite"
+                                  OnFavoriteToggle="@HandleFavoriteToggle"
+                                  OnRentalRequest="@RequestRental" />
+                    }
+                </div>
+            }
+        </div>
+        
+        <!-- Pagination -->
+        @if (TotalPages > 1)
+        {
+            <div class="pagination-container mt-6">
+                <MudPagination Count="@TotalPages" 
+                               @bind-Selected="@CurrentPage"
+                               BoundaryCount="1"
+                               MiddleCount="3"
+                               ShowFirstButton="true"
+                               ShowLastButton="true"
+                               Color="Color.Success"
+                               Size="Size.Large"
+                               Class="d-flex justify-center" />
+            </div>
+        }
+    }
+</div>
+
+<!-- Filters Dialog -->
+<MudDialog @bind-Visible="@_showFilters" Options="@_filterDialogOptions">
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            <MudIcon Icon="@Icons.Material.Filled.FilterList" Class="mr-3" />
+            Filter
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <!-- Filter content would go here -->
+        <MudText>Filter-Optionen werden hier implementiert...</MudText>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="@(() => _showFilters = false)">Abbrechen</MudButton>
+        <MudButton Color="Color.Success" Variant="Variant.Filled" OnClick="@ApplyFilters">
+            Filter anwenden
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [Parameter] public List<ItemModel> Items { get; set; } = new();
+    [Parameter] public bool IsLoading { get; set; }
+    [Parameter] public int CurrentPage { get; set; } = 1;
+    [Parameter] public int TotalPages { get; set; }
+    [Parameter] public int TotalItems { get; set; }
+    [Parameter] public string SearchQuery { get; set; } = string.Empty;
+    [Parameter] public string CategoryName { get; set; } = string.Empty;
+    [Parameter] public List<string> ActiveFilters { get; set; } = new();
+    [Parameter] public EventCallback<int> OnPageChanged { get; set; }
+    [Parameter] public EventCallback<SortOption> OnSortChanged { get; set; }
+    [Parameter] public EventCallback<int> OnFavoriteToggle { get; set; }
+    [Parameter] public EventCallback<int> OnRentalRequest { get; set; }
+
+    private bool _isListView = false;
+    private SortOption _currentSort = SortOption.Newest;
+    private bool _showFilters = false;
+    
+    private readonly DialogOptions _filterDialogOptions = new()
+    {
+        MaxWidth = MaxWidth.Small,
+        FullWidth = true,
+        CloseButton = true,
+        DisableBackdropClick = false
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+        await JSRuntime.InvokeVoidAsync("console.log", "UI-Dev: Initializing ItemGrid component");
+        
+        // Load view preference from localStorage
+        try
+        {
+            var savedViewMode = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "itemGrid.viewMode");
+            _isListView = savedViewMode == "list";
+        }
+        catch
+        {
+            // Ignore errors, use default
+        }
+        
+        await JSRuntime.InvokeVoidAsync("console.log", "UI-Dev: ItemGrid initialized with responsive grid and filtering");
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (OnPageChanged.HasDelegate && CurrentPage > 0)
+        {
+            await OnPageChanged.InvokeAsync(CurrentPage);
+        }
+    }
+
+    private async Task OnSortOptionChanged(SortOption newSort)
+    {
+        if (_currentSort != newSort)
+        {
+            _currentSort = newSort;
+            if (OnSortChanged.HasDelegate)
+            {
+                await OnSortChanged.InvokeAsync(newSort);
+            }
+            await JSRuntime.InvokeVoidAsync("console.log", $"UI-Dev: Sort changed to {newSort}");
+        }
+    }
+
+    private async Task OnViewModeChanged()
+    {
+        // Save preference to localStorage
+        try
+        {
+            var viewMode = _isListView ? "list" : "grid";
+            await JSRuntime.InvokeVoidAsync("localStorage.setItem", "itemGrid.viewMode", viewMode);
+        }
+        catch
+        {
+            // Ignore errors
+        }
+        
+        await JSRuntime.InvokeVoidAsync("console.log", $"UI-Dev: View mode changed to {(_isListView ? "list" : "grid")}");
+    }
+
+    private string GetGridClass()
+    {
+        return _isListView 
+            ? "list-view-container" 
+            : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4";
+    }
+
+    private string GetItemClass()
+    {
+        return _isListView ? "list-item" : "grid-item";
+    }
+
+    private void NavigateToItem(int itemId)
+    {
+        // This would typically use NavigationManager
+        // Navigation.NavigateTo($"/items/{itemId}");
+    }
+
+    private async Task HandleFavoriteToggle(int itemId)
+    {
+        var item = Items.FirstOrDefault(i => i.Id == itemId);
+        if (item != null)
+        {
+            item.IsFavorite = !item.IsFavorite;
+            
+            if (OnFavoriteToggle.HasDelegate)
+            {
+                await OnFavoriteToggle.InvokeAsync(itemId);
+            }
+            
+            var message = item.IsFavorite ? "Zur Watchlist hinzugefügt" : "Aus Watchlist entfernt";
+            Snackbar.Add(message, item.IsFavorite ? Severity.Success : Severity.Info);
+        }
+    }
+
+    private async Task RequestRental(int itemId)
+    {
+        if (OnRentalRequest.HasDelegate)
+        {
+            await OnRentalRequest.InvokeAsync(itemId);
+        }
+        
+        await JSRuntime.InvokeVoidAsync("console.log", $"UI-Dev: Rental requested for item {itemId}");
+    }
+
+    private void ShowFilters()
+    {
+        _showFilters = true;
+    }
+
+    private async Task ApplyFilters()
+    {
+        _showFilters = false;
+        // Apply filter logic here
+        await JSRuntime.InvokeVoidAsync("console.log", "UI-Dev: Filters applied");
+    }
+
+    private async Task RemoveFilter(string filter)
+    {
+        ActiveFilters.Remove(filter);
+        await JSRuntime.InvokeVoidAsync("console.log", $"UI-Dev: Filter removed: {filter}");
+    }
+
+    private async Task ClearAllFilters()
+    {
+        ActiveFilters.Clear();
+        await JSRuntime.InvokeVoidAsync("console.log", "UI-Dev: All filters cleared");
+    }
+
+    public enum SortOption
+    {
+        Newest,
+        PriceLow,
+        PriceHigh,
+        Popular,
+        Distance
+    }
+
+    public class ItemModel
+    {
+        public int Id { get; set; }
+        public string Title { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public string? ImageUrl { get; set; }
+        public decimal? PricePerDay { get; set; }
+        public decimal? PricePerHour { get; set; }
+        public string Location { get; set; } = string.Empty;
+        public string? Condition { get; set; }
+        public bool Available { get; set; } = true;
+        public ItemCard.UserInfo? User { get; set; }
+        public int ViewCount { get; set; }
+        public bool IsFavorite { get; set; }
+    }
+}
+
+<style>
+    .item-grid-container {
+        width: 100%;
+    }
+    
+    .grid-header {
+        background: white;
+        border-radius: 8px;
+        padding: 24px;
+        margin-bottom: 24px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    
+    .sort-select {
+        min-width: 200px;
+    }
+    
+    .active-filters {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        padding-top: 16px;
+        border-top: 1px solid rgba(0, 0, 0, 0.08);
+    }
+    
+    .loading-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 400px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    
+    .empty-state {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 400px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        text-align: center;
+        padding: 48px 24px;
+    }
+    
+    .grid {
+        display: grid;
+        gap: 16px;
+    }
+    
+    .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+    
+    @@media (min-width: 768px) {
+        .md\\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    
+    @@media (min-width: 1024px) {
+        .lg\\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    
+    @@media (min-width: 1280px) {
+        .xl\\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    }
+    
+    .list-view-container {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+    
+    .list-item-card {
+        transition: all 0.2s ease;
+    }
+    
+    .list-item-card:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .item-image-section {
+        flex-shrink: 0;
+    }
+    
+    .list-image-placeholder {
+        width: 160px;
+        height: 120px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f5f5f5;
+        cursor: pointer;
+    }
+    
+    .item-description {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: 1.4;
+    }
+    
+    .pagination-container {
+        display: flex;
+        justify-content: center;
+        padding: 24px 0;
+    }
+    
+    @@media (max-width: 768px) {
+        .grid-header {
+            padding: 16px;
+        }
+        
+        .grid-header .d-flex {
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .sort-select {
+            min-width: auto;
+            width: 100%;
+        }
+        
+        .list-item-card .d-flex {
+            flex-direction: column;
+        }
+        
+        .item-image-section {
+            width: 100%;
+        }
+        
+        .list-image-placeholder {
+            width: 100%;
+            height: 200px;
+        }
+    }
+</style>

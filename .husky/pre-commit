@@ -1,0 +1,91 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🔍 Running pre-commit checks..."
+
+# Format and lint staged files
+echo "🎨 Formatting code with Prettier..."
+npx lint-staged
+
+# Type checking
+echo "🔍 Running TypeScript type check..."
+npx tsc --noEmit
+
+# Lint JavaScript/TypeScript files
+echo "📋 Running ESLint..."
+npx eslint --max-warnings 0 --fix src/
+
+# Check for secrets or sensitive data
+echo "🔒 Checking for secrets..."
+if grep -r -i --include="*.ts" --include="*.js" --include="*.json" --exclude-dir=node_modules \
+  -E "(api_?key|secret|password|token)" src/ && \
+  ! grep -r -i --include="*.ts" --include="*.js" --exclude-dir=node_modules \
+  -E "(process\.env|config\.|\.env)" src/; then
+  echo "❌ Potential secrets found in staged files!"
+  echo "Please remove sensitive data or move to environment variables."
+  exit 1
+fi
+
+# Check bundle size (if build exists)
+if [ -d ".next" ]; then
+  echo "📦 Checking bundle size..."
+  BUNDLE_SIZE=$(du -sh .next/static | cut -f1)
+  echo "Current bundle size: $BUNDLE_SIZE"
+fi
+
+# Run tests on staged files
+echo "🧪 Running tests on changed files..."
+npm run test -- --passWithNoTests --findRelatedTests $(git diff --cached --name-only | tr '\n' ' ')
+
+# Security audit for dependencies
+echo "🛡️ Running security audit..."
+npm audit --audit-level high
+
+# Check for debugging statements
+echo "🐛 Checking for debugging statements..."
+if git diff --cached | grep -E "(console\.(log|debug|info)|debugger)" > /dev/null; then
+  echo "⚠️  Warning: Debugging statements found in staged files"
+  echo "Consider removing console.log, debugger, etc. before committing"
+fi
+
+# Validate commit message format (if commit message is provided)
+if [ -n "$1" ]; then
+  echo "📝 Validating commit message format..."
+  if ! echo "$1" | grep -qE "^(feat|fix|docs|style|refactor|test|chore|perf|ci|build)(\(.+\))?: .{1,50}"; then
+    echo "❌ Invalid commit message format!"
+    echo "Use: type(scope): description"
+    echo "Types: feat, fix, docs, style, refactor, test, chore, perf, ci, build"
+    echo "Example: feat(auth): add user registration flow"
+    exit 1
+  fi
+fi
+
+# Check for large files
+echo "📏 Checking for large files..."
+for file in $(git diff --cached --name-only); do
+  if [ -f "$file" ]; then
+    size=$(wc -c < "$file")
+    if [ $size -gt 1048576 ]; then # 1MB
+      echo "❌ Large file detected: $file ($(($size / 1024))KB)"
+      echo "Consider using Git LFS for large files"
+      exit 1
+    fi
+  fi
+done
+
+# Prisma schema check
+if git diff --cached --name-only | grep -q "prisma/schema.prisma"; then
+  echo "🗄️ Prisma schema changed, validating..."
+  npx prisma validate
+  echo "💡 Don't forget to run 'npx prisma migrate dev' after commit!"
+fi
+
+# Package.json check
+if git diff --cached --name-only | grep -q "package.json"; then
+  echo "📦 package.json changed, validating..."
+  npm ls --depth=0 > /dev/null
+  echo "💡 Consider updating package-lock.json if needed!"
+fi
+
+echo "✅ Pre-commit checks completed successfully!"
+echo "🚀 Ready to commit!"

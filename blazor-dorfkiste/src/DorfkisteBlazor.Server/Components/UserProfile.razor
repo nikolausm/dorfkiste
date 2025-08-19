@@ -1,0 +1,352 @@
+@inject IJSRuntime JSRuntime
+@inject ISnackbar Snackbar
+
+<div class="user-profile-container">
+    <MudContainer MaxWidth="MaxWidth.Large">
+        <MudGrid>
+            <!-- Profile Header -->
+            <MudItem xs="12">
+                <MudPaper Class="profile-header" Elevation="2">
+                    <div class="d-flex flex-column flex-md-row align-center gap-4">
+                        <MudAvatar Size="Size.Large" Class="profile-avatar">
+                            @if (!string.IsNullOrEmpty(User?.AvatarUrl))
+                            {
+                                <MudImage Src="@User.AvatarUrl" Alt="@User.Name" />
+                            }
+                            else
+                            {
+                                <MudIcon Icon="@Icons.Material.Filled.Person" Size="Size.Large" />
+                            }
+                        </MudAvatar>
+                        
+                        <div class="flex-grow-1 text-center text-md-left">
+                            <MudText Typo="Typo.h4" Class="mb-2">@(User?.Name ?? "Benutzer")</MudText>
+                            <div class="d-flex flex-column flex-md-row align-center gap-4 mb-2">
+                                <div class="d-flex align-center">
+                                    <MudRating ReadOnly="true" SelectedValue="@((int)(User?.Rating ?? 4.5))" Size="Size.Small" />
+                                    <MudText Typo="Typo.body2" Class="ml-2">
+                                        @((User?.Rating ?? 4.5).ToString("F1")) (@(User?.ReviewCount ?? 0) Bewertungen)
+                                    </MudText>
+                                </div>
+                                <MudText Typo="Typo.body2" Color="Color.Secondary">
+                                    <MudIcon Icon="@Icons.Material.Filled.LocationOn" Size="Size.Small" Class="mr-1" />
+                                    @(User?.Location ?? "Nicht angegeben")
+                                </MudText>
+                            </div>
+                            <MudText Typo="Typo.body2" Color="Color.Secondary">
+                                Mitglied seit @((User?.MemberSince ?? DateTime.Now).ToString("MMMM yyyy"))
+                            </MudText>
+                        </div>
+                        
+                        <div class="d-flex flex-column gap-2">
+                            <MudButton Variant="Variant.Filled" 
+                                       Color="Color.Primary"
+                                       StartIcon="@Icons.Material.Filled.Edit"
+                                       OnClick="@EditProfile">
+                                Profil bearbeiten
+                            </MudButton>
+                            <MudButton Variant="Variant.Outlined" 
+                                       Color="Color.Secondary"
+                                       StartIcon="@Icons.Material.Filled.Settings"
+                                       OnClick="@OpenSettings">
+                                Einstellungen
+                            </MudButton>
+                        </div>
+                    </div>
+                </MudPaper>
+            </MudItem>
+            
+            <!-- Profile Stats -->
+            <MudItem xs="12">
+                <div class="d-flex flex-wrap gap-3">
+                    <MudPaper Class="stat-card" Elevation="1">
+                        <div class="text-center">
+                            <MudIcon Icon="@Icons.Material.Filled.Inventory" Size="Size.Large" Color="Color.Primary" />
+                            <MudText Typo="Typo.h5" Class="font-weight-bold mt-2">@(User?.ItemsCount ?? 0)</MudText>
+                            <MudText Typo="Typo.body2" Color="Color.Secondary">Artikel</MudText>
+                        </div>
+                    </MudPaper>
+                    
+                    <MudPaper Class="stat-card" Elevation="1">
+                        <div class="text-center">
+                            <MudIcon Icon="@Icons.Material.Filled.Assignment" Size="Size.Large" Color="Color.Success" />
+                            <MudText Typo="Typo.h5" Class="font-weight-bold mt-2">@(User?.RentalsCount ?? 0)</MudText>
+                            <MudText Typo="Typo.body2" Color="Color.Secondary">Vermietungen</MudText>
+                        </div>
+                    </MudPaper>
+                    
+                    <MudPaper Class="stat-card" Elevation="1">
+                        <div class="text-center">
+                            <MudIcon Icon="@Icons.Material.Filled.Star" Size="Size.Large" Color="Color.Warning" />
+                            <MudText Typo="Typo.h5" Class="font-weight-bold mt-2">@((User?.Rating ?? 4.5).ToString("F1"))</MudText>
+                            <MudText Typo="Typo.body2" Color="Color.Secondary">Bewertung</MudText>
+                        </div>
+                    </MudPaper>
+                    
+                    <MudPaper Class="stat-card" Elevation="1">
+                        <div class="text-center">
+                            <MudIcon Icon="@Icons.Material.Filled.Euro" Size="Size.Large" Color="Color.Info" />
+                            <MudText Typo="Typo.h5" Class="font-weight-bold mt-2">@((User?.EarningsThisMonth ?? 0).ToString("C"))</MudText>
+                            <MudText Typo="Typo.body2" Color="Color.Secondary">Diesen Monat</MudText>
+                        </div>
+                    </MudPaper>
+                </div>
+            </MudItem>
+            
+            <!-- Profile Content Tabs -->
+            <MudItem xs="12">
+                <MudTabs Elevation="2" Rounded="true" Color="Color.Success" Class="profile-tabs">
+                    <MudTabPanel Icon="@Icons.Material.Filled.Inventory" Text="Meine Artikel">
+                        <div class="pa-4">
+                            @if (_userItems?.Any() == true)
+                            {
+                                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                    @foreach (var item in _userItems)
+                                    {
+                                        <ItemCard Item="@item" />
+                                    }
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="text-center pa-8">
+                                    <MudIcon Icon="@Icons.Material.Filled.Add" Size="Size.Large" Color="Color.Secondary" />
+                                    <MudText Typo="Typo.h6" Class="mt-4 mb-2">Noch keine Artikel</MudText>
+                                    <MudText Typo="Typo.body2" Color="Color.Secondary" Class="mb-4">
+                                        Stellen Sie Ihren ersten Artikel ein und beginnen Sie zu verdienen.
+                                    </MudText>
+                                    <MudButton Variant="Variant.Filled" 
+                                               Color="Color.Success"
+                                               Href="/items/new"
+                                               StartIcon="@Icons.Material.Filled.Add">
+                                        Artikel einstellen
+                                    </MudButton>
+                                </div>
+                            }
+                        </div>
+                    </MudTabPanel>
+                    
+                    <MudTabPanel Icon="@Icons.Material.Filled.Assignment" Text="Buchungen">
+                        <div class="pa-4">
+                            <MudText Typo="Typo.h6" Class="mb-4">Aktuelle Buchungen</MudText>
+                            <!-- Bookings content would go here -->
+                            <MudText Typo="Typo.body2" Color="Color.Secondary">
+                                Buchungsübersicht wird hier angezeigt...
+                            </MudText>
+                        </div>
+                    </MudTabPanel>
+                    
+                    <MudTabPanel Icon="@Icons.Material.Filled.Reviews" Text="Bewertungen">
+                        <div class="pa-4">
+                            <MudText Typo="Typo.h6" Class="mb-4">Erhaltene Bewertungen</MudText>
+                            <!-- Reviews content would go here -->
+                            <MudText Typo="Typo.body2" Color="Color.Secondary">
+                                Bewertungen werden hier angezeigt...
+                            </MudText>
+                        </div>
+                    </MudTabPanel>
+                    
+                    <MudTabPanel Icon="@Icons.Material.Filled.Analytics" Text="Statistiken">
+                        <div class="pa-4">
+                            <MudText Typo="Typo.h6" Class="mb-4">Detaillierte Statistiken</MudText>
+                            <!-- Statistics content would go here -->
+                            <MudText Typo="Typo.body2" Color="Color.Secondary">
+                                Detaillierte Statistiken werden hier angezeigt...
+                            </MudText>
+                        </div>
+                    </MudTabPanel>
+                </MudTabs>
+            </MudItem>
+        </MudGrid>
+    </MudContainer>
+</div>
+
+@code {
+    [Parameter] public UserProfileModel? User { get; set; }
+    
+    private List<ItemCard.ItemModel>? _userItems;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await JSRuntime.InvokeVoidAsync("console.log", "UI-Dev: Initializing UserProfile component");
+        
+        // Load user data if not provided
+        if (User == null)
+        {
+            User = new UserProfileModel
+            {
+                Name = "Max Mustermann",
+                AvatarUrl = null,
+                Location = "Berlin, Deutschland",
+                Rating = 4.7,
+                ReviewCount = 23,
+                MemberSince = DateTime.Now.AddMonths(-8),
+                ItemsCount = 5,
+                RentalsCount = 18,
+                EarningsThisMonth = 127.50m
+            };
+        }
+        
+        // Load user items (mock data)
+        _userItems = new List<ItemCard.ItemModel>
+        {
+            new()
+            {
+                Id = 1,
+                Title = "Bohrmaschine Bosch Professional",
+                ImageUrl = "/images/drill.jpg",
+                PricePerDay = 15.00m,
+                Location = "Berlin Mitte",
+                Available = true,
+                ViewCount = 45
+            },
+            new()
+            {
+                Id = 2,
+                Title = "Gartenmöbel Set 4-teilig",
+                ImageUrl = "/images/furniture.jpg",
+                PricePerDay = 25.00m,
+                Location = "Berlin Mitte",
+                Available = false,
+                ViewCount = 67
+            }
+        };
+        
+        await JSRuntime.InvokeVoidAsync("console.log", "UI-Dev: UserProfile initialized with user management features");
+    }
+
+    private async Task EditProfile()
+    {
+        // This would open a profile editing dialog
+        Snackbar.Add("Profil-Editor wird geöffnet...", Severity.Info);
+        await JSRuntime.InvokeVoidAsync("console.log", "UI-Dev: Edit profile requested");
+    }
+
+    private async Task OpenSettings()
+    {
+        // This would navigate to settings page
+        Snackbar.Add("Einstellungen werden geöffnet...", Severity.Info);
+        await JSRuntime.InvokeVoidAsync("console.log", "UI-Dev: Settings requested");
+    }
+
+    public class UserProfileModel
+    {
+        public string Name { get; set; } = string.Empty;
+        public string? AvatarUrl { get; set; }
+        public string Location { get; set; } = string.Empty;
+        public double Rating { get; set; }
+        public int ReviewCount { get; set; }
+        public DateTime MemberSince { get; set; }
+        public int ItemsCount { get; set; }
+        public int RentalsCount { get; set; }
+        public decimal EarningsThisMonth { get; set; }
+    }
+}
+
+<style>
+    .user-profile-container {
+        min-height: 80vh;
+        padding: 24px 0;
+    }
+
+    .profile-header {
+        padding: 32px;
+        border-radius: 16px;
+        background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+        margin-bottom: 24px;
+    }
+
+    .profile-avatar {
+        width: 120px !important;
+        height: 120px !important;
+        border: 4px solid white;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .stat-card {
+        padding: 20px;
+        border-radius: 12px;
+        min-width: 120px;
+        flex: 1;
+        transition: transform 0.2s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile-tabs {
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .grid {
+        display: grid;
+        gap: 16px;
+    }
+
+    .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+
+    @@media (min-width: 768px) {
+        .md\\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @@media (min-width: 1024px) {
+        .lg\\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+
+    /* Responsive adjustments */
+    @@media (max-width: 960px) {
+        .profile-header {
+            padding: 24px 16px;
+            text-align: center;
+        }
+        
+        .profile-avatar {
+            width: 100px !important;
+            height: 100px !important;
+        }
+        
+        .stat-card {
+            min-width: 100px;
+        }
+        
+        .d-flex.flex-wrap {
+            justify-content: center;
+        }
+    }
+
+    @@media (max-width: 600px) {
+        .user-profile-container {
+            padding: 16px 0;
+        }
+        
+        .profile-header {
+            padding: 20px 12px;
+        }
+        
+        .stat-card {
+            padding: 16px 12px;
+            min-width: 80px;
+        }
+        
+        .stat-card .mud-text.typo-h5 {
+            font-size: 1.25rem;
+        }
+    }
+
+    /* Dark theme support */
+    .mud-theme-dark .profile-header {
+        background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
+    }
+
+    .mud-theme-dark .stat-card {
+        background-color: #1f2937;
+        border: 1px solid #374151;
+    }
+
+    .mud-theme-dark .stat-card:hover {
+        background-color: #374151;
+    }
+</style>

@@ -1,0 +1,432 @@
+@inherits LayoutComponentBase
+@inject IJSRuntime JSRuntime
+@inject NavigationManager Navigation
+@inject ISnackbar Snackbar
+@implements IAsyncDisposable
+
+<MudThemeProvider Theme="@_theme" />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+    <MudAppBar Elevation="1" Class="mud-elevation-4" Color="Color.Surface">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" 
+                       Color="Color.Inherit" 
+                       Edge="Edge.Start" 
+                       OnClick="@DrawerToggle"
+                       Class="d-lg-none" />
+        
+        <!-- Logo and Brand -->
+        <MudButton Href="/" 
+                   Variant="Variant.Text" 
+                   Color="Color.Inherit" 
+                   StartIcon="@Icons.Material.Filled.Home"
+                   Class="mud-width-full"
+                   Style="justify-content: flex-start;">
+            <MudText Typo="Typo.h5" Class="ml-2" Color="Color.Success">
+                <strong>Dorfkiste</strong>
+            </MudText>
+        </MudButton>
+        
+        <!-- Desktop Navigation Links -->
+        <MudHidden Breakpoint="Breakpoint.MdAndDown" Invert="true">
+            <MudNavGroup Title="Artikel" Icon="@Icons.Material.Filled.Category" Class="ml-4">
+                <MudNavLink Href="/items" Icon="@Icons.Material.Filled.Inventory">Alle Artikel</MudNavLink>
+                <MudNavLink Href="/categories" Icon="@Icons.Material.Filled.Category">Kategorien</MudNavLink>
+            </MudNavGroup>
+        </MudHidden>
+        
+        <MudSpacer />
+        
+        <!-- Search Bar - Desktop -->
+        <MudHidden Breakpoint="Breakpoint.MdAndDown" Invert="true">
+            <div class="d-flex align-center mx-4" style="max-width: 400px; width: 100%;">
+                <SearchBar />
+            </div>
+        </MudHidden>
+        
+        <!-- User Actions -->
+        <div class="d-flex align-center">
+            <AuthorizeView>
+                <Authorized>
+                    <!-- Add Item Button -->
+                    <MudButton Href="/items/new"
+                               Variant="Variant.Filled"
+                               Color="Color.Success"
+                               StartIcon="@Icons.Material.Filled.Add"
+                               Class="mr-2">
+                        <MudHidden Breakpoint="Breakpoint.SmAndDown" Invert="true">
+                            Artikel einstellen
+                        </MudHidden>
+                    </MudButton>
+                    
+                    <!-- Notifications -->
+                    <MudIconButton Icon="@Icons.Material.Filled.Notifications"
+                                   Color="Color.Inherit"
+                                   Href="/notifications"
+                                   Class="mr-2">
+                        <MudBadge Content="@_unreadCount" 
+                                  Color="Color.Error" 
+                                  Visible="@(_unreadCount > 0)"
+                                  Max="9">
+                            <MudIcon Icon="@Icons.Material.Filled.Notifications" />
+                        </MudBadge>
+                    </MudIconButton>
+                    
+                    <!-- User Menu -->
+                    <MudMenu Icon="@Icons.Material.Filled.AccountCircle" 
+                             Color="Color.Inherit"
+                             AnchorOrigin="Origin.BottomCenter"
+                             TransformOrigin="Origin.CenterLeft">
+                        <div class="pa-4" style="min-width: 200px;">
+                            <MudText Typo="Typo.subtitle1">@context.User.Identity?.Name</MudText>
+                            <MudText Typo="Typo.body2" Color="Color.Secondary">@GetUserEmail()</MudText>
+                        </div>
+                        <MudDivider />
+                        <MudMenuItem Icon="@Icons.Material.Filled.Person" Href="/profile">
+                            Mein Profil
+                        </MudMenuItem>
+                        <MudMenuItem Icon="@Icons.Material.Filled.Assignment" Href="/my-rentals">
+                            Meine Buchungen
+                        </MudMenuItem>
+                        <MudMenuItem Icon="@Icons.Material.Filled.Inventory" Href="/my-items">
+                            Meine Artikel
+                        </MudMenuItem>
+                        <MudMenuItem Icon="@Icons.Material.Filled.Favorite" Href="/watchlist">
+                            Watchlist
+                        </MudMenuItem>
+                        <MudDivider />
+                        <AuthorizeView Roles="Admin">
+                            <MudMenuItem Icon="@Icons.Material.Filled.AdminPanelSettings" Href="/admin">
+                                Administration
+                            </MudMenuItem>
+                            <MudDivider />
+                        </AuthorizeView>
+                        <MudMenuItem Icon="@Icons.Material.Filled.Logout" OnClick="@Logout">
+                            Abmelden
+                        </MudMenuItem>
+                    </MudMenu>
+                </Authorized>
+                <NotAuthorized>
+                    <MudButton Href="/auth/signin"
+                               Variant="Variant.Text"
+                               Color="Color.Inherit"
+                               Class="mr-2">
+                        Anmelden
+                    </MudButton>
+                    <MudButton Href="/auth/signup"
+                               Variant="Variant.Filled"
+                               Color="Color.Success">
+                        Registrieren
+                    </MudButton>
+                </NotAuthorized>
+            </AuthorizeView>
+        </div>
+    </MudAppBar>
+    
+    <!-- Mobile/Tablet Drawer -->
+    <MudDrawer @bind-Open="_drawerOpen" 
+               ClipMode="DrawerClipMode.Never" 
+               Elevation="2"
+               Breakpoint="Breakpoint.Lg">
+        <MudDrawerHeader>
+            <MudText Typo="Typo.h6" Color="Color.Success">
+                <strong>Dorfkiste</strong>
+            </MudText>
+        </MudDrawerHeader>
+        <MudNavMenu Class="mud-width-full">
+            <!-- Search Bar - Mobile -->
+            <MudHidden Breakpoint="Breakpoint.LgAndUp" Invert="true">
+                <MudNavGroup Title="Suche" Icon="@Icons.Material.Filled.Search" Class="mb-2">
+                    <div class="pa-4">
+                        <SearchBar />
+                    </div>
+                </MudNavGroup>
+                <MudDivider Class="mb-2" />
+            </MudHidden>
+            
+            <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">
+                Startseite
+            </MudNavLink>
+            <MudNavLink Href="/items" Icon="@Icons.Material.Filled.Inventory">
+                Alle Artikel
+            </MudNavLink>
+            <MudNavLink Href="/categories" Icon="@Icons.Material.Filled.Category">
+                Kategorien
+            </MudNavLink>
+            
+            <AuthorizeView>
+                <Authorized>
+                    <MudDivider Class="my-2" />
+                    <MudNavGroup Title="Mein Bereich" Icon="@Icons.Material.Filled.Person" Expanded="false">
+                        <MudNavLink Href="/items/new" Icon="@Icons.Material.Filled.Add">
+                            Artikel einstellen
+                        </MudNavLink>
+                        <MudNavLink Href="/my-items" Icon="@Icons.Material.Filled.Inventory">
+                            Meine Artikel
+                        </MudNavLink>
+                        <MudNavLink Href="/my-rentals" Icon="@Icons.Material.Filled.Assignment">
+                            Meine Buchungen
+                        </MudNavLink>
+                        <MudNavLink Href="/profile" Icon="@Icons.Material.Filled.Person">
+                            Profil
+                        </MudNavLink>
+                        <MudNavLink Href="/notifications" Icon="@Icons.Material.Filled.Notifications">
+                            Benachrichtigungen
+                            @if (_unreadCount > 0)
+                            {
+                                <MudChip Size="Size.Small" Color="Color.Error" Class="ml-auto">
+                                    @_unreadCount
+                                </MudChip>
+                            }
+                        </MudNavLink>
+                        <MudNavLink Href="/watchlist" Icon="@Icons.Material.Filled.Favorite">
+                            Watchlist
+                        </MudNavLink>
+                    </MudNavGroup>
+                    
+                    <AuthorizeView Roles="Admin">
+                        <MudDivider Class="my-2" />
+                        <MudNavGroup Title="Administration" Icon="@Icons.Material.Filled.AdminPanelSettings" Expanded="false">
+                            <MudNavLink Href="/admin/dashboard" Icon="@Icons.Material.Filled.Dashboard">
+                                Dashboard
+                            </MudNavLink>
+                            <MudNavLink Href="/admin/users" Icon="@Icons.Material.Filled.People">
+                                Benutzer
+                            </MudNavLink>
+                            <MudNavLink Href="/admin/items" Icon="@Icons.Material.Filled.Inventory">
+                                Artikel
+                            </MudNavLink>
+                            <MudNavLink Href="/admin/rentals" Icon="@Icons.Material.Filled.Receipt">
+                                Buchungen
+                            </MudNavLink>
+                            <MudNavLink Href="/admin/reports" Icon="@Icons.Material.Filled.Analytics">
+                                Berichte
+                            </MudNavLink>
+                        </MudNavGroup>
+                    </AuthorizeView>
+                </Authorized>
+            </AuthorizeView>
+            
+            <MudDivider Class="my-2" />
+            <MudNavLink Href="/help" Icon="@Icons.Material.Filled.Help">
+                Hilfe
+            </MudNavLink>
+            <MudNavLink Href="/contact" Icon="@Icons.Material.Filled.ContactMail">
+                Kontakt
+            </MudNavLink>
+            <MudNavLink Href="/about" Icon="@Icons.Material.Filled.Info">
+                Über uns
+            </MudNavLink>
+        </MudNavMenu>
+    </MudDrawer>
+    
+    <MudMainContent>
+        <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="pa-4">
+            <MudBreadcrumbs Items="_breadcrumbItems" Class="mb-4" />
+            
+            <!-- Loading State -->
+            @if (_isLoading)
+            {
+                <div class="d-flex justify-center align-center" style="min-height: 200px;">
+                    <MudProgressCircular Color="Color.Success" Indeterminate="true" Size="Size.Large" />
+                </div>
+            }
+            else
+            {
+                <CascadingValue Value="this">
+                    <ErrorBoundary>
+                        @Body
+                    </ErrorBoundary>
+                </CascadingValue>
+            }
+        </MudContainer>
+        
+        <!-- Footer -->
+        <MainFooter />
+    </MudMainContent>
+</MudLayout>
+
+<!-- SignalR Connection Status -->
+
+@code {
+    private bool _drawerOpen = false;
+    private bool _isLoading = true;
+    private int _unreadCount = 0;
+    private Timer? _unreadCountTimer;
+    private List<BreadcrumbItem> _breadcrumbItems = new();
+    
+    private readonly MudTheme _theme = new()
+    {
+        Palette = new PaletteLight()
+        {
+            Primary = "#22c55e", // Green-500
+            Secondary = "#3b82f6", // Blue-500
+            Success = "#22c55e",
+            Info = "#06b6d4",
+            Warning = "#f59e0b",
+            Error = "#ef4444",
+            Dark = "#1f2937",
+            Surface = "#ffffff",
+            Background = "#f9fafb",
+            AppbarBackground = "#ffffff",
+            DrawerBackground = "#ffffff"
+        },
+        PaletteDark = new PaletteDark()
+        {
+            Primary = "#22c55e",
+            Secondary = "#3b82f6",
+            Success = "#22c55e",
+            Info = "#06b6d4",
+            Warning = "#f59e0b",
+            Error = "#ef4444",
+            Dark = "#111827",
+            Surface = "#1f2937",
+            Background = "#111827",
+            AppbarBackground = "#1f2937",
+            DrawerBackground = "#1f2937"
+        }
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Initialize coordination
+        await JSRuntime.InvokeVoidAsync("console.log", "UI-Dev: Initializing MainLayout component");
+        
+        // Set up breadcrumbs based on current URL
+        UpdateBreadcrumbs();
+        
+        // Start unread count timer
+        _unreadCountTimer = new Timer(UpdateUnreadCount, null, TimeSpan.Zero, TimeSpan.FromSeconds(30));
+        
+        // Simulate initial loading
+        await Task.Delay(500);
+        _isLoading = false;
+        StateHasChanged();
+        
+        // Store component initialization in memory
+        await JSRuntime.InvokeVoidAsync("console.log", "UI-Dev: MainLayout initialized with responsive design and authentication");
+    }
+
+    private void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+
+    private string GetUserEmail()
+    {
+        // This would typically come from authentication context
+        return "user@example.com";
+    }
+
+    private async Task Logout()
+    {
+        // Logout logic would go here
+        Navigation.NavigateTo("/auth/signin");
+        Snackbar.Add("Erfolgreich abgemeldet", Severity.Success);
+    }
+
+    private void UpdateBreadcrumbs()
+    {
+        _breadcrumbItems.Clear();
+        
+        var uri = Navigation.ToBaseRelativePath(Navigation.Uri);
+        var segments = uri.Split('/', StringSplitOptions.RemoveEmptyEntries);
+        
+        _breadcrumbItems.Add(new BreadcrumbItem("Startseite", "/", false, Icons.Material.Filled.Home));
+        
+        var currentPath = "";
+        foreach (var segment in segments)
+        {
+            currentPath += "/" + segment;
+            var displayName = GetDisplayName(segment);
+            var isLast = segment == segments.LastOrDefault();
+            
+            _breadcrumbItems.Add(new BreadcrumbItem(displayName, currentPath, !isLast));
+        }
+    }
+
+    private string GetDisplayName(string segment)
+    {
+        return segment switch
+        {
+            "items" => "Artikel",
+            "categories" => "Kategorien",
+            "profile" => "Profil",
+            "my-items" => "Meine Artikel",
+            "my-rentals" => "Meine Buchungen",
+            "notifications" => "Benachrichtigungen",
+            "admin" => "Administration",
+            "help" => "Hilfe",
+            "contact" => "Kontakt",
+            "about" => "Über uns",
+            "auth" => "Anmeldung",
+            "signin" => "Anmelden",
+            "signup" => "Registrieren",
+            "new" => "Neu",
+            _ => segment.Replace("-", " ").ToTitleCase()
+        };
+    }
+
+    private async void UpdateUnreadCount(object? state)
+    {
+        try
+        {
+            // This would typically call an API to get unread count
+            // For now, simulate with random number
+            var random = new Random();
+            var newCount = random.Next(0, 5);
+            
+            if (newCount != _unreadCount)
+            {
+                _unreadCount = newCount;
+                await InvokeAsync(StateHasChanged);
+            }
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("console.error", "Error updating unread count:", ex.Message);
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        _unreadCountTimer?.Dispose();
+        await JSRuntime.InvokeVoidAsync("console.log", "UI-Dev: MainLayout disposed");
+    }
+}
+
+<!-- Add custom styles -->
+<style>
+    .mud-layout {
+        min-height: 100vh;
+    }
+    
+    .mud-appbar {
+        backdrop-filter: blur(10px);
+        background-color: rgba(255, 255, 255, 0.95) !important;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    }
+    
+    .mud-drawer {
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+    
+    @@media (max-width: 960px) {
+        .mud-container {
+            padding-left: 8px !important;
+            padding-right: 8px !important;
+        }
+    }
+    
+    .mud-nav-link:hover {
+        background-color: rgba(34, 197, 94, 0.08) !important;
+        color: #22c55e !important;
+    }
+    
+    .mud-nav-link.active {
+        background-color: rgba(34, 197, 94, 0.12) !important;
+        color: #22c55e !important;
+        font-weight: 600;
+    }
+</style>

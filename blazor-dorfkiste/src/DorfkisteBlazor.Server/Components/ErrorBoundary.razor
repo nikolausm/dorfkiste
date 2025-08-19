@@ -1,0 +1,194 @@
+@inject IJSRuntime JSRuntime
+@inject ILogger<ErrorBoundary> Logger
+
+@if (HasError)
+{
+    <div class="error-boundary">
+        <MudPaper Class="error-content" Elevation="2">
+            <div class="text-center pa-6">
+                <MudIcon Icon="@Icons.Material.Filled.ErrorOutline" 
+                         Size="Size.Large" 
+                         Color="Color.Error" 
+                         Class="mb-4" />
+                
+                <MudText Typo="Typo.h5" Class="mb-2">
+                    Ups! Etwas ist schiefgelaufen
+                </MudText>
+                
+                <MudText Typo="Typo.body1" Color="Color.Secondary" Class="mb-4">
+                    Es ist ein unerwarteter Fehler aufgetreten. Bitte versuchen Sie es erneut oder kontaktieren Sie den Support.
+                </MudText>
+                
+                @if (ShowDetails && !string.IsNullOrEmpty(_errorMessage))
+                {
+                    <MudPaper Class="error-details" Elevation="0">
+                        <MudText Typo="Typo.caption" Class="mb-2">
+                            Fehlerdetails:
+                        </MudText>
+                        <MudText Typo="Typo.body2" Class="error-message">
+                            @_errorMessage
+                        </MudText>
+                    </MudPaper>
+                }
+                
+                <div class="d-flex gap-2 justify-center mt-4">
+                    <MudButton Variant="Variant.Filled" 
+                               Color="Color.Primary"
+                               StartIcon="@Icons.Material.Filled.Refresh"
+                               OnClick="@Recover">
+                        Seite neu laden
+                    </MudButton>
+                    
+                    @if (!ShowDetails && !string.IsNullOrEmpty(_errorMessage))
+                    {
+                        <MudButton Variant="Variant.Text" 
+                                   Color="Color.Secondary"
+                                   OnClick="@(() => ShowDetails = !ShowDetails)">
+                            Details anzeigen
+                        </MudButton>
+                    }
+                    
+                    <MudButton Variant="Variant.Text" 
+                               Color="Color.Secondary"
+                               Href="/help/support">
+                        Support kontaktieren
+                    </MudButton>
+                </div>
+            </div>
+        </MudPaper>
+    </div>
+}
+else
+{
+    @ChildContent
+}
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public bool ShowDetails { get; set; } = false;
+    [Parameter] public EventCallback OnRecover { get; set; }
+
+    public bool HasError { get; private set; }
+    private string _errorMessage = string.Empty;
+    private string _stackTrace = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        // In a real implementation, you would use ErrorBoundary from Microsoft.AspNetCore.Components.Web
+        // This is a simplified version for demonstration
+    }
+
+    public async Task HandleErrorAsync(Exception exception)
+    {
+        HasError = true;
+        _errorMessage = exception.Message;
+        _stackTrace = exception.StackTrace ?? string.Empty;
+
+        // Log the error
+        Logger.LogError(exception, "UI Error in ErrorBoundary");
+
+        // Log to console for debugging
+        await JSRuntime.InvokeVoidAsync("console.error", "UI-Dev: Error caught by ErrorBoundary", exception.Message);
+
+        StateHasChanged();
+    }
+
+    private async Task Recover()
+    {
+        try
+        {
+            if (OnRecover.HasDelegate)
+            {
+                await OnRecover.InvokeAsync();
+            }
+            else
+            {
+                // Default recovery - reload the page
+                await JSRuntime.InvokeVoidAsync("location.reload");
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Error during recovery");
+            await JSRuntime.InvokeVoidAsync("location.reload");
+        }
+    }
+
+    public void Reset()
+    {
+        HasError = false;
+        _errorMessage = string.Empty;
+        _stackTrace = string.Empty;
+        StateHasChanged();
+    }
+}
+
+<style>
+    .error-boundary {
+        min-height: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+    }
+
+    .error-content {
+        max-width: 600px;
+        width: 100%;
+        border-radius: 12px;
+        background-color: #fefefe;
+        border: 1px solid #fee2e2;
+    }
+
+    .error-details {
+        background-color: #fef2f2;
+        border: 1px solid #fecaca;
+        border-radius: 8px;
+        padding: 16px;
+        margin: 16px 0;
+        text-align: left;
+    }
+
+    .error-message {
+        font-family: 'Courier New', monospace;
+        font-size: 0.875rem;
+        white-space: pre-wrap;
+        word-break: break-word;
+        color: #dc2626;
+    }
+
+    @@media (max-width: 600px) {
+        .error-boundary {
+            padding: 16px;
+        }
+
+        .error-content .pa-6 {
+            padding: 24px 16px !important;
+        }
+
+        .error-details {
+            margin: 12px 0;
+            padding: 12px;
+        }
+
+        .d-flex.gap-2 {
+            flex-direction: column;
+            gap: 8px;
+        }
+    }
+
+    /* Dark theme support */
+    .mud-theme-dark .error-content {
+        background-color: #1f2937;
+        border-color: #991b1b;
+    }
+
+    .mud-theme-dark .error-details {
+        background-color: #7f1d1d;
+        border-color: #991b1b;
+    }
+
+    .mud-theme-dark .error-message {
+        color: #fca5a5;
+    }
+</style>
