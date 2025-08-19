@@ -1,0 +1,10 @@
+/Users/michaelnikolaus/RiderProjects/dorfkiste/blazor-dorfkiste/src/DorfkisteBlazor.Server/obj/Debug/net8.0/DorfkisteBlazor.Server.csproj.AssemblyReference.cache
+/Users/michaelnikolaus/RiderProjects/dorfkiste/blazor-dorfkiste/src/DorfkisteBlazor.Server/obj/Debug/net8.0/DorfkisteBlazor.Server.GeneratedMSBuildEditorConfig.editorconfig
+/Users/michaelnikolaus/RiderProjects/dorfkiste/blazor-dorfkiste/src/DorfkisteBlazor.Server/obj/Debug/net8.0/DorfkisteBlazor.Server.AssemblyInfoInputs.cache
+/Users/michaelnikolaus/RiderProjects/dorfkiste/blazor-dorfkiste/src/DorfkisteBlazor.Server/obj/Debug/net8.0/DorfkisteBlazor.Server.AssemblyInfo.cs
+/Users/michaelnikolaus/RiderProjects/dorfkiste/blazor-dorfkiste/src/DorfkisteBlazor.Server/obj/Debug/net8.0/DorfkisteBlazor.Server.csproj.CoreCompileInputs.cache
+/Users/michaelnikolaus/RiderProjects/dorfkiste/blazor-dorfkiste/src/DorfkisteBlazor.Server/obj/Debug/net8.0/DorfkisteBlazor.Server.MvcApplicationPartsAssemblyInfo.cs
+/Users/michaelnikolaus/RiderProjects/dorfkiste/blazor-dorfkiste/src/DorfkisteBlazor.Server/obj/Debug/net8.0/DorfkisteBlazor.Server.MvcApplicationPartsAssemblyInfo.cache
+/Users/michaelnikolaus/RiderProjects/dorfkiste/blazor-dorfkiste/src/DorfkisteBlazor.Server/obj/Debug/net8.0/DorfkisteBlazor.Server.RazorAssemblyInfo.cache
+/Users/michaelnikolaus/RiderProjects/dorfkiste/blazor-dorfkiste/src/DorfkisteBlazor.Server/obj/Debug/net8.0/DorfkisteBlazor.Server.RazorAssemblyInfo.cs
+/Users/michaelnikolaus/RiderProjects/dorfkiste/blazor-dorfkiste/src/DorfkisteBlazor.Server/obj/Debug/net8.0/DorfkisteBlazor.Server.sourcelink.json

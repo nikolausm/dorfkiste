@@ -1,0 +1,12 @@
+/Users/michaelnikolaus/RiderProjects/dorfkiste/blazor-dorfkiste/src/DorfkisteBlazor.Domain/bin/Debug/net8.0/DorfkisteBlazor.Domain.deps.json
+/Users/michaelnikolaus/RiderProjects/dorfkiste/blazor-dorfkiste/src/DorfkisteBlazor.Domain/bin/Debug/net8.0/DorfkisteBlazor.Domain.dll
+/Users/michaelnikolaus/RiderProjects/dorfkiste/blazor-dorfkiste/src/DorfkisteBlazor.Domain/bin/Debug/net8.0/DorfkisteBlazor.Domain.pdb
+/Users/michaelnikolaus/RiderProjects/dorfkiste/blazor-dorfkiste/src/DorfkisteBlazor.Domain/obj/Debug/net8.0/DorfkisteBlazor.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/Users/michaelnikolaus/RiderProjects/dorfkiste/blazor-dorfkiste/src/DorfkisteBlazor.Domain/obj/Debug/net8.0/DorfkisteBlazor.Domain.AssemblyInfoInputs.cache
+/Users/michaelnikolaus/RiderProjects/dorfkiste/blazor-dorfkiste/src/DorfkisteBlazor.Domain/obj/Debug/net8.0/DorfkisteBlazor.Domain.AssemblyInfo.cs
+/Users/michaelnikolaus/RiderProjects/dorfkiste/blazor-dorfkiste/src/DorfkisteBlazor.Domain/obj/Debug/net8.0/DorfkisteBlazor.Domain.csproj.CoreCompileInputs.cache
+/Users/michaelnikolaus/RiderProjects/dorfkiste/blazor-dorfkiste/src/DorfkisteBlazor.Domain/obj/Debug/net8.0/DorfkisteBlazor.Domain.sourcelink.json
+/Users/michaelnikolaus/RiderProjects/dorfkiste/blazor-dorfkiste/src/DorfkisteBlazor.Domain/obj/Debug/net8.0/DorfkisteBlazor.Domain.dll
+/Users/michaelnikolaus/RiderProjects/dorfkiste/blazor-dorfkiste/src/DorfkisteBlazor.Domain/obj/Debug/net8.0/refint/DorfkisteBlazor.Domain.dll
+/Users/michaelnikolaus/RiderProjects/dorfkiste/blazor-dorfkiste/src/DorfkisteBlazor.Domain/obj/Debug/net8.0/DorfkisteBlazor.Domain.pdb
+/Users/michaelnikolaus/RiderProjects/dorfkiste/blazor-dorfkiste/src/DorfkisteBlazor.Domain/obj/Debug/net8.0/ref/DorfkisteBlazor.Domain.dll
