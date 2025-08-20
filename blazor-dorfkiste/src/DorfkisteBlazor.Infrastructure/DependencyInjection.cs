@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using DorfkisteBlazor.Domain.Interfaces;
 using DorfkisteBlazor.Infrastructure.Data;
 using DorfkisteBlazor.Infrastructure.Identity;
@@ -20,16 +21,47 @@ public static class DependencyInjection
     {
         // Configure Entity Framework
         services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(
-                configuration.GetConnectionString("DefaultConnection"),
-                b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+        {
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
+            
+            // Check if connection string contains SQLite format (starts with "Data Source=")
+            if (connectionString?.StartsWith("Data Source=") == true)
+            {
+                // Use SQLite
+                options.UseSqlite(connectionString,
+                    b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName));
+            }
+            else
+            {
+                // Use SQL Server for other connection strings
+                options.UseSqlServer(connectionString,
+                    b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName));
+            }
+        });
 
-        // Identity and cookie configuration is typically done in the Web (Server) project.
-        // Keeping Infrastructure free of ASP.NET Core UI-specific registrations avoids referencing the shared framework here.
+        // Configure Identity
+        services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
+        {
+            // Password settings
+            options.Password.RequireDigit = true;
+            options.Password.RequiredLength = 6;
+            options.Password.RequireNonAlphanumeric = false;
+            options.Password.RequireUppercase = true;
+            options.Password.RequireLowercase = true;
+            
+            // User settings
+            options.User.RequireUniqueEmail = true;
+            
+            // SignIn settings
+            options.SignIn.RequireConfirmedEmail = false;
+            options.SignIn.RequireConfirmedAccount = false;
+        })
+        .AddEntityFrameworkStores<ApplicationDbContext>()
+        .AddDefaultTokenProviders();
 
         // Register repositories
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IUnitOfWork, Data.UnitOfWork>();
         
         // Register specialized repositories
         services.AddScoped<IItemRepository, ItemRepository>();

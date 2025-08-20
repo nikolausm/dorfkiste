@@ -1,0 +1,61 @@
+@page "/Error"
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Fehler - Dorfkiste</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Medium" Class="py-8">
+    <MudPaper Class="pa-8 text-center" Elevation="4" Style="border-radius: 16px;">
+        <MudIcon Icon="@Icons.Material.Filled.ErrorOutline" 
+                 Size="Size.Large" 
+                 Color="Color.Error" 
+                 Class="mb-4" />
+        
+        <MudText Typo="Typo.h4" Class="mb-2">
+            Ups! Etwas ist schiefgelaufen
+        </MudText>
+        
+        <MudText Typo="Typo.body1" Color="Color.Secondary" Class="mb-4">
+            Es ist ein unerwarteter Fehler aufgetreten. Bitte versuchen Sie es erneut oder kontaktieren Sie den Support.
+        </MudText>
+        
+        <div class="d-flex justify-center gap-2">
+            <MudButton Href="/"
+                       Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       StartIcon="@Icons.Material.Filled.Home">
+                Zur Startseite
+            </MudButton>
+            
+            <MudButton OnClick="@GoBack"
+                       Variant="Variant.Outlined"
+                       Color="Color.Secondary"
+                       StartIcon="@Icons.Material.Filled.ArrowBack">
+                Zurück
+            </MudButton>
+        </div>
+    </MudPaper>
+</MudContainer>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await JSRuntime.InvokeVoidAsync("console.log", "UI-Dev: Error page initialized");
+    }
+
+    private async Task GoBack()
+    {
+        await JSRuntime.InvokeVoidAsync("history.back");
+    }
+}
+
+<style>
+    .mud-paper {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+    }
+    
+    .mud-button {
+        border-radius: 8px;
+        text-transform: none;
+    }
+</style>

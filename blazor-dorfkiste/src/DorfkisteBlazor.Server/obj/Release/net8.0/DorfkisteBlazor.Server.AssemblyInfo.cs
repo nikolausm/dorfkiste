@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DorfkisteBlazor.Server")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+923d7dfe08bb9fed525104c19c39f46d7e2c3de1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+991b20daa6c0682c40956487ffc9eb9c35913f03")]
 [assembly: System.Reflection.AssemblyProductAttribute("DorfkisteBlazor.Server")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DorfkisteBlazor.Server")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

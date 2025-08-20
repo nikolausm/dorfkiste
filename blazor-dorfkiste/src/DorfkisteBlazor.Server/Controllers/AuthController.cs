@@ -69,7 +69,7 @@ public class AuthController : ControllerBase
                 Token = token,
                 User = new UserInfo
                 {
-                    Id = Guid.Parse(user.Id),
+                    Id = user.Id,
                     Email = user.Email!,
                     Name = user.UserName,
                     Verified = user.EmailConfirmed
@@ -112,7 +112,7 @@ public class AuthController : ControllerBase
                 Token = token,
                 User = new UserInfo
                 {
-                    Id = Guid.Parse(user.Id),
+                    Id = user.Id,
                     Email = user.Email!,
                     Name = user.UserName,
                     Verified = user.EmailConfirmed
@@ -149,7 +149,7 @@ public class AuthController : ControllerBase
 
             return Ok(new UserInfo
             {
-                Id = Guid.Parse(user.Id),
+                Id = user.Id,
                 Email = user.Email!,
                 Name = user.UserName,
                 Verified = user.EmailConfirmed
@@ -196,7 +196,7 @@ public class AuthController : ControllerBase
 
             return Ok(new UserInfo
             {
-                Id = Guid.Parse(user.Id),
+                Id = user.Id,
                 Email = user.Email!,
                 Name = user.UserName,
                 Verified = user.EmailConfirmed
@@ -251,7 +251,7 @@ public class AuthController : ControllerBase
     {
         var claims = new List<Claim>
         {
-            new(ClaimTypes.NameIdentifier, user.Id),
+            new(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new(ClaimTypes.Email, user.Email!),
             new(ClaimTypes.Name, user.UserName ?? user.Email!)
         };

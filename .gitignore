@@ -52,3 +52,32 @@ claude-flow
 claude-flow.bat
 claude-flow.ps1
 hive-mind-prompt-*.txt
+
+# -------------------------------
+# .NET / Rider / Visual Studio
+# -------------------------------
+# Build output
+**/bin/
+**/obj/
+
+# Visual Studio / VS Code / Rider
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.sln.DotSettings.user
+
+# Test results and coverage
+TestResults/
+**/TestResults/
+coverage.cobertura.xml
+
+# Logs inside project subfolders
+**/logs/
+**/*.log
+**/*.log.*
+
+# Roslyn/Analyzer caches
+**/.sonarqube/
+**/.scannerwork/

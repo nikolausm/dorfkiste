@@ -14,13 +14,13 @@ public class DatabaseSeeder
 {
     private readonly ApplicationDbContext _context;
     private readonly UserManager<ApplicationUser> _userManager;
-    private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly RoleManager<IdentityRole<Guid>> _roleManager;
     private readonly ILogger<DatabaseSeeder> _logger;
 
     public DatabaseSeeder(
         ApplicationDbContext context,
         UserManager<ApplicationUser> userManager,
-        RoleManager<IdentityRole> roleManager,
+        RoleManager<IdentityRole<Guid>> roleManager,
         ILogger<DatabaseSeeder> logger)
     {
         _context = context;
@@ -70,7 +70,7 @@ public class DatabaseSeeder
         {
             if (!await _roleManager.RoleExistsAsync(role))
             {
-                await _roleManager.CreateAsync(new IdentityRole(role));
+                await _roleManager.CreateAsync(new IdentityRole<Guid>(role));
                 _logger.LogInformation("Created role: {Role}", role);
             }
         }
@@ -181,7 +181,7 @@ public class DatabaseSeeder
         // Admin user
         var adminUser = new ApplicationUser
         {
-            Id = Guid.NewGuid().ToString(),
+            Id = Guid.NewGuid(),
             UserName = "admin@dorfkiste.com",
             Email = "admin@dorfkiste.com",
             EmailConfirmed = true
@@ -195,7 +195,7 @@ public class DatabaseSeeder
             // Create corresponding domain user
             var domainAdminUser = new User
             {
-                Id = Guid.Parse(adminUser.Id),
+                Id = adminUser.Id,
                 Email = adminUser.Email,
                 Name = "System Administrator",
                 Verified = true,
@@ -221,7 +221,7 @@ public class DatabaseSeeder
         {
             var identityUser = new ApplicationUser
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = Guid.NewGuid(),
                 UserName = userData.Email,
                 Email = userData.Email,
                 EmailConfirmed = true
@@ -234,7 +234,7 @@ public class DatabaseSeeder
                 
                 var domainUser = new User
                 {
-                    Id = Guid.Parse(identityUser.Id),
+                    Id = identityUser.Id,
                     Email = userData.Email,
                     Name = userData.Name,
                     Bio = userData.Bio,

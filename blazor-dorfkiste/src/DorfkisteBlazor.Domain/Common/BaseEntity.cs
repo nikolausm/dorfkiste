@@ -4,8 +4,9 @@ namespace DorfkisteBlazor.Domain.Common;
 
 /// <summary>
 /// Base entity class for all domain entities with common properties
+/// Implements both auditable and soft deletable interfaces
 /// </summary>
-public abstract class BaseEntity : IEntity
+public abstract class BaseEntity : IEntity, IAuditableEntity, ISoftDeletable
 {
     /// <summary>
     /// Unique identifier for the entity
@@ -39,6 +40,21 @@ public abstract class BaseEntity : IEntity
     public bool IsActive { get; set; } = true;
 
     /// <summary>
+    /// Indicates if the entity has been soft deleted
+    /// </summary>
+    public bool IsDeleted { get; set; } = false;
+
+    /// <summary>
+    /// Date and time when the entity was soft deleted
+    /// </summary>
+    public DateTime? DeletedAt { get; set; }
+
+    /// <summary>
+    /// User ID who deleted this entity
+    /// </summary>
+    public string? DeletedBy { get; set; }
+
+    /// <summary>
     /// Timestamp for optimistic concurrency control
     /// </summary>
     [Timestamp]
@@ -48,5 +64,7 @@ public abstract class BaseEntity : IEntity
     {
         Id = Guid.NewGuid();
         CreatedAt = DateTime.UtcNow;
+        IsActive = true;
+        IsDeleted = false;
     }
 }

@@ -7,7 +7,7 @@
     @if (string.IsNullOrEmpty(_previewUrl))
     {
         <!-- Upload Area -->
-        <MudPaper Class="upload-dropzone @(_isDragging ? "drag-over" : "")"
+        <MudPaper Class="@($"upload-dropzone {(_isDragging ? "drag-over" : "")}")"
                   Elevation="0"
                   @ondrop="@HandleDrop"
                   @ondragenter="@HandleDragEnter"

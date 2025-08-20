@@ -1,0 +1,285 @@
+@page "/auth/signin"
+@using System.ComponentModel.DataAnnotations
+@inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
+@inject ISnackbar Snackbar
+
+<PageTitle>Anmelden - Dorfkiste</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Small" Class="py-8">
+    <MudPaper Class="pa-8" Elevation="4" Style="border-radius: 16px; border: 1px solid rgba(34, 197, 94, 0.1);">
+        <!-- Header -->
+        <div class="text-center mb-6">
+            <MudIcon Icon="@Icons.Material.Filled.Login" 
+                     Size="Size.Large" 
+                     Color="Color.Success" 
+                     Class="mb-3" />
+            <MudText Typo="Typo.h4" Class="font-weight-bold mb-2">
+                Willkommen zurück!
+            </MudText>
+            <MudText Typo="Typo.body1" Color="Color.Secondary">
+                Melde dich an, um deine Artikel zu verwalten
+            </MudText>
+        </div>
+
+        <!-- Sign In Form -->
+        <EditForm Model="_signInModel" OnValidSubmit="HandleSignIn">
+            <DataAnnotationsValidator />
+            
+            <MudTextField @bind-Value="_signInModel.Email"
+                          For="@(() => _signInModel.Email)"
+                          Label="E-Mail-Adresse"
+                          Placeholder="deine@email.de"
+                          InputType="InputType.Email"
+                          Variant="Variant.Outlined"
+                          Margin="Margin.Normal"
+                          FullWidth="true"
+                          Adornment="Adornment.Start"
+                          AdornmentIcon="@Icons.Material.Filled.Email"
+                          Class="mb-4" />
+
+            <MudTextField @bind-Value="_signInModel.Password"
+                          For="@(() => _signInModel.Password)"
+                          Label="Passwort"
+                          InputType="@_passwordInputType"
+                          Placeholder="Dein Passwort"
+                          Variant="Variant.Outlined"
+                          Margin="Margin.Normal"
+                          FullWidth="true"
+                          Adornment="Adornment.End"
+                          AdornmentIcon="@_passwordIcon"
+                          OnAdornmentClick="TogglePasswordVisibility"
+                          Class="mb-4" />
+
+            <div class="d-flex justify-between align-center mb-4">
+                <MudCheckBox @bind-Checked="_signInModel.RememberMe" 
+                             Label="Angemeldet bleiben"
+                             Color="Color.Success" />
+                <MudLink Href="/auth/forgot-password" Color="Color.Success">
+                    Passwort vergessen?
+                </MudLink>
+            </div>
+
+            <MudButton ButtonType="ButtonType.Submit"
+                       Variant="Variant.Filled"
+                       Color="Color.Success"
+                       Size="Size.Large"
+                       FullWidth="true"
+                       StartIcon="@Icons.Material.Filled.Login"
+                       Loading="_isLoading"
+                       Class="mb-4">
+                Anmelden
+            </MudButton>
+        </EditForm>
+
+        <!-- Divider -->
+        <MudDivider Class="my-4">
+            <MudText Typo="Typo.body2" Color="Color.Secondary">oder</MudText>
+        </MudDivider>
+
+        <!-- Social Sign In -->
+        <div class="d-flex flex-column gap-2 mb-4">
+            <MudButton OnClick="HandleGoogleSignIn"
+                       Variant="Variant.Outlined"
+                       Color="Color.Primary"
+                       Size="Size.Large"
+                       FullWidth="true"
+                       StartIcon="@Icons.Material.Filled.Login"
+                       Style="border-color: #4285f4; color: #4285f4;">
+                Mit Google anmelden
+            </MudButton>
+            
+            <MudButton OnClick="HandleFacebookSignIn"
+                       Variant="Variant.Outlined"
+                       Color="Color.Primary"
+                       Size="Size.Large"
+                       FullWidth="true"
+                       StartIcon="@Icons.Material.Filled.Login"
+                       Style="border-color: #1877f2; color: #1877f2;">
+                Mit Facebook anmelden
+            </MudButton>
+        </div>
+
+        <!-- Sign Up Link -->
+        <div class="text-center">
+            <MudText Typo="Typo.body2" Color="Color.Secondary">
+                Noch kein Konto?
+                <MudLink Href="/auth/signup" Color="Color.Success" Class="font-weight-bold">
+                    Jetzt registrieren
+                </MudLink>
+            </MudText>
+        </div>
+    </MudPaper>
+</MudContainer>
+
+@code {
+    private SignInModel _signInModel = new();
+    private bool _isLoading = false;
+    private bool _passwordVisible = false;
+    private InputType _passwordInputType = InputType.Password;
+    private string _passwordIcon = Icons.Material.Filled.VisibilityOff;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await JSRuntime.InvokeVoidAsync("console.log", "UI-Dev: Initializing SignIn page");
+        
+        // Check if user is already authenticated
+        // In a real app, you would check authentication state here
+        
+        await JSRuntime.InvokeVoidAsync("console.log", "UI-Dev: SignIn page initialized with form validation");
+    }
+
+    private async Task HandleSignIn()
+    {
+        try
+        {
+            _isLoading = true;
+            StateHasChanged();
+
+            await JSRuntime.InvokeVoidAsync("console.log", $"UI-Dev: Attempting sign in for {_signInModel.Email}");
+            
+            // Simulate API call
+            await Task.Delay(1500);
+            
+            // Mock authentication logic - replace with actual authentication
+            if (_signInModel.Email.Contains("@"))
+            {
+                Snackbar.Add("Erfolgreich angemeldet!", Severity.Success);
+                
+                // Redirect to return URL or home
+                var returnUrl = Navigation.GetUriWithQueryParameter("returnUrl", (string?)null);
+                Navigation.NavigateTo(returnUrl ?? "/", forceLoad: true);
+            }
+            else
+            {
+                Snackbar.Add("Ungültige Anmeldedaten", Severity.Error);
+            }
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("console.error", "Sign in error:", ex.Message);
+            Snackbar.Add("Anmeldung fehlgeschlagen. Bitte versuche es erneut.", Severity.Error);
+        }
+        finally
+        {
+            _isLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task HandleGoogleSignIn()
+    {
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("console.log", "UI-Dev: Google sign in initiated");
+            
+            // In a real app, this would initiate OAuth flow
+            Snackbar.Add("Google-Anmeldung wird bald verfügbar sein", Severity.Info);
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("console.error", "Google sign in error:", ex.Message);
+            Snackbar.Add("Google-Anmeldung nicht verfügbar", Severity.Error);
+        }
+    }
+
+    private async Task HandleFacebookSignIn()
+    {
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("console.log", "UI-Dev: Facebook sign in initiated");
+            
+            // In a real app, this would initiate OAuth flow
+            Snackbar.Add("Facebook-Anmeldung wird bald verfügbar sein", Severity.Info);
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("console.error", "Facebook sign in error:", ex.Message);
+            Snackbar.Add("Facebook-Anmeldung nicht verfügbar", Severity.Error);
+        }
+    }
+
+    private void TogglePasswordVisibility()
+    {
+        if (_passwordVisible)
+        {
+            _passwordVisible = false;
+            _passwordInputType = InputType.Password;
+            _passwordIcon = Icons.Material.Filled.VisibilityOff;
+        }
+        else
+        {
+            _passwordVisible = true;
+            _passwordInputType = InputType.Text;
+            _passwordIcon = Icons.Material.Filled.Visibility;
+        }
+    }
+
+    private class SignInModel
+    {
+        [Required(ErrorMessage = "E-Mail-Adresse ist erforderlich")]
+        [EmailAddress(ErrorMessage = "Ungültige E-Mail-Adresse")]
+        public string Email { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Passwort ist erforderlich")]
+        [MinLength(6, ErrorMessage = "Passwort muss mindestens 6 Zeichen lang sein")]
+        public string Password { get; set; } = string.Empty;
+
+        public bool RememberMe { get; set; } = false;
+    }
+}
+
+<style>
+    .mud-paper {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+    }
+    
+    .mud-input-control {
+        border-radius: 8px;
+    }
+    
+    .mud-input-control:focus-within {
+        border-color: #22c55e;
+        box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
+    }
+    
+    .mud-button {
+        border-radius: 8px;
+        text-transform: none;
+    }
+    
+    .mud-button.mud-button-filled-success:hover {
+        background-color: #16a34a;
+        box-shadow: 0 4px 8px rgba(34, 197, 94, 0.3);
+    }
+    
+    .mud-divider {
+        margin: 24px 0;
+    }
+    
+    @@media (max-width: 600px) {
+        .mud-container {
+            padding-left: 16px;
+            padding-right: 16px;
+        }
+        
+        .mud-paper {
+            padding: 32px 24px !important;
+            margin: 16px 0;
+        }
+    }
+    
+    /* Focus styles */
+    .mud-input-control:focus-within .mud-input-adornment {
+        color: #22c55e;
+    }
+    
+    .mud-checkbox.mud-checked .mud-button-root {
+        color: #22c55e;
+    }
+    
+    .mud-link:hover {
+        text-decoration: underline;
+    }
+</style>

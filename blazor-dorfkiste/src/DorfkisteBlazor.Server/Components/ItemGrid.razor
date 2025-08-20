@@ -1,95 +1,9 @@
+@using DorfkisteBlazor.Application.Features.Items.DTOs
 @inject IJSRuntime JSRuntime
-@inject IHttpClientFactory HttpClientFactory
 @inject ISnackbar Snackbar
+@inject NavigationManager Navigation
 
 <div class="item-grid-container">
-    <!-- Header Section -->
-    <div class="grid-header">
-        <div class="d-flex align-center justify-space-between mb-4">
-            <div>
-                <MudText Typo="Typo.h4" Class="mb-1">
-                    @if (!string.IsNullOrEmpty(SearchQuery))
-                    {
-                        <span>Suchergebnisse für "@SearchQuery"</span>
-                    }
-                    else if (!string.IsNullOrEmpty(CategoryName))
-                    {
-                        <span>@CategoryName</span>
-                    }
-                    else
-                    {
-                        <span>Alle Artikel</span>
-                    }
-                </MudText>
-                @if (TotalItems > 0)
-                {
-                    <MudText Typo="Typo.body2" Color="Color.Secondary">
-                        @TotalItems Artikel gefunden
-                    </MudText>
-                }
-            </div>
-            
-            <!-- View Mode and Sort Controls -->
-            <div class="d-flex align-center gap-2">
-                <!-- View Mode Toggle -->
-                <MudToggleIconButton @bind-Toggled="@_isListView"
-                                     Icon="@Icons.Material.Filled.GridView"
-                                     ToggledIcon="@Icons.Material.Filled.ViewList"
-                                     Color="Color.Primary"
-                                     ToggledColor="Color.Primary"
-                                     Title="@(_isListView ? "Grid-Ansicht" : "Listen-Ansicht")" />
-                
-                <!-- Sort Dropdown -->
-                <MudSelect T="SortOption" 
-                           @bind-Value="@_currentSort" 
-                           Dense="true" 
-                           Variant="Variant.Outlined"
-                           AnchorOrigin="Origin.BottomCenter"
-                           Class="sort-select">
-                    <MudSelectItem Value="@SortOption.Newest">Neueste zuerst</MudSelectItem>
-                    <MudSelectItem Value="@SortOption.PriceLow">Preis: Niedrig bis Hoch</MudSelectItem>
-                    <MudSelectItem Value="@SortOption.PriceHigh">Preis: Hoch bis Niedrig</MudSelectItem>
-                    <MudSelectItem Value="@SortOption.Popular">Beliebteste</MudSelectItem>
-                    <MudSelectItem Value="@SortOption.Distance">Entfernung</MudSelectItem>
-                </MudSelect>
-                
-                <!-- Filter Button -->
-                <MudButton Variant="Variant.Outlined" 
-                           StartIcon="@Icons.Material.Filled.FilterList"
-                           OnClick="@ShowFilters"
-                           Class="d-none d-md-flex">
-                    Filter
-                </MudButton>
-                
-                <!-- Mobile Filter Button -->
-                <MudIconButton Icon="@Icons.Material.Filled.FilterList"
-                               OnClick="@ShowFilters"
-                               Class="d-md-none" />
-            </div>
-        </div>
-        
-        <!-- Active Filters -->
-        @if (ActiveFilters.Any())
-        {
-            <div class="active-filters mb-3">
-                <MudText Typo="Typo.caption" Class="mr-2">Aktive Filter:</MudText>
-                @foreach (var filter in ActiveFilters)
-                {
-                    <MudChip Size="Size.Small" 
-                             OnClose="@(() => RemoveFilter(filter))"
-                             Color="Color.Primary"
-                             Text="@filter" 
-                             Class="mr-1 mb-1" />
-                }
-                <MudButton Size="Size.Small" 
-                           Variant="Variant.Text" 
-                           Color="Color.Error"
-                           OnClick="@ClearAllFilters">
-                    Alle löschen
-                </MudButton>
-            </div>
-        }
-    </div>
     
     <!-- Loading State -->
     @if (IsLoading)
@@ -129,9 +43,9 @@
                         <MudCard Class="list-item-card" Elevation="1">
                             <div class="d-flex">
                                 <div class="item-image-section">
-                                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                    @if (item.Images?.Any() == true)
                                     {
-                                        <MudCardMedia Image="@item.ImageUrl" 
+                                        <MudCardMedia Image="@item.Images.First().Url" 
                                                       Alt="@item.Title" 
                                                       Height="120" 
                                                       Style="width: 160px; cursor: pointer;"
@@ -163,7 +77,7 @@
                                     </div>
                                     <div class="d-flex align-center justify-space-between mt-2">
                                         <div>
-                                            @if (item.PricePerDay.HasValue)
+                                            @if (item.PricePerDay.HasValue && item.PricePerDay > 0)
                                             {
                                                 <MudText Typo="Typo.h6" Color="Color.Success">
                                                     @item.PricePerDay.Value.ToString("C")/Tag
@@ -191,26 +105,71 @@
                     else
                     {
                         <!-- Grid View Item -->
-                        <ItemCard Id="@item.Id"
-                                  Title="@item.Title"
-                                  ImageUrl="@item.ImageUrl"
-                                  PricePerDay="@item.PricePerDay"
-                                  PricePerHour="@item.PricePerHour"
-                                  Location="@item.Location"
-                                  Condition="@item.Condition"
-                                  Available="@item.Available"
-                                  User="@item.User"
-                                  ViewCount="@item.ViewCount"
-                                  IsFavorite="@item.IsFavorite"
-                                  OnFavoriteToggle="@HandleFavoriteToggle"
-                                  OnRentalRequest="@RequestRental" />
+                        <MudCard Class="item-card" Elevation="2">
+                            <div class="position-relative">
+                                @if (item.Images?.Any() == true)
+                                {
+                                    <MudCardMedia Image="@item.Images.First().Url" 
+                                                  Alt="@item.Title" 
+                                                  Height="200" 
+                                                  Style="cursor: pointer;"
+                                                  @onclick="@(() => NavigateToItem(item.Id))" />
+                                }
+                                else
+                                {
+                                    <div class="image-placeholder" @onclick="@(() => NavigateToItem(item.Id))">
+                                        <MudIcon Icon="@Icons.Material.Filled.Image" Size="Size.Large" />
+                                    </div>
+                                }
+                                <MudChip Size="Size.Small" 
+                                         Color="@(item.Available ? Color.Success : Color.Warning)"
+                                         Text="@(item.Available ? "Verfügbar" : "Belegt")"
+                                         Class="position-absolute" 
+                                         Style="top: 8px; right: 8px;" />
+                            </div>
+                            <MudCardContent>
+                                <MudText Typo="Typo.h6" Class="cursor-pointer mb-2" @onclick="@(() => NavigateToItem(item.Id))">
+                                    @item.Title
+                                </MudText>
+                                <div class="d-flex align-center mb-2">
+                                    <MudIcon Icon="@Icons.Material.Filled.LocationOn" Size="Size.Small" Color="Color.Secondary" />
+                                    <MudText Typo="Typo.body2" Class="ml-1">@item.Location</MudText>
+                                </div>
+                                <MudText Typo="Typo.body2" Color="Color.Secondary" Class="item-description mb-3">
+                                    @item.Description
+                                </MudText>
+                                <div class="d-flex align-center justify-space-between">
+                                    <div>
+                                        @if (item.PricePerDay.HasValue && item.PricePerDay > 0)
+                                        {
+                                            <MudText Typo="Typo.h6" Color="Color.Success">
+                                                @item.PricePerDay.Value.ToString("C")/Tag
+                                            </MudText>
+                                        }
+                                        else
+                                        {
+                                            <MudText Typo="Typo.body2" Color="Color.Secondary">
+                                                Preis auf Anfrage
+                                            </MudText>
+                                        }
+                                    </div>
+                                    <MudButton Variant="Variant.Filled" 
+                                               Color="Color.Success" 
+                                               Size="Size.Small"
+                                               OnClick="@(() => RequestRental(item.Id))"
+                                               Disabled="@(!item.Available)">
+                                        Buchen
+                                    </MudButton>
+                                </div>
+                            </MudCardContent>
+                        </MudCard>
                     }
                 </div>
             }
         </div>
         
         <!-- Pagination -->
-        @if (TotalPages > 1)
+        @if (ShowPagination && TotalPages > 1)
         {
             <div class="pagination-container mt-6">
                 <MudPagination Count="@TotalPages" 
@@ -248,22 +207,22 @@
 </MudDialog>
 
 @code {
-    [Parameter] public List<ItemModel> Items { get; set; } = new();
-    [Parameter] public bool IsLoading { get; set; }
+    [Parameter] public List<ItemDto> Items { get; set; } = new();
+    [Parameter] public bool IsLoading { get; set; } = false;
+    [Parameter] public bool IsGridView { get; set; } = true;
+    [Parameter] public bool ShowPagination { get; set; } = true;
     [Parameter] public int CurrentPage { get; set; } = 1;
-    [Parameter] public int TotalPages { get; set; }
-    [Parameter] public int TotalItems { get; set; }
-    [Parameter] public string SearchQuery { get; set; } = string.Empty;
-    [Parameter] public string CategoryName { get; set; } = string.Empty;
-    [Parameter] public List<string> ActiveFilters { get; set; } = new();
+    [Parameter] public int TotalPages { get; set; } = 1;
     [Parameter] public EventCallback<int> OnPageChanged { get; set; }
+    [Parameter] public EventCallback<Guid> OnFavoriteToggle { get; set; }
+    [Parameter] public EventCallback<Guid> OnRentalRequest { get; set; }
     [Parameter] public EventCallback<SortOption> OnSortChanged { get; set; }
-    [Parameter] public EventCallback<int> OnFavoriteToggle { get; set; }
-    [Parameter] public EventCallback<int> OnRentalRequest { get; set; }
 
-    private bool _isListView = false;
+    private bool _isListView => !IsGridView;
+    private bool _savedListView = false;
     private SortOption _currentSort = SortOption.Newest;
     private bool _showFilters = false;
+    private List<string> ActiveFilters = new();
     
     private readonly DialogOptions _filterDialogOptions = new()
     {
@@ -281,7 +240,7 @@
         try
         {
             var savedViewMode = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "itemGrid.viewMode");
-            _isListView = savedViewMode == "list";
+            _savedListView = savedViewMode == "list";
         }
         catch
         {
@@ -317,7 +276,7 @@
         // Save preference to localStorage
         try
         {
-            var viewMode = _isListView ? "list" : "grid";
+            var viewMode = _savedListView ? "list" : "grid";
             await JSRuntime.InvokeVoidAsync("localStorage.setItem", "itemGrid.viewMode", viewMode);
         }
         catch
@@ -325,7 +284,7 @@
             // Ignore errors
         }
         
-        await JSRuntime.InvokeVoidAsync("console.log", $"UI-Dev: View mode changed to {(_isListView ? "list" : "grid")}");
+        await JSRuntime.InvokeVoidAsync("console.log", $"UI-Dev: View mode changed to {(_savedListView ? "list" : "grid")}");
     }
 
     private string GetGridClass()
@@ -340,30 +299,29 @@
         return _isListView ? "list-item" : "grid-item";
     }
 
-    private void NavigateToItem(int itemId)
+    private void NavigateToItem(Guid itemId)
     {
-        // This would typically use NavigationManager
-        // Navigation.NavigateTo($"/items/{itemId}");
+        Navigation.NavigateTo($"/items/{itemId}");
     }
 
-    private async Task HandleFavoriteToggle(int itemId)
+    private async Task HandleFavoriteToggle(Guid itemId)
     {
         var item = Items.FirstOrDefault(i => i.Id == itemId);
         if (item != null)
         {
-            item.IsFavorite = !item.IsFavorite;
+            // Note: IsFavorite property doesn't exist in Application.ItemDto
+            // This would need to be handled by a separate service call
             
             if (OnFavoriteToggle.HasDelegate)
             {
                 await OnFavoriteToggle.InvokeAsync(itemId);
             }
             
-            var message = item.IsFavorite ? "Zur Watchlist hinzugefügt" : "Aus Watchlist entfernt";
-            Snackbar.Add(message, item.IsFavorite ? Severity.Success : Severity.Info);
+            Snackbar.Add("Favorit-Status aktualisiert", Severity.Info);
         }
     }
 
-    private async Task RequestRental(int itemId)
+    private async Task RequestRental(Guid itemId)
     {
         if (OnRentalRequest.HasDelegate)
         {
@@ -406,21 +364,7 @@
         Distance
     }
 
-    public class ItemModel
-    {
-        public int Id { get; set; }
-        public string Title { get; set; } = string.Empty;
-        public string Description { get; set; } = string.Empty;
-        public string? ImageUrl { get; set; }
-        public decimal? PricePerDay { get; set; }
-        public decimal? PricePerHour { get; set; }
-        public string Location { get; set; } = string.Empty;
-        public string? Condition { get; set; }
-        public bool Available { get; set; } = true;
-        public ItemCard.UserInfo? User { get; set; }
-        public int ViewCount { get; set; }
-        public bool IsFavorite { get; set; }
-    }
+    // Using shared ItemDto from DorfkisteBlazor.Server.Shared.Dtos
 }
 
 <style>

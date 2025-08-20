@@ -47,8 +47,8 @@
         
         <!-- User Actions -->
         <div class="d-flex align-center">
-            <AuthorizeView>
-                <Authorized>
+            <AuthorizeView Context="authContext">
+                <Authorized Context="authUser">
                     <!-- Add Item Button -->
                     <MudButton Href="/items/new"
                                Variant="Variant.Filled"
@@ -79,7 +79,7 @@
                              AnchorOrigin="Origin.BottomCenter"
                              TransformOrigin="Origin.CenterLeft">
                         <div class="pa-4" style="min-width: 200px;">
-                            <MudText Typo="Typo.subtitle1">@context.User.Identity?.Name</MudText>
+                            <MudText Typo="Typo.subtitle1">@authUser.User.Identity?.Name</MudText>
                             <MudText Typo="Typo.body2" Color="Color.Secondary">@GetUserEmail()</MudText>
                         </div>
                         <MudDivider />
@@ -96,7 +96,7 @@
                             Watchlist
                         </MudMenuItem>
                         <MudDivider />
-                        <AuthorizeView Roles="Admin">
+                        <AuthorizeView Roles="Admin" Context="adminMenuContext">
                             <MudMenuItem Icon="@Icons.Material.Filled.AdminPanelSettings" Href="/admin">
                                 Administration
                             </MudMenuItem>
@@ -155,8 +155,8 @@
                 Kategorien
             </MudNavLink>
             
-            <AuthorizeView>
-                <Authorized>
+            <AuthorizeView Context="mobileAuthContext">
+                <Authorized Context="mobileAuth">
                     <MudDivider Class="my-2" />
                     <MudNavGroup Title="Mein Bereich" Icon="@Icons.Material.Filled.Person" Expanded="false">
                         <MudNavLink Href="/items/new" Icon="@Icons.Material.Filled.Add">
@@ -185,7 +185,7 @@
                         </MudNavLink>
                     </MudNavGroup>
                     
-                    <AuthorizeView Roles="Admin">
+                    <AuthorizeView Roles="Admin" Context="mobileAdminContext">
                         <MudDivider Class="my-2" />
                         <MudNavGroup Title="Administration" Icon="@Icons.Material.Filled.AdminPanelSettings" Expanded="false">
                             <MudNavLink Href="/admin/dashboard" Icon="@Icons.Material.Filled.Dashboard">
@@ -235,9 +235,9 @@
             else
             {
                 <CascadingValue Value="this">
-                    <ErrorBoundary>
+                    <Microsoft.AspNetCore.Components.Web.ErrorBoundary>
                         @Body
-                    </ErrorBoundary>
+                    </Microsoft.AspNetCore.Components.Web.ErrorBoundary>
                 </CascadingValue>
             }
         </MudContainer>

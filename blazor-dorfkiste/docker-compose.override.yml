@@ -1,0 +1,101 @@
+# DorfkisteBlazor - Development Override Configuration
+# Infrastructure & DevOps Agent - Development Setup
+version: '3.8'
+
+services:
+  # ==================================================
+  # Development Application Overrides
+  # ==================================================
+  dorfkiste-app:
+    build:
+      target: build
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:5001;http://+:5000
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=${CERT_PASSWORD:-dev}
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+    volumes:
+      # Development volume mounts for hot reload
+      - .:/src:cached
+      - ~/.aspnet/https:/https:ro
+      - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+      # Override logs for development
+      - ./logs:/app/logs
+      - ./uploads:/app/uploads
+    command: dotnet watch run --project /src/src/DorfkisteBlazor.Server/DorfkisteBlazor.Server.csproj
+    
+  # ==================================================
+  # Development Database Overrides  
+  # ==================================================
+  sqlserver:
+    ports:
+      - "1433:1433"
+    environment:
+      - SA_PASSWORD=DevPassword123!
+      - MSSQL_DB=DorfkisteBlazor_Dev
+    volumes:
+      # Use named volume for dev data persistence
+      - sqlserver-dev-data:/var/opt/mssql
+
+  # ==================================================
+  # Development Redis Overrides
+  # ==================================================
+  redis:
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    # No password in development
+
+  # ==================================================
+  # Development Tools
+  # ==================================================
+  seq:
+    image: datalust/seq:latest
+    container_name: dorfkiste-seq
+    restart: unless-stopped
+    ports:
+      - "5341:80"
+    environment:
+      - ACCEPT_EULA=Y
+    networks:
+      - dorfkiste-network
+    volumes:
+      - seq-data:/data
+
+  # SQL Server Management (Adminer)
+  adminer:
+    image: adminer:latest
+    container_name: dorfkiste-adminer
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    networks:
+      - dorfkiste-network
+    environment:
+      - ADMINER_DEFAULT_SERVER=sqlserver
+
+  # Redis Management (Redis Commander)
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: dorfkiste-redis-commander
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    networks:
+      - dorfkiste-network
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+
+# ==================================================
+# Development Volumes
+# ==================================================
+volumes:
+  sqlserver-dev-data:
+    driver: local
+    name: dorfkiste-sqlserver-dev-data
+  seq-data:
+    driver: local
+    name: dorfkiste-seq-data

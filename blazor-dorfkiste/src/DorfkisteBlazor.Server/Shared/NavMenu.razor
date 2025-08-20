@@ -1,18 +1,20 @@
 <MudNavMenu>
     <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
-    <AuthorizeView>
-        <Authorized>
+    <AuthorizeView Context="navAuthContext">
+        <Authorized Context="navAuth">
             <MudNavLink Href="products" Icon="@Icons.Material.Filled.ShoppingCart">Products</MudNavLink>
             <MudNavLink Href="rentals" Icon="@Icons.Material.Filled.Assignment">My Rentals</MudNavLink>
             <MudNavLink Href="profile" Icon="@Icons.Material.Filled.Person">Profile</MudNavLink>
-            <AuthorizeView Roles="Admin">
-                <MudNavGroup Title="Administration" Icon="@Icons.Material.Filled.Settings" Expanded="false">
-                    <MudNavLink Href="admin/dashboard" Icon="@Icons.Material.Filled.Dashboard">Dashboard</MudNavLink>
-                    <MudNavLink Href="admin/users" Icon="@Icons.Material.Filled.People">Users</MudNavLink>
-                    <MudNavLink Href="admin/products" Icon="@Icons.Material.Filled.Inventory">Products</MudNavLink>
-                    <MudNavLink Href="admin/rentals" Icon="@Icons.Material.Filled.Receipt">Rentals</MudNavLink>
-                    <MudNavLink Href="admin/reports" Icon="@Icons.Material.Filled.Analytics">Reports</MudNavLink>
-                </MudNavGroup>
+            <AuthorizeView Roles="Admin" Context="adminContext">
+                <Authorized Context="adminAuth">
+                    <MudNavGroup Title="Administration" Icon="@Icons.Material.Filled.Settings" Expanded="false">
+                        <MudNavLink Href="admin/dashboard" Icon="@Icons.Material.Filled.Dashboard">Dashboard</MudNavLink>
+                        <MudNavLink Href="admin/users" Icon="@Icons.Material.Filled.People">Users</MudNavLink>
+                        <MudNavLink Href="admin/products" Icon="@Icons.Material.Filled.Inventory">Products</MudNavLink>
+                        <MudNavLink Href="admin/rentals" Icon="@Icons.Material.Filled.Receipt">Rentals</MudNavLink>
+                        <MudNavLink Href="admin/reports" Icon="@Icons.Material.Filled.Analytics">Reports</MudNavLink>
+                    </MudNavGroup>
+                </Authorized>
             </AuthorizeView>
         </Authorized>
     </AuthorizeView>

@@ -80,6 +80,14 @@ builder.Services.AddAuthorization();
 // Add HttpContext accessor
 builder.Services.AddHttpContextAccessor();
 
+// Add SignalR services
+builder.Services.AddSignalR();
+builder.Services.AddScoped<SignalRNotificationService>();
+builder.Services.AddScoped<INotificationService, SignalRNotificationService>();
+
+// Add health checks
+builder.Services.AddHealthChecks();
+
 // Add API endpoints support
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -129,6 +137,10 @@ app.MapHub<NotificationHub>("/hubs/notifications");
 app.MapControllers();
 app.MapRazorPages();
 app.MapBlazorHub();
+
+// Map health checks
+app.MapHealthChecks("/health");
+
 app.MapFallbackToPage("/_Host");
 
 // Apply migrations and seed data

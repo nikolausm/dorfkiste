@@ -5,7 +5,7 @@ namespace DorfkisteBlazor.Infrastructure.Identity;
 /// <summary>
 /// Application user entity extending ASP.NET Core Identity
 /// </summary>
-public class ApplicationUser : IdentityUser
+public class ApplicationUser : IdentityUser<Guid>
 {
     public string? FirstName { get; set; }
     public string? LastName { get; set; }

@@ -1,0 +1,306 @@
+@page "/"
+@using DorfkisteBlazor.Application.Features.Items.DTOs
+@inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Dorfkiste - Teile und leihe in deiner Nachbarschaft</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge">
+    <!-- Hero Section -->
+    <MudPaper Class="hero-section pa-8 mb-6" Elevation="0" Style="background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); border-radius: 16px;">
+        <MudContainer MaxWidth="MaxWidth.Large" Class="text-center">
+            <MudText Typo="Typo.h2" Class="text-white mb-4 font-weight-bold">
+                Willkommen bei Dorfkiste
+            </MudText>
+            <MudText Typo="Typo.h5" Class="text-white mb-6 opacity-90">
+                Die nachhaltige Plattform zum Teilen und Leihen in deiner Nachbarschaft
+            </MudText>
+            <div class="d-flex gap-4 justify-center flex-wrap">
+                <MudButton Href="/items"
+                           Variant="Variant.Filled" 
+                           Color="Color.Surface"
+                           Size="Size.Large"
+                           StartIcon="@Icons.Material.Filled.Search"
+                           Class="text-success font-weight-bold">
+                    Artikel entdecken
+                </MudButton>
+                <AuthorizeView>
+                    <Authorized>
+                        <MudButton Href="/items/new"
+                                   Variant="Variant.Outlined" 
+                                   Color="Color.Surface"
+                                   Size="Size.Large"
+                                   StartIcon="@Icons.Material.Filled.Add">
+                            Artikel einstellen
+                        </MudButton>
+                    </Authorized>
+                    <NotAuthorized>
+                        <MudButton Href="/auth/signup"
+                                   Variant="Variant.Outlined" 
+                                   Color="Color.Surface"
+                                   Size="Size.Large"
+                                   StartIcon="@Icons.Material.Filled.PersonAdd">
+                            Kostenlos registrieren
+                        </MudButton>
+                    </NotAuthorized>
+                </AuthorizeView>
+            </div>
+        </MudContainer>
+    </MudPaper>
+
+    <!-- Features Section -->
+    <MudGrid Class="mb-6" Spacing="4">
+        <MudItem xs="12" md="4">
+            <MudCard Class="feature-card pa-6 text-center h-100">
+                <MudIcon Icon="@Icons.Material.Filled.Nature" 
+                         Size="Size.Large" 
+                         Color="Color.Success" 
+                         Class="mb-4" />
+                <MudText Typo="Typo.h6" Class="mb-3 font-weight-bold">
+                    Nachhaltig leben
+                </MudText>
+                <MudText Typo="Typo.body1" Color="Color.Secondary">
+                    Reduziere deinen ökologischen Fußabdruck durch Teilen statt Kaufen. 
+                    Gemeinsam für eine nachhaltigere Zukunft.
+                </MudText>
+            </MudCard>
+        </MudItem>
+        
+        <MudItem xs="12" md="4">
+            <MudCard Class="feature-card pa-6 text-center h-100">
+                <MudIcon Icon="@Icons.Material.Filled.People" 
+                         Size="Size.Large" 
+                         Color="Color.Success" 
+                         Class="mb-4" />
+                <MudText Typo="Typo.h6" Class="mb-3 font-weight-bold">
+                    Nachbarschaft stärken
+                </MudText>
+                <MudText Typo="Typo.body1" Color="Color.Secondary">
+                    Lerne deine Nachbarn kennen und baue starke Gemeinschaften auf. 
+                    Zusammen sind wir stärker.
+                </MudText>
+            </MudCard>
+        </MudItem>
+        
+        <MudItem xs="12" md="4">
+            <MudCard Class="feature-card pa-6 text-center h-100">
+                <MudIcon Icon="@Icons.Material.Filled.Savings" 
+                         Size="Size.Large" 
+                         Color="Color.Success" 
+                         Class="mb-4" />
+                <MudText Typo="Typo.h6" Class="mb-3 font-weight-bold">
+                    Geld sparen
+                </MudText>
+                <MudText Typo="Typo.body1" Color="Color.Secondary">
+                    Warum kaufen, wenn du leihen kannst? Spare Geld und Platz, 
+                    während du anderen hilfst.
+                </MudText>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+
+    <!-- Popular Categories -->
+    <MudText Typo="Typo.h4" Class="mb-4 font-weight-bold text-center">
+        Beliebte Kategorien
+    </MudText>
+    <MudGrid Class="mb-6" Spacing="3">
+        @foreach (var category in _popularCategories)
+        {
+            <MudItem xs="6" sm="4" md="3" lg="2">
+                <MudButton Href="@($"/items?category={category.Slug}")"
+                           Variant="Variant.Outlined"
+                           Class="category-button pa-4 w-100 h-100"
+                           Style="flex-direction: column; border-radius: 12px;">
+                    <MudIcon Icon="@category.Icon" Size="Size.Large" Color="Color.Success" Class="mb-2" />
+                    <MudText Typo="Typo.body2" Class="text-center">
+                        @category.Name
+                    </MudText>
+                </MudButton>
+            </MudItem>
+        }
+    </MudGrid>
+
+    <!-- Recent Items Preview -->
+    <MudText Typo="Typo.h4" Class="mb-4 font-weight-bold text-center">
+        Neueste Artikel
+    </MudText>
+    
+    <div class="recent-items-preview mb-6">
+        <ItemGrid Items="_recentItems" ShowPagination="false" />
+    </div>
+
+    <div class="text-center">
+        <MudButton Href="/items"
+                   Variant="Variant.Outlined"
+                   Color="Color.Success"
+                   Size="Size.Large"
+                   EndIcon="@Icons.Material.Filled.ArrowForward">
+            Alle Artikel anzeigen
+        </MudButton>
+    </div>
+</MudContainer>
+
+@code {
+    private List<CategoryItem> _popularCategories = new();
+    private List<ItemDto> _recentItems = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await JSRuntime.InvokeVoidAsync("console.log", "UI-Dev: Initializing Index page");
+        
+        LoadPopularCategories();
+        await LoadRecentItems();
+        
+        await JSRuntime.InvokeVoidAsync("console.log", "UI-Dev: Index page initialized with hero section and item preview");
+    }
+
+    private void LoadPopularCategories()
+    {
+        _popularCategories = new List<CategoryItem>
+        {
+            new() { Name = "Werkzeuge", Icon = Icons.Material.Filled.Build, Slug = "werkzeuge" },
+            new() { Name = "Garten", Icon = Icons.Material.Filled.Grass, Slug = "garten" },
+            new() { Name = "Elektronik", Icon = Icons.Material.Filled.ElectricalServices, Slug = "elektronik" },
+            new() { Name = "Sport", Icon = Icons.Material.Filled.SportsBasketball, Slug = "sport" },
+            new() { Name = "Haushalt", Icon = Icons.Material.Filled.Home, Slug = "haushalt" },
+            new() { Name = "Bücher", Icon = Icons.Material.Filled.MenuBook, Slug = "buecher" }
+        };
+    }
+
+    private async Task LoadRecentItems()
+    {
+        try
+        {
+            // Mock data for demonstration - replace with actual API call
+            _recentItems = new List<ItemDto>
+            {
+                new()
+                {
+                    Id = Guid.NewGuid(),
+                    Title = "Profi-Bohrmaschine",
+                    Description = "Leistungsstarke Bohrmaschine für alle Materialien",
+                    Condition = "Sehr gut",
+                    PricePerDay = 15.00m,
+                    Location = "Berlin Mitte",
+                    Available = true,
+                    CategoryName = "Werkzeuge",
+                    Images = new List<ItemImageDto> 
+                    { 
+                        new() { Id = Guid.NewGuid(), Url = "/images/drill.jpg", Order = 1 } 
+                    },
+                    CreatedAt = DateTime.Now.AddDays(-1),
+                    UserId = Guid.NewGuid(),
+                    CategoryId = Guid.NewGuid(),
+                    PickupAvailable = true,
+                    DeliveryAvailable = false
+                },
+                new()
+                {
+                    Id = Guid.NewGuid(),
+                    Title = "Gartenmöbel Set",
+                    Description = "Schönes Gartenmöbel-Set für 6 Personen",
+                    Condition = "Gut",
+                    PricePerDay = 25.00m,
+                    Location = "Hamburg",
+                    Available = true,
+                    CategoryName = "Garten",
+                    Images = new List<ItemImageDto> 
+                    { 
+                        new() { Id = Guid.NewGuid(), Url = "/images/furniture.jpg", Order = 1 } 
+                    },
+                    CreatedAt = DateTime.Now.AddDays(-2),
+                    UserId = Guid.NewGuid(),
+                    CategoryId = Guid.NewGuid(),
+                    PickupAvailable = true,
+                    DeliveryAvailable = true
+                }
+            };
+        }
+        catch (Exception ex)
+        {
+            await JSRuntime.InvokeVoidAsync("console.error", "Error loading recent items:", ex.Message);
+        }
+    }
+
+    private class CategoryItem
+    {
+        public string Name { get; set; } = string.Empty;
+        public string Icon { get; set; } = string.Empty;
+        public string Slug { get; set; } = string.Empty;
+    }
+
+    // Using shared ItemDto from DorfkisteBlazor.Server.Shared.Dtos
+}
+
+<style>
+    .hero-section {
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" fill-opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" fill-opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+        pointer-events: none;
+    }
+
+    .feature-card {
+        border-radius: 16px;
+        border: 1px solid rgba(34, 197, 94, 0.1);
+        transition: all 0.3s ease;
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 25px rgba(34, 197, 94, 0.15);
+    }
+
+    .category-button {
+        border-color: rgba(34, 197, 94, 0.3);
+        transition: all 0.3s ease;
+        min-height: 120px;
+    }
+    
+    .category-button:hover {
+        border-color: #22c55e;
+        background-color: rgba(34, 197, 94, 0.04);
+        transform: translateY(-2px);
+    }
+
+    .recent-items-preview {
+        max-width: 100%;
+    }
+
+    @@media (max-width: 960px) {
+        .hero-section .pa-8 {
+            padding: 32px 16px !important;
+        }
+        
+        .hero-section h2 {
+            font-size: 2rem !important;
+        }
+        
+        .hero-section h5 {
+            font-size: 1.25rem !important;
+        }
+        
+        .d-flex.gap-4 {
+            gap: 12px !important;
+            flex-direction: column;
+        }
+        
+        .feature-card {
+            padding: 32px 24px !important;
+        }
+        
+        .category-button {
+            min-height: 100px;
+            padding: 16px !important;
+        }
+    }
+</style>
