@@ -1,4 +1,5 @@
 using DorfkisteBlazor.Application.Features.Rentals.Commands;
+using DorfkisteBlazor.Application.Features.Rentals.Queries;
 using DorfkisteBlazor.Application.Common.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
@@ -6,6 +7,7 @@ using System.Security.Claims;
 using DorfkisteBlazor.Application.Common.Models;
 using DorfkisteBlazor.Application.Features.Items.DTOs;
 using DorfkisteBlazor.Application.Features.Rentals.DTOs;
+using MediatR;
 
 namespace DorfkisteBlazor.Server.Controllers;
 
@@ -17,14 +19,14 @@ namespace DorfkisteBlazor.Server.Controllers;
 [Authorize]
 public class RentalsController : ControllerBase
 {
-    private readonly ICommandHandler<CreateRentalCommand, Result<CreateRentalResponse>> _createRentalHandler;
+    private readonly IMediator _mediator;
     private readonly ILogger<RentalsController> _logger;
 
     public RentalsController(
-        ICommandHandler<CreateRentalCommand, Result<CreateRentalResponse>> createRentalHandler,
+        IMediator mediator,
         ILogger<RentalsController> logger)
     {
-        _createRentalHandler = createRentalHandler;
+        _mediator = mediator;
         _logger = logger;
     }
 
@@ -53,7 +55,7 @@ public class RentalsController : ControllerBase
                 PaymentMethod = request.PaymentMethod
             };
 
-            var result = await _createRentalHandler.Handle(command, CancellationToken.None);
+            var result = await _mediator.Send(command);
             
             if (result.IsFailure)
             {
@@ -79,16 +81,20 @@ public class RentalsController : ControllerBase
     {
         try
         {
-            var userId = GetCurrentUserId();
-            if (userId == null)
+            var query = new GetRentalByIdQuery { Id = id };
+            var result = await _mediator.Send(query);
+            
+            if (result.IsFailure)
             {
-                return Unauthorized("User not authenticated");
+                return BadRequest(result.Error);
             }
 
-            // TODO: Implement GetRentalByIdQuery and handler
-            _logger.LogInformation("Getting rental {RentalId} for user {UserId}", id, userId);
-            
-            return StatusCode(501, "Not implemented yet");
+            if (result.Value == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(result.Value);
         }
         catch (Exception ex)
         {
@@ -111,10 +117,16 @@ public class RentalsController : ControllerBase
                 return Unauthorized("User not authenticated");
             }
 
-            // TODO: Implement GetRentalsQuery and handler
-            _logger.LogInformation("Getting rentals for user {UserId}", userId);
+            query.RenterId = userId.Value;
+            var result = await _mediator.Send(query);
             
-            return StatusCode(501, "Not implemented yet");
+            if (result.IsFailure)
+            {
+                _logger.LogWarning("Failed to get rentals for user {UserId}: {Error}", userId, result.Error);
+                return BadRequest(result.Error);
+            }
+
+            return Ok(result.Value);
         }
         catch (Exception ex)
         {
@@ -137,14 +149,115 @@ public class RentalsController : ControllerBase
                 return Unauthorized("User not authenticated");
             }
 
-            // TODO: Implement GetRentalsQuery with owner filter
-            _logger.LogInformation("Getting bookings for user {UserId}", userId);
+            query.OwnerId = userId.Value;
+            var result = await _mediator.Send(query);
             
-            return StatusCode(501, "Not implemented yet");
+            if (result.IsFailure)
+            {
+                _logger.LogWarning("Failed to get bookings for user {UserId}: {Error}", userId, result.Error);
+                return BadRequest(result.Error);
+            }
+
+            return Ok(result.Value);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error occurred while getting user bookings");
+            return StatusCode(500, "An error occurred while processing your request");
+        }
+    }
+
+    /// <summary>
+    /// Get all rentals with filtering and pagination (Admin/Public)
+    /// </summary>
+    [HttpGet]
+    [AllowAnonymous]
+    public async Task<ActionResult<RentalsResponse>> GetRentals([FromQuery] GetRentalsQuery query)
+    {
+        try
+        {
+            var result = await _mediator.Send(query);
+            
+            if (result.IsFailure)
+            {
+                _logger.LogWarning("Failed to get rentals: {Error}", result.Error);
+                return BadRequest(result.Error);
+            }
+
+            return Ok(result.Value);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error occurred while getting rentals");
+            return StatusCode(500, "An error occurred while processing your request");
+        }
+    }
+
+    /// <summary>
+    /// Update an existing rental
+    /// </summary>
+    [HttpPut("{id}")]
+    public async Task<ActionResult<RentalDto>> UpdateRental(Guid id, [FromBody] UpdateRentalRequest request)
+    {
+        try
+        {
+            var command = new UpdateRentalCommand
+            {
+                Id = id,
+                StartDate = request.StartDate,
+                EndDate = request.EndDate,
+                Status = request.Status,
+                PaymentStatus = request.PaymentStatus,
+                DeliveryRequested = request.DeliveryRequested,
+                DeliveryAddress = request.DeliveryAddress
+            };
+
+            var result = await _mediator.Send(command);
+            
+            if (result.IsFailure)
+            {
+                _logger.LogWarning("Failed to update rental {RentalId}: {Error}", id, result.Error);
+                return BadRequest(result.Error);
+            }
+
+            if (result.Value == null)
+            {
+                return NotFound();
+            }
+
+            _logger.LogInformation("Updated rental {RentalId} for user {UserId}", id, User.Identity?.Name);
+            return Ok(result.Value);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error occurred while updating rental {RentalId}", id);
+            return StatusCode(500, "An error occurred while processing your request");
+        }
+    }
+
+    /// <summary>
+    /// Delete a rental
+    /// </summary>
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeleteRental(Guid id)
+    {
+        try
+        {
+            var command = new DeleteRentalCommand { Id = id };
+            var result = await _mediator.Send(command);
+            
+            if (result.IsFailure)
+            {
+                _logger.LogWarning("Failed to delete rental {RentalId}: {Error}", id, result.Error);
+                return BadRequest(result.Error);
+            }
+
+            _logger.LogInformation("Deleted rental {RentalId} for user {UserId}", id, User.Identity?.Name);
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error occurred while deleting rental {RentalId}", id);
             return StatusCode(500, "An error occurred while processing your request");
         }
     }
@@ -163,11 +276,24 @@ public class RentalsController : ControllerBase
                 return Unauthorized("User not authenticated");
             }
 
-            // TODO: Implement UpdateRentalStatusCommand and handler
-            _logger.LogInformation("Updating rental {RentalId} status to {Status} for user {UserId}", 
+            var command = new UpdateRentalCommand
+            {
+                Id = id,
+                Status = request.Status
+            };
+
+            var result = await _mediator.Send(command);
+            
+            if (result.IsFailure)
+            {
+                _logger.LogWarning("Failed to update rental status {RentalId}: {Error}", id, result.Error);
+                return BadRequest(result.Error);
+            }
+
+            _logger.LogInformation("Updated rental {RentalId} status to {Status} for user {UserId}", 
                 id, request.Status, userId);
             
-            return StatusCode(501, "Not implemented yet");
+            return Ok();
         }
         catch (Exception ex)
         {
@@ -193,13 +319,14 @@ public class CreateRentalRequest
     public string PaymentMethod { get; set; } = "stripe";
 }
 
-public class GetRentalsQuery
+public class UpdateRentalRequest
 {
-    public string? Status { get; set; }
-    public DateTime? StartDate { get; set; }
-    public DateTime? EndDate { get; set; }
-    public int Page { get; set; } = 1;
-    public int PageSize { get; set; } = 20;
+    public DateTime StartDate { get; set; }
+    public DateTime EndDate { get; set; }
+    public string Status { get; set; } = "pending";
+    public string PaymentStatus { get; set; } = "pending";
+    public bool DeliveryRequested { get; set; } = false;
+    public string? DeliveryAddress { get; set; }
 }
 
 public class UpdateRentalStatusRequest
@@ -208,43 +335,3 @@ public class UpdateRentalStatusRequest
     public string? Reason { get; set; }
 }
 
-public class RentalDto
-{
-    public Guid Id { get; set; }
-    public DateTime StartDate { get; set; }
-    public DateTime EndDate { get; set; }
-    public decimal TotalPrice { get; set; }
-    public decimal DepositPaid { get; set; }
-    public decimal PlatformFee { get; set; }
-    public string Status { get; set; } = "";
-    public string PaymentStatus { get; set; } = "";
-    public string? PaymentMethod { get; set; }
-    public bool DeliveryRequested { get; set; }
-    public string? DeliveryAddress { get; set; }
-    public decimal? DeliveryFee { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime? UpdatedAt { get; set; }
-    
-    // Related entities
-    public ItemDto? Item { get; set; }
-    public UserDto? Owner { get; set; }
-    public UserDto? Renter { get; set; }
-}
-
-public class RentalsResponse
-{
-    public IEnumerable<RentalDto> Rentals { get; set; } = new List<RentalDto>();
-    public int TotalCount { get; set; }
-    public int Page { get; set; }
-    public int PageSize { get; set; }
-    public int TotalPages => (int)Math.Ceiling(TotalCount / (double)PageSize);
-}
-
-public class UserDto
-{
-    public Guid Id { get; set; }
-    public string? Name { get; set; }
-    public string? Email { get; set; }
-    public string? AvatarUrl { get; set; }
-    public bool Verified { get; set; }
-}

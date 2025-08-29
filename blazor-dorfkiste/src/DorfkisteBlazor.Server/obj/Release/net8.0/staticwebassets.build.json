@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "w5+FE3gAUOPtGqQq1UIa9jWw6n/uTm+zBNrFZ7LkLXo=",
+  "Hash": "yWWOq3NGuuUxDbhocHbwX+1nKRpCPGuRcGRsZg2LP0k=",
   "Source": "DorfkisteBlazor.Server",
   "BasePath": "_content/DorfkisteBlazor.Server",
   "Mode": "Default",
@@ -17,10 +17,10 @@
   ],
   "Assets": [
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/blazored.toast/4.1.0/staticwebassets/Blazored.Toast.bundle.scp.css",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/blazored.toast/4.2.1/staticwebassets/Blazored.Toast.bundle.scp.css",
       "SourceId": "Blazored.Toast",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/blazored.toast/4.1.0/staticwebassets/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/blazored.toast/4.2.1/staticwebassets/",
       "BasePath": "_content/Blazored.Toast",
       "RelativePath": "Blazored.Toast.bundle.scp.css",
       "AssetKind": "All",
@@ -31,17 +31,17 @@
       "RelatedAsset": "",
       "AssetTraitName": "ScopedCss",
       "AssetTraitValue": "ProjectBundle",
-      "Fingerprint": "isl4xtqbmh",
-      "Integrity": "UvwTBwDrCS9yh35f14Sx+NrDIVftgIzc2IyOkol9to0=",
+      "Fingerprint": "2eijknf10w",
+      "Integrity": "Jpy8GsZRrXfBBSxMmBBAzhap27c5/Nt85Nt7V3JT3B4=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/blazored.toast/4.1.0/staticwebassets/Blazored.Toast.bundle.scp.css"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/blazored.toast/4.2.1/staticwebassets/Blazored.Toast.bundle.scp.css"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/css/site.css",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/css/site.css",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "css/site.css",
       "AssetKind": "All",
@@ -56,13 +56,13 @@
       "Integrity": "iIBjbvm5vITl1MTy8HKNN3NBvO3WBn8nJD7zOoyqoaU=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/css/site.css"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/css/site.css"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/favicon.ico",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/favicon.ico",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "favicon.ico",
       "AssetKind": "All",
@@ -77,13 +77,13 @@
       "Integrity": "qU+KhVPK6oQw3UyjzAHU4xjRmCj3TLZUU/+39dni9E0=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/favicon.ico"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/favicon.ico"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/js/site.js",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/js/site.js",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "js/site.js",
       "AssetKind": "All",
@@ -98,13 +98,13 @@
       "Integrity": "hRQyftXiu1lLX2P9Ly9xa4gHJgLeR1uGN5qegUobtGo=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/js/site.js"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/js/site.js"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.css",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.css",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.css",
       "AssetKind": "All",
@@ -119,13 +119,13 @@
       "Integrity": "JtktgiuQAd+AXerCnPMrHCDz1h5AtkH5tobvpuG7xZ4=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.css"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.css"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.css.map",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.css.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.css.map",
       "AssetKind": "All",
@@ -140,13 +140,13 @@
       "Integrity": "QO8cMbVkLiktUX1cHeXSUSe5nXMXUgyL9cjwnMyxPqc=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.css.map"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.css.map"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.min.css",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.min.css",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.min.css",
       "AssetKind": "All",
@@ -161,13 +161,13 @@
       "Integrity": "ysBT/JYxH9gcMnwxT4+MB4sPxOx/JMg9wi77FA13T9A=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.min.css"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.min.css"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.min.css.map",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.min.css.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.min.css.map",
       "AssetKind": "All",
@@ -182,13 +182,13 @@
       "Integrity": "72C/qDCGu+OwWeVA03bf9Ke0T8oIozCub0lfJkhzhvE=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.min.css.map"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.min.css.map"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.rtl.css",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.rtl.css",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.rtl.css",
       "AssetKind": "All",
@@ -203,13 +203,13 @@
       "Integrity": "3vUJkZSpKL/zG7x6GNvDjs0TxYUo9zMt6dAc8hp9CVo=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.rtl.css"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.rtl.css"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.rtl.css.map",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.rtl.css.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.rtl.css.map",
       "AssetKind": "All",
@@ -224,13 +224,13 @@
       "Integrity": "qvA39OMlEs53jaewqVFmE8DQQrio47bZtlTs+Wu6U8g=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.rtl.css.map"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.rtl.css.map"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css",
       "AssetKind": "All",
@@ -245,13 +245,13 @@
       "Integrity": "O6lb2kXarGgVw4/RDD42yYPhZIwREthThQFKGmD+3j0=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css.map",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css.map",
       "AssetKind": "All",
@@ -266,13 +266,13 @@
       "Integrity": "NDSZjIiMPRIoO7/w7+jHef8retP4riQa8PMj4BVRGok=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css.map"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css.map"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.css",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.css",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.css",
       "AssetKind": "All",
@@ -287,13 +287,13 @@
       "Integrity": "4zbWr0QNFhpUwGkn4WdGWXt80KnhRFv0qXkZyVnhajY=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.css"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.css"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.css.map",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.css.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.css.map",
       "AssetKind": "All",
@@ -308,13 +308,13 @@
       "Integrity": "FZG0KxbNqITUi4QY7QvPFRS/TccntMfFWfSTdHN/pws=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.css.map"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.css.map"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.min.css",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.min.css",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.min.css",
       "AssetKind": "All",
@@ -329,13 +329,13 @@
       "Integrity": "z0OApR88UEocYXTXHU7Ueycaiib9XbDUmel9Gx0gbx4=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.min.css"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.min.css"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.min.css.map",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.min.css.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.min.css.map",
       "AssetKind": "All",
@@ -350,13 +350,13 @@
       "Integrity": "2BbRsE/+czX1ufmDPGpnEieC9u6I3m5BKNDSX1ob3lg=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.min.css.map"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.min.css.map"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.rtl.css",
       "AssetKind": "All",
@@ -371,13 +371,13 @@
       "Integrity": "8NXw3kF49FkQVPMdjnGDqoXXRU0TwzsLfCGbK9U8gnk=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css.map",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.rtl.css.map",
       "AssetKind": "All",
@@ -392,13 +392,13 @@
       "Integrity": "/EdWHN6t5XYPplC88vixGfrBvfEii19kAssb+0YBVU8=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css.map"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css.map"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css",
       "AssetKind": "All",
@@ -413,13 +413,13 @@
       "Integrity": "a5KlgysZ4fQXw4rzIvXDHErFDPeHRSLccP7kX6HuvSQ=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css.map",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css.map",
       "AssetKind": "All",
@@ -434,13 +434,13 @@
       "Integrity": "GMDk5pA5dFkOimkBAWeEjYZ+7lgHPS0jYln6p/WJVYs=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css.map"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css.map"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.css",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.css",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.css",
       "AssetKind": "All",
@@ -455,13 +455,13 @@
       "Integrity": "NbFZxZLmBVNLzb/7B0WdFfb6+8jXHGX6XY190uwgbec=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.css"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.css"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.css.map",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.css.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.css.map",
       "AssetKind": "All",
@@ -476,13 +476,13 @@
       "Integrity": "4WIqPof/vrXYO/jeJ4fDOQKUYWIwe64V3d+9/qNju20=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.css.map"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.css.map"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.min.css",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.min.css",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.min.css",
       "AssetKind": "All",
@@ -497,13 +497,13 @@
       "Integrity": "5+ExmMkiaI3keYQRLhNibJ5ZXnNuWRbwrXOAZoTXMFg=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.min.css"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.min.css"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.min.css.map",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.min.css.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.min.css.map",
       "AssetKind": "All",
@@ -518,13 +518,13 @@
       "Integrity": "p1dop4slefZhL4zG2pa6+2HUrOY1UUArGJXmet8Md9c=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.min.css.map"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.min.css.map"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.rtl.css",
       "AssetKind": "All",
@@ -539,13 +539,13 @@
       "Integrity": "peAGH8Gu/ZL9VnbUGSMN69Ji5MxwbvOb53gDXU2cPaQ=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css.map",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.rtl.css.map",
       "AssetKind": "All",
@@ -560,13 +560,13 @@
       "Integrity": "puDgKwvlFAord9R8G8of9P2CVYIJUFSoIbjDLEsKEH0=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css.map"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css.map"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css",
       "AssetKind": "All",
@@ -581,13 +581,13 @@
       "Integrity": "Wi5ZuFSHLfx6dlEgjvW3BY9TC/1NqdBjj+XFifSSqN4=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css.map",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css.map",
       "AssetKind": "All",
@@ -602,13 +602,13 @@
       "Integrity": "02ka4ymoE5yEecLUncLG3/SouTQMnTJOktX+96Pt/88=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css.map"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css.map"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.css",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.css",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.css",
       "AssetKind": "All",
@@ -623,13 +623,13 @@
       "Integrity": "xlexqj9/k3uobVwGfciZcj/eDdooaNgcf4OFLtLUygM=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.css"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.css"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.css.map",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.css.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.css.map",
       "AssetKind": "All",
@@ -644,13 +644,13 @@
       "Integrity": "DRvWr0gangj5/5Q3DRn6ttzpcWDzl3OpHoAwAzNDR5Q=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.css.map"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.css.map"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.min.css",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.min.css",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.min.css",
       "AssetKind": "All",
@@ -665,13 +665,13 @@
       "Integrity": "z8OR40MowJ8GgK6P89Y+hiJK5+cclzFHzLhFQLL92bg=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.min.css"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.min.css"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.min.css.map",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.min.css.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.min.css.map",
       "AssetKind": "All",
@@ -686,13 +686,13 @@
       "Integrity": "gBwg2tmA0Ci2u54gMF1jNCVku6vznarkLS6D76htNNQ=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.min.css.map"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.min.css.map"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.rtl.css",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.rtl.css",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.rtl.css",
       "AssetKind": "All",
@@ -707,13 +707,13 @@
       "Integrity": "SZ2mKaD4A+b+HIvttwl+TvLFnVy8o8/X40j+EKVwyvY=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.rtl.css"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.rtl.css"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.rtl.css.map",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.rtl.css.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.rtl.css.map",
       "AssetKind": "All",
@@ -728,13 +728,13 @@
       "Integrity": "VFvmi/ZSwQFmjS6Pry9B8zXeZ/GA168TXLyykDhNMZE=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.rtl.css.map"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.rtl.css.map"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.rtl.min.css",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.rtl.min.css",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.rtl.min.css",
       "AssetKind": "All",
@@ -749,13 +749,13 @@
       "Integrity": "22wR6QTidoeiRZXp6zkRQyMSUb/FB+Av11jqmZJF6uU=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.rtl.min.css"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.rtl.min.css"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.rtl.min.css.map",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.rtl.min.css.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/css/bootstrap.rtl.min.css.map",
       "AssetKind": "All",
@@ -770,13 +770,13 @@
       "Integrity": "j7uqK5VoTT4rUHMr911QEU5Sa94lR3uh9E28XBMlzrM=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.rtl.min.css.map"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.rtl.min.css.map"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.bundle.js",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.bundle.js",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.bundle.js",
       "AssetKind": "All",
@@ -791,13 +791,13 @@
       "Integrity": "vQTf4d3WJi9vmWQNA4kJnjoedgEhMFXFDEMXqtHtgzk=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.bundle.js"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.bundle.js"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.bundle.js.map",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.bundle.js.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.bundle.js.map",
       "AssetKind": "All",
@@ -812,13 +812,13 @@
       "Integrity": "gO4uhxfGuK0ONjRlHuwfghGfEXT5azm1oHWnTEFGTfk=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.bundle.js.map"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.bundle.js.map"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.bundle.min.js",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.bundle.min.js",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.bundle.min.js",
       "AssetKind": "All",
@@ -833,13 +833,13 @@
       "Integrity": "KuvCVS19rfTjoLgMyDDCdOkRRlhNrY4psEM4uezts2M=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.bundle.min.js.map",
       "AssetKind": "All",
@@ -854,13 +854,13 @@
       "Integrity": "xIBBxDPvWhk8/JdaFEZoejadfaKFUfZFwRS1D4Jkuro=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.esm.js",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.esm.js",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.esm.js",
       "AssetKind": "All",
@@ -875,13 +875,13 @@
       "Integrity": "EuDXUJYKnfZuO8dSLN0f5iVbVasz36AROuAU3NJ3JBo=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.esm.js"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.esm.js"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.esm.js.map",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.esm.js.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.esm.js.map",
       "AssetKind": "All",
@@ -896,13 +896,13 @@
       "Integrity": "CllC/sbLvyLE9cQljmFRlITfqdZRnBv2ysX5LJtl/dg=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.esm.js.map"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.esm.js.map"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.esm.min.js",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.esm.min.js",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.esm.min.js",
       "AssetKind": "All",
@@ -917,13 +917,13 @@
       "Integrity": "Kj4irQWPwfSb5NFeos/h0IroI5/nIg0HtAjQ+w4v6TE=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.esm.min.js"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.esm.min.js"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.esm.min.js.map",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.esm.min.js.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.esm.min.js.map",
       "AssetKind": "All",
@@ -938,13 +938,13 @@
       "Integrity": "sPqzWcSS9aRa2gpWTVNQzemajn8hrFjgXPj3j9QItQo=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.esm.min.js.map"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.esm.min.js.map"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.js",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.js",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.js",
       "AssetKind": "All",
@@ -959,13 +959,13 @@
       "Integrity": "6IStRQerBchYSw6J2GWTOWGOnDRrWXmaG0r6nCwN5s4=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.js"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.js"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.js.map",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.js.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.js.map",
       "AssetKind": "All",
@@ -980,13 +980,13 @@
       "Integrity": "Qkl5mZUZ64aYBaORRMP9jfD1kz8J6FwiV2M86JDJkdQ=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.js.map"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.js.map"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.min.js",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.min.js",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.min.js",
       "AssetKind": "All",
@@ -1001,13 +1001,13 @@
       "Integrity": "c4Ll6eSIg6Eothk8pCWAF8aE923EvtU11pqjBy+NjNM=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.min.js"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.min.js"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.min.js.map",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.min.js.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/dist/js/bootstrap.min.js.map",
       "AssetKind": "All",
@@ -1022,13 +1022,13 @@
       "Integrity": "ui/FQI+y0IUsY8Pbi80b8s3GeEL+PsvdaLTONobpn88=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.min.js.map"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.min.js.map"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/LICENSE",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/LICENSE",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/bootstrap/LICENSE",
       "AssetKind": "All",
@@ -1043,13 +1043,13 @@
       "Integrity": "ZH6pA6BSx6fuHZvdaKph1DwUJ+VSYilIiEQu8ilnvqk=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/LICENSE"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/LICENSE"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js",
       "AssetKind": "All",
@@ -1064,13 +1064,13 @@
       "Integrity": "wJQaJ0XynBE2fq6CexXXhxKu7fstVmQc7V2MHNTo+WQ=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js",
       "AssetKind": "All",
@@ -1085,13 +1085,13 @@
       "Integrity": "YJa7W8EiQdQpkk93iGEjjnLSUWRpRJbSfzfURh1kxz4=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/jquery-validation-unobtrusive/LICENSE.txt",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/jquery-validation-unobtrusive/LICENSE.txt",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/jquery-validation-unobtrusive/LICENSE.txt",
       "AssetKind": "All",
@@ -1106,13 +1106,13 @@
       "Integrity": "16aFlqtpsG9RyieKZUUUjkJpqTgcJtWXwT312I4Iz1s=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/jquery-validation-unobtrusive/LICENSE.txt"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/jquery-validation-unobtrusive/LICENSE.txt"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/jquery-validation/dist/additional-methods.js",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/jquery-validation/dist/additional-methods.js",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/jquery-validation/dist/additional-methods.js",
       "AssetKind": "All",
@@ -1127,13 +1127,13 @@
       "Integrity": "4jrcLBsi0Ugm8iLKdqDsAyaCDjkscYZdoGuNH/zqs4E=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/jquery-validation/dist/additional-methods.js"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/jquery-validation/dist/additional-methods.js"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/jquery-validation/dist/additional-methods.min.js",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/jquery-validation/dist/additional-methods.min.js",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/jquery-validation/dist/additional-methods.min.js",
       "AssetKind": "All",
@@ -1148,13 +1148,13 @@
       "Integrity": "N11IyJpHTgDcSCb3AfX4VrBnpGQeem1NoNzzgcXVyCc=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/jquery-validation/dist/additional-methods.min.js"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/jquery-validation/dist/additional-methods.min.js"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/jquery-validation/dist/jquery.validate.js",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/jquery-validation/dist/jquery.validate.js",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/jquery-validation/dist/jquery.validate.js",
       "AssetKind": "All",
@@ -1169,13 +1169,13 @@
       "Integrity": "m0l81WDPiG7CcG7CDsTuZzvcGvyFmrQY5DLIxx3aRGw=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/jquery-validation/dist/jquery.validate.js"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/jquery-validation/dist/jquery.validate.js"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/jquery-validation/dist/jquery.validate.min.js",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/jquery-validation/dist/jquery.validate.min.js",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/jquery-validation/dist/jquery.validate.min.js",
       "AssetKind": "All",
@@ -1190,13 +1190,13 @@
       "Integrity": "JwUksNJ6/R07ZiLRoXbGeNrtlFZMFDKX4hemPiHOmCA=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/jquery-validation/dist/jquery.validate.min.js"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/jquery-validation/dist/jquery.validate.min.js"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/jquery-validation/LICENSE.md",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/jquery-validation/LICENSE.md",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/jquery-validation/LICENSE.md",
       "AssetKind": "All",
@@ -1211,13 +1211,13 @@
       "Integrity": "geHEkw/WGPdaHQMRq5HuNY9snliNzU/y2OW8ycnhGXw=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/jquery-validation/LICENSE.md"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/jquery-validation/LICENSE.md"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/jquery/dist/jquery.js",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/jquery/dist/jquery.js",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/jquery/dist/jquery.js",
       "AssetKind": "All",
@@ -1232,13 +1232,13 @@
       "Integrity": "H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/jquery/dist/jquery.js"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/jquery/dist/jquery.js"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/jquery/dist/jquery.min.js",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/jquery/dist/jquery.min.js",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/jquery/dist/jquery.min.js",
       "AssetKind": "All",
@@ -1253,13 +1253,13 @@
       "Integrity": "/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/jquery/dist/jquery.min.js"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/jquery/dist/jquery.min.js"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/jquery/dist/jquery.min.map",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/jquery/dist/jquery.min.map",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/jquery/dist/jquery.min.map",
       "AssetKind": "All",
@@ -1274,13 +1274,13 @@
       "Integrity": "OZVI+w57FGwS9boYCZpH1ZSpcP7pYhLu4KtIUvPlZ4I=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/jquery/dist/jquery.min.map"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/jquery/dist/jquery.min.map"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/jquery/LICENSE.txt",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/jquery/LICENSE.txt",
       "SourceId": "Microsoft.AspNetCore.Identity.UI",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/",
       "BasePath": "Identity",
       "RelativePath": "lib/jquery/LICENSE.txt",
       "AssetKind": "All",
@@ -1295,13 +1295,13 @@
       "Integrity": "hjIBkvmgxQXbNXK3B9YQ3t06RwLuQSQzC/dpvuB/lMk=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/jquery/LICENSE.txt"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/jquery/LICENSE.txt"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/mudblazor/6.11.2/staticwebassets/MudBlazor.min.css",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/mudblazor/7.8.0/staticwebassets/MudBlazor.min.css",
       "SourceId": "MudBlazor",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/mudblazor/6.11.2/staticwebassets/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/mudblazor/7.8.0/staticwebassets/",
       "BasePath": "_content/MudBlazor",
       "RelativePath": "MudBlazor.min.css",
       "AssetKind": "All",
@@ -1312,17 +1312,17 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "1xiwpnv0y9",
-      "Integrity": "O3PacWydT7j+X5HkANozalNed2xkCCEFu1PFI3zUnJI=",
+      "Fingerprint": "nu5urolx30",
+      "Integrity": "H2QuhIhWAAApVk0IT/dmvJ5l167yYqO1jogUIMXAko8=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/mudblazor/6.11.2/staticwebassets/MudBlazor.min.css"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/mudblazor/7.8.0/staticwebassets/MudBlazor.min.css"
     },
     {
-      "Identity": "/Users/michaelnikolaus/.nuget/packages/mudblazor/6.11.2/staticwebassets/MudBlazor.min.js",
+      "Identity": "/Users/michaelnikolaus/.nuget/packages/mudblazor/7.8.0/staticwebassets/MudBlazor.min.js",
       "SourceId": "MudBlazor",
       "SourceType": "Package",
-      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/mudblazor/6.11.2/staticwebassets/",
+      "ContentRoot": "/Users/michaelnikolaus/.nuget/packages/mudblazor/7.8.0/staticwebassets/",
       "BasePath": "_content/MudBlazor",
       "RelativePath": "MudBlazor.min.js",
       "AssetKind": "All",
@@ -1333,11 +1333,11 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "rftke82za3",
-      "Integrity": "+V9u6OnLOySMfSLVV3IoCOm/yPD3Gh4yn+ZPHPNn5CE=",
+      "Fingerprint": "83no5a21zf",
+      "Integrity": "HIgITptQO9vrBUjgNCpkzjy7f1PyNdPlVgp5bAUKUNg=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/mudblazor/6.11.2/staticwebassets/MudBlazor.min.js"
+      "OriginalItemSpec": "/Users/michaelnikolaus/.nuget/packages/mudblazor/7.8.0/staticwebassets/MudBlazor.min.js"
     },
     {
       "Identity": "/Users/michaelnikolaus/RiderProjects/dorfkiste/blazor-dorfkiste/src/DorfkisteBlazor.Server/obj/Release/net8.0/scopedcss/bundle/DorfkisteBlazor.Server.styles.css",
@@ -1385,7 +1385,7 @@
   "Endpoints": [
     {
       "Route": "_content/Blazored.Toast/Blazored.Toast.bundle.scp.css",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/blazored.toast/4.1.0/staticwebassets/Blazored.Toast.bundle.scp.css",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/blazored.toast/4.2.1/staticwebassets/Blazored.Toast.bundle.scp.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1394,7 +1394,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "3860"
+          "Value": "3483"
         },
         {
           "Name": "Content-Type",
@@ -1402,11 +1402,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"UvwTBwDrCS9yh35f14Sx+NrDIVftgIzc2IyOkol9to0=\""
+          "Value": "\"Jpy8GsZRrXfBBSxMmBBAzhap27c5/Nt85Nt7V3JT3B4=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 23 Feb 2023 22:50:28 GMT"
+          "Value": "Tue, 19 Mar 2024 16:42:38 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1416,13 +1416,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-UvwTBwDrCS9yh35f14Sx+NrDIVftgIzc2IyOkol9to0="
+          "Value": "sha256-Jpy8GsZRrXfBBSxMmBBAzhap27c5/Nt85Nt7V3JT3B4="
         }
       ]
     },
     {
       "Route": "_content/MudBlazor/MudBlazor.min.css",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/mudblazor/6.11.2/staticwebassets/MudBlazor.min.css",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/mudblazor/7.8.0/staticwebassets/MudBlazor.min.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1431,7 +1431,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "508754"
+          "Value": "576339"
         },
         {
           "Name": "Content-Type",
@@ -1439,11 +1439,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"O3PacWydT7j+X5HkANozalNed2xkCCEFu1PFI3zUnJI=\""
+          "Value": "\"H2QuhIhWAAApVk0IT/dmvJ5l167yYqO1jogUIMXAko8=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 18 Dec 2023 22:14:46 GMT"
+          "Value": "Fri, 06 Sep 2024 11:08:52 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1453,13 +1453,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-O3PacWydT7j+X5HkANozalNed2xkCCEFu1PFI3zUnJI="
+          "Value": "sha256-H2QuhIhWAAApVk0IT/dmvJ5l167yYqO1jogUIMXAko8="
         }
       ]
     },
     {
       "Route": "_content/MudBlazor/MudBlazor.min.js",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/mudblazor/6.11.2/staticwebassets/MudBlazor.min.js",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/mudblazor/7.8.0/staticwebassets/MudBlazor.min.js",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1468,7 +1468,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "44027"
+          "Value": "49649"
         },
         {
           "Name": "Content-Type",
@@ -1476,11 +1476,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"+V9u6OnLOySMfSLVV3IoCOm/yPD3Gh4yn+ZPHPNn5CE=\""
+          "Value": "\"HIgITptQO9vrBUjgNCpkzjy7f1PyNdPlVgp5bAUKUNg=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 18 Dec 2023 22:14:48 GMT"
+          "Value": "Fri, 06 Sep 2024 11:08:52 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1490,7 +1490,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-+V9u6OnLOySMfSLVV3IoCOm/yPD3Gh4yn+ZPHPNn5CE="
+          "Value": "sha256-HIgITptQO9vrBUjgNCpkzjy7f1PyNdPlVgp5bAUKUNg="
         }
       ]
     },
@@ -1668,7 +1668,7 @@
     },
     {
       "Route": "Identity/css/site.css",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/css/site.css",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/css/site.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1689,7 +1689,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1705,7 +1705,7 @@
     },
     {
       "Route": "Identity/favicon.ico",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/favicon.ico",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/favicon.ico",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1726,7 +1726,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1742,7 +1742,7 @@
     },
     {
       "Route": "Identity/js/site.js",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/js/site.js",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/js/site.js",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1763,7 +1763,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1779,7 +1779,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/css/bootstrap-grid.css",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.css",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1800,7 +1800,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1816,7 +1816,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/css/bootstrap-grid.css.map",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.css.map",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.css.map",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1837,7 +1837,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1853,7 +1853,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/css/bootstrap-grid.min.css",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.min.css",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.min.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1874,7 +1874,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1890,7 +1890,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/css/bootstrap-grid.min.css.map",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.min.css.map",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.min.css.map",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1911,7 +1911,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1927,7 +1927,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/css/bootstrap-grid.rtl.css",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.rtl.css",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.rtl.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1948,7 +1948,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1964,7 +1964,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/css/bootstrap-grid.rtl.css.map",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.rtl.css.map",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.rtl.css.map",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -1985,7 +1985,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2001,7 +2001,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2022,7 +2022,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2038,7 +2038,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css.map",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css.map",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css.map",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2059,7 +2059,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2075,7 +2075,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/css/bootstrap-reboot.css",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.css",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2096,7 +2096,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2112,7 +2112,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/css/bootstrap-reboot.css.map",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.css.map",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.css.map",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2133,7 +2133,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2149,7 +2149,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/css/bootstrap-reboot.min.css",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.min.css",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.min.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2170,7 +2170,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2186,7 +2186,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/css/bootstrap-reboot.min.css.map",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.min.css.map",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.min.css.map",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2207,7 +2207,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2223,7 +2223,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2244,7 +2244,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2260,7 +2260,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css.map",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css.map",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css.map",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2281,7 +2281,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2297,7 +2297,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2318,7 +2318,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2334,7 +2334,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css.map",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css.map",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css.map",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2355,7 +2355,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2371,7 +2371,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/css/bootstrap-utilities.css",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.css",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2392,7 +2392,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2408,7 +2408,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/css/bootstrap-utilities.css.map",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.css.map",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.css.map",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2429,7 +2429,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2445,7 +2445,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/css/bootstrap-utilities.min.css",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.min.css",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.min.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2466,7 +2466,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2482,7 +2482,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/css/bootstrap-utilities.min.css.map",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.min.css.map",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.min.css.map",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2503,7 +2503,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2519,7 +2519,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2540,7 +2540,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2556,7 +2556,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css.map",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css.map",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css.map",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2577,7 +2577,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2593,7 +2593,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2614,7 +2614,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2630,7 +2630,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css.map",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css.map",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css.map",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2651,7 +2651,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2667,7 +2667,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/css/bootstrap.css",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.css",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2688,7 +2688,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2704,7 +2704,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/css/bootstrap.css.map",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.css.map",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.css.map",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2725,7 +2725,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2741,7 +2741,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/css/bootstrap.min.css",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.min.css",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.min.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2762,7 +2762,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2778,7 +2778,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/css/bootstrap.min.css.map",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.min.css.map",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.min.css.map",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2799,7 +2799,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2815,7 +2815,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/css/bootstrap.rtl.css",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.rtl.css",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.rtl.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2836,7 +2836,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2852,7 +2852,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/css/bootstrap.rtl.css.map",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.rtl.css.map",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.rtl.css.map",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2873,7 +2873,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2889,7 +2889,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/css/bootstrap.rtl.min.css",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.rtl.min.css",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.rtl.min.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2910,7 +2910,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2926,7 +2926,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/css/bootstrap.rtl.min.css.map",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.rtl.min.css.map",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/css/bootstrap.rtl.min.css.map",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2947,7 +2947,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2963,7 +2963,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/js/bootstrap.bundle.js",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.bundle.js",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.bundle.js",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2984,7 +2984,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3000,7 +3000,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/js/bootstrap.bundle.js.map",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.bundle.js.map",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.bundle.js.map",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3021,7 +3021,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3037,7 +3037,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/js/bootstrap.bundle.min.js",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.bundle.min.js",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.bundle.min.js",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3058,7 +3058,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3074,7 +3074,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3095,7 +3095,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3111,7 +3111,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/js/bootstrap.esm.js",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.esm.js",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.esm.js",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3132,7 +3132,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3148,7 +3148,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/js/bootstrap.esm.js.map",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.esm.js.map",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.esm.js.map",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3169,7 +3169,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3185,7 +3185,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/js/bootstrap.esm.min.js",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.esm.min.js",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.esm.min.js",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3206,7 +3206,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3222,7 +3222,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/js/bootstrap.esm.min.js.map",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.esm.min.js.map",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.esm.min.js.map",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3243,7 +3243,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3259,7 +3259,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/js/bootstrap.js",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.js",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.js",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3280,7 +3280,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3296,7 +3296,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/js/bootstrap.js.map",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.js.map",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.js.map",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3317,7 +3317,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3333,7 +3333,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/js/bootstrap.min.js",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.min.js",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.min.js",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3354,7 +3354,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3370,7 +3370,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/dist/js/bootstrap.min.js.map",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.min.js.map",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/dist/js/bootstrap.min.js.map",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3391,7 +3391,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3407,7 +3407,7 @@
     },
     {
       "Route": "Identity/lib/bootstrap/LICENSE",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/bootstrap/LICENSE",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/bootstrap/LICENSE",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3428,7 +3428,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3444,7 +3444,7 @@
     },
     {
       "Route": "Identity/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3465,7 +3465,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3481,7 +3481,7 @@
     },
     {
       "Route": "Identity/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3502,7 +3502,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3518,7 +3518,7 @@
     },
     {
       "Route": "Identity/lib/jquery-validation-unobtrusive/LICENSE.txt",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/jquery-validation-unobtrusive/LICENSE.txt",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/jquery-validation-unobtrusive/LICENSE.txt",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3539,7 +3539,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3555,7 +3555,7 @@
     },
     {
       "Route": "Identity/lib/jquery-validation/dist/additional-methods.js",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/jquery-validation/dist/additional-methods.js",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/jquery-validation/dist/additional-methods.js",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3576,7 +3576,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3592,7 +3592,7 @@
     },
     {
       "Route": "Identity/lib/jquery-validation/dist/additional-methods.min.js",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/jquery-validation/dist/additional-methods.min.js",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/jquery-validation/dist/additional-methods.min.js",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3613,7 +3613,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3629,7 +3629,7 @@
     },
     {
       "Route": "Identity/lib/jquery-validation/dist/jquery.validate.js",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/jquery-validation/dist/jquery.validate.js",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/jquery-validation/dist/jquery.validate.js",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3650,7 +3650,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3666,7 +3666,7 @@
     },
     {
       "Route": "Identity/lib/jquery-validation/dist/jquery.validate.min.js",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/jquery-validation/dist/jquery.validate.min.js",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/jquery-validation/dist/jquery.validate.min.js",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3687,7 +3687,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3703,7 +3703,7 @@
     },
     {
       "Route": "Identity/lib/jquery-validation/LICENSE.md",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/jquery-validation/LICENSE.md",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/jquery-validation/LICENSE.md",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3724,7 +3724,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3740,7 +3740,7 @@
     },
     {
       "Route": "Identity/lib/jquery/dist/jquery.js",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/jquery/dist/jquery.js",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/jquery/dist/jquery.js",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3761,7 +3761,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3777,7 +3777,7 @@
     },
     {
       "Route": "Identity/lib/jquery/dist/jquery.min.js",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/jquery/dist/jquery.min.js",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/jquery/dist/jquery.min.js",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3798,7 +3798,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3814,7 +3814,7 @@
     },
     {
       "Route": "Identity/lib/jquery/dist/jquery.min.map",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/jquery/dist/jquery.min.map",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/jquery/dist/jquery.min.map",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3835,7 +3835,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3851,7 +3851,7 @@
     },
     {
       "Route": "Identity/lib/jquery/LICENSE.txt",
-      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.1/staticwebassets/V5/lib/jquery/LICENSE.txt",
+      "AssetFile": "/Users/michaelnikolaus/.nuget/packages/microsoft.aspnetcore.identity.ui/8.0.11/staticwebassets/V5/lib/jquery/LICENSE.txt",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -3872,7 +3872,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Thu, 30 Nov 2023 18:47:10 GMT"
+          "Value": "Mon, 21 Oct 2024 23:38:10 GMT"
         },
         {
           "Name": "Cache-Control",

@@ -38,7 +38,7 @@
                         @item.Location • @(item.PricePerDay?.ToString("C") ?? "Preis auf Anfrage")/Tag
                     </MudText>
                 </div>
-                <MudChip Size="Size.Small" 
+                <MudChip T="string" Size="Size.Small" 
                          Color="@(item.Available ? Color.Success : Color.Warning)"
                          Text="@(item.Available ? "Verfügbar" : "Belegt")" />
             </div>
@@ -85,7 +85,7 @@
         await JSRuntime.InvokeVoidAsync("console.log", "UI-Dev: SearchBar initialized with autocomplete and filtering");
     }
 
-    private async Task<IEnumerable<SearchResultItem>> SearchItems(string searchText)
+    private async Task<IEnumerable<SearchResultItem>> SearchItems(string searchText, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(searchText) || searchText.Length < 2)
         {

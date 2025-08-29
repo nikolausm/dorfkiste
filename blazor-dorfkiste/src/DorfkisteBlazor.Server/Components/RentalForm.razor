@@ -62,14 +62,14 @@
             </MudGrid>
             
             <!-- Rental Type -->
-            <MudRadioGroup @bind-SelectedOption="_rentalType" Class="mb-3">
+            <MudRadioGroup T="RentalType" @bind-SelectedOption="_rentalType" Class="mb-3">
                 <MudText Typo="Typo.subtitle2" Class="mb-2">Mietart:</MudText>
-                <MudRadio Option="@RentalType.Daily" Color="Color.Success">
+                <MudRadio T="RentalType" Option="@RentalType.Daily" Color="Color.Success">
                     Tagesweise (@(PricePerDay?.ToString("C") ?? "0,00€")/Tag)
                 </MudRadio>
                 @if (PricePerHour.HasValue)
                 {
-                    <MudRadio Option="@RentalType.Hourly" Color="Color.Success">
+                    <MudRadio T="RentalType" Option="@RentalType.Hourly" Color="Color.Success">
                         Stundenweise (@PricePerHour.Value.ToString("C")/Stunde)
                     </MudRadio>
                 }
@@ -104,14 +104,14 @@
             
             <!-- Delivery Options -->
             <MudText Typo="Typo.subtitle2" Class="mb-2">Übergabe:</MudText>
-            <MudRadioGroup @bind-SelectedOption="_deliveryOption" Class="mb-3">
-                <MudRadio Option="@DeliveryOption.Pickup" Color="Color.Success">
+            <MudRadioGroup T="DeliveryOption" @bind-SelectedOption="_deliveryOption" Class="mb-3">
+                <MudRadio T="DeliveryOption" Option="@DeliveryOption.Pickup" Color="Color.Success">
                     <div class="d-flex align-center">
                         <MudIcon Icon="@Icons.Material.Filled.DirectionsWalk" Class="mr-2" />
                         Abholung vor Ort (kostenlos)
                     </div>
                 </MudRadio>
-                <MudRadio Option="@DeliveryOption.Delivery" Color="Color.Success">
+                <MudRadio T="DeliveryOption" Option="@DeliveryOption.Delivery" Color="Color.Success">
                     <div class="d-flex align-center">
                         <MudIcon Icon="@Icons.Material.Filled.LocalShipping" Class="mr-2" />
                         Lieferung (+5,00€)
@@ -130,7 +130,7 @@
             }
             
             <!-- Insurance -->
-            <MudCheckBox @bind-Checked="_includeInsurance" 
+            <MudCheckBox T="bool" @bind-Checked="_includeInsurance" 
                          Color="Color.Success"
                          Class="mb-3">
                 <MudText Typo="Typo.body2">

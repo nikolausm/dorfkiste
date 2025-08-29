@@ -12,6 +12,29 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configure Kestrel to fix SSL/TLS issues
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.ConfigureHttpsDefaults(httpsOptions =>
+    {
+        // Fix SSL/TLS encryption errors by using more compatible settings
+        httpsOptions.SslProtocols = System.Security.Authentication.SslProtocols.Tls12 | System.Security.Authentication.SslProtocols.Tls13;
+    });
+    
+    // Disable HTTP/2 if causing issues - can be re-enabled later
+    serverOptions.ConfigureEndpointDefaults(listenOptions =>
+    {
+        listenOptions.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http1;
+    });
+});
+
+// Load environment variables from .env file if it exists
+var envPath = Path.Combine(Directory.GetCurrentDirectory(), "../../.env");
+if (File.Exists(envPath))
+{
+    DotNetEnv.Env.Load(envPath);
+}
+
 // Configure Serilog
 builder.Host.UseSerilog((context, services, configuration) => configuration
     .ReadFrom.Configuration(context.Configuration)
@@ -26,6 +49,9 @@ builder.Services.AddServerSideBlazor();
 
 // Add MudBlazor services
 builder.Services.AddMudServices();
+
+// Add HttpClient services (required for components)
+builder.Services.AddHttpClient();
 
 // Add Application and Infrastructure layers
 builder.Services.AddApplication();

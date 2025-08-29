@@ -124,7 +124,7 @@
                 </MudCard>
             }
 
-            <MudCheckBox @bind-Checked="_signUpModel.AcceptTerms" 
+            <MudCheckBox T="bool" @bind-Checked="_signUpModel.AcceptTerms" 
                          For="@(() => _signUpModel.AcceptTerms)"
                          Color="Color.Success"
                          Class="mb-4">
@@ -140,7 +140,7 @@
                 </MudText>
             </MudCheckBox>
 
-            <MudCheckBox @bind-Checked="_signUpModel.AcceptMarketing" 
+            <MudCheckBox T="bool" @bind-Checked="_signUpModel.AcceptMarketing" 
                          Color="Color.Success"
                          Class="mb-6">
                 <MudText Typo="Typo.body2" Color="Color.Secondary">

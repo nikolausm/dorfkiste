@@ -66,7 +66,7 @@
                                         <div class="d-flex align-center mb-2">
                                             <MudIcon Icon="@Icons.Material.Filled.LocationOn" Size="Size.Small" Color="Color.Secondary" />
                                             <MudText Typo="Typo.body2" Class="ml-1">@item.Location</MudText>
-                                            <MudChip Size="Size.Small" 
+                                            <MudChip T="string" Size="Size.Small" 
                                                      Color="@(item.Available ? Color.Success : Color.Warning)"
                                                      Text="@(item.Available ? "Verfügbar" : "Belegt")"
                                                      Class="ml-auto" />
@@ -121,7 +121,7 @@
                                         <MudIcon Icon="@Icons.Material.Filled.Image" Size="Size.Large" />
                                     </div>
                                 }
-                                <MudChip Size="Size.Small" 
+                                <MudChip T="string" Size="Size.Small" 
                                          Color="@(item.Available ? Color.Success : Color.Warning)"
                                          Text="@(item.Available ? "Verfügbar" : "Belegt")"
                                          Class="position-absolute" 
@@ -229,25 +229,43 @@
         MaxWidth = MaxWidth.Small,
         FullWidth = true,
         CloseButton = true,
-        DisableBackdropClick = false
+        BackdropClick = true
     };
 
     protected override async Task OnInitializedAsync()
     {
-        await JSRuntime.InvokeVoidAsync("console.log", "UI-Dev: Initializing ItemGrid component");
-        
-        // Load view preference from localStorage
-        try
+        // Initialize any non-JS related state here
+        await base.OnInitializedAsync();
+    }
+    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
         {
-            var savedViewMode = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "itemGrid.viewMode");
-            _savedListView = savedViewMode == "list";
+            try
+            {
+                await JSRuntime.InvokeVoidAsync("console.log", "UI-Dev: Initializing ItemGrid component");
+                
+                // Load view preference from localStorage
+                try
+                {
+                    var savedViewMode = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "itemGrid.viewMode");
+                    _savedListView = savedViewMode == "list";
+                    StateHasChanged(); // Update the UI with the loaded preference
+                }
+                catch
+                {
+                    // Ignore errors, use default
+                }
+                
+                await JSRuntime.InvokeVoidAsync("console.log", "UI-Dev: ItemGrid initialized with responsive grid and filtering");
+            }
+            catch (Exception ex)
+            {
+                // Log exception but don't throw - this is for debugging only
+                Console.WriteLine($"JS Interop failed: {ex.Message}");
+            }
         }
-        catch
-        {
-            // Ignore errors, use default
-        }
-        
-        await JSRuntime.InvokeVoidAsync("console.log", "UI-Dev: ItemGrid initialized with responsive grid and filtering");
     }
 
     protected override async Task OnParametersSetAsync()

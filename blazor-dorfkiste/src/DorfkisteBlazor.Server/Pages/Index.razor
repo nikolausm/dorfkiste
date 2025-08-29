@@ -6,40 +6,42 @@
 <PageTitle>Dorfkiste - Teile und leihe in deiner Nachbarschaft</PageTitle>
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge">
-    <!-- Hero Section -->
-    <MudPaper Class="hero-section pa-8 mb-6" Elevation="0" Style="background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); border-radius: 16px;">
+    <!-- Hero Section - eBay Style -->
+    <MudPaper Class="hero-section pa-6 mb-4" Elevation="0" Style="background: linear-gradient(135deg, #f7f7f7 0%, #ffffff 100%); border: 1px solid #e5e5e5; border-radius: 8px;">
         <MudContainer MaxWidth="MaxWidth.Large" Class="text-center">
-            <MudText Typo="Typo.h2" Class="text-white mb-4 font-weight-bold">
+            <MudText Typo="Typo.h3" Class="mb-3 font-weight-bold" Style="color: #0064d2;">
                 Willkommen bei Dorfkiste
             </MudText>
-            <MudText Typo="Typo.h5" Class="text-white mb-6 opacity-90">
-                Die nachhaltige Plattform zum Teilen und Leihen in deiner Nachbarschaft
+            <MudText Typo="Typo.h6" Class="mb-5" Style="color: #707070;">
+                Ihre Nachbarschaftsplattform zum Teilen und Leihen
             </MudText>
-            <div class="d-flex gap-4 justify-center flex-wrap">
+            <div class="d-flex gap-3 justify-center flex-wrap">
                 <MudButton Href="/items"
                            Variant="Variant.Filled" 
-                           Color="Color.Surface"
+                           Color="Color.Primary"
                            Size="Size.Large"
                            StartIcon="@Icons.Material.Filled.Search"
-                           Class="text-success font-weight-bold">
+                           Class="ebay-primary-button">
                     Artikel entdecken
                 </MudButton>
                 <AuthorizeView>
                     <Authorized>
                         <MudButton Href="/items/new"
                                    Variant="Variant.Outlined" 
-                                   Color="Color.Surface"
+                                   Color="Color.Primary"
                                    Size="Size.Large"
-                                   StartIcon="@Icons.Material.Filled.Add">
+                                   StartIcon="@Icons.Material.Filled.Add"
+                                   Class="ebay-secondary-button">
                             Artikel einstellen
                         </MudButton>
                     </Authorized>
                     <NotAuthorized>
                         <MudButton Href="/auth/signup"
                                    Variant="Variant.Outlined" 
-                                   Color="Color.Surface"
+                                   Color="Color.Primary"
                                    Size="Size.Large"
-                                   StartIcon="@Icons.Material.Filled.PersonAdd">
+                                   StartIcon="@Icons.Material.Filled.PersonAdd"
+                                   Class="ebay-secondary-button">
                             Kostenlos registrieren
                         </MudButton>
                     </NotAuthorized>
@@ -48,18 +50,18 @@
         </MudContainer>
     </MudPaper>
 
-    <!-- Features Section -->
-    <MudGrid Class="mb-6" Spacing="4">
+    <!-- Features Section - eBay Style -->
+    <MudGrid Class="mb-6" Spacing="3">
         <MudItem xs="12" md="4">
-            <MudCard Class="feature-card pa-6 text-center h-100">
+            <MudCard Class="ebay-feature-card pa-5 text-center h-100" Elevation="0">
                 <MudIcon Icon="@Icons.Material.Filled.Nature" 
                          Size="Size.Large" 
-                         Color="Color.Success" 
-                         Class="mb-4" />
-                <MudText Typo="Typo.h6" Class="mb-3 font-weight-bold">
+                         Color="Color.Primary" 
+                         Class="mb-3" />
+                <MudText Typo="Typo.h6" Class="mb-2 font-weight-medium" Style="color: #0064d2;">
                     Nachhaltig leben
                 </MudText>
-                <MudText Typo="Typo.body1" Color="Color.Secondary">
+                <MudText Typo="Typo.body2" Style="color: #707070; line-height: 1.4;">
                     Reduziere deinen ökologischen Fußabdruck durch Teilen statt Kaufen. 
                     Gemeinsam für eine nachhaltigere Zukunft.
                 </MudText>
@@ -67,15 +69,15 @@
         </MudItem>
         
         <MudItem xs="12" md="4">
-            <MudCard Class="feature-card pa-6 text-center h-100">
+            <MudCard Class="ebay-feature-card pa-5 text-center h-100" Elevation="0">
                 <MudIcon Icon="@Icons.Material.Filled.People" 
                          Size="Size.Large" 
-                         Color="Color.Success" 
-                         Class="mb-4" />
-                <MudText Typo="Typo.h6" Class="mb-3 font-weight-bold">
+                         Color="Color.Primary" 
+                         Class="mb-3" />
+                <MudText Typo="Typo.h6" Class="mb-2 font-weight-medium" Style="color: #0064d2;">
                     Nachbarschaft stärken
                 </MudText>
-                <MudText Typo="Typo.body1" Color="Color.Secondary">
+                <MudText Typo="Typo.body2" Style="color: #707070; line-height: 1.4;">
                     Lerne deine Nachbarn kennen und baue starke Gemeinschaften auf. 
                     Zusammen sind wir stärker.
                 </MudText>
@@ -83,15 +85,15 @@
         </MudItem>
         
         <MudItem xs="12" md="4">
-            <MudCard Class="feature-card pa-6 text-center h-100">
+            <MudCard Class="ebay-feature-card pa-5 text-center h-100" Elevation="0">
                 <MudIcon Icon="@Icons.Material.Filled.Savings" 
                          Size="Size.Large" 
-                         Color="Color.Success" 
-                         Class="mb-4" />
-                <MudText Typo="Typo.h6" Class="mb-3 font-weight-bold">
+                         Color="Color.Primary" 
+                         Class="mb-3" />
+                <MudText Typo="Typo.h6" Class="mb-2 font-weight-medium" Style="color: #0064d2;">
                     Geld sparen
                 </MudText>
-                <MudText Typo="Typo.body1" Color="Color.Secondary">
+                <MudText Typo="Typo.body2" Style="color: #707070; line-height: 1.4;">
                     Warum kaufen, wenn du leihen kannst? Spare Geld und Platz, 
                     während du anderen hilfst.
                 </MudText>
@@ -99,20 +101,20 @@
         </MudItem>
     </MudGrid>
 
-    <!-- Popular Categories -->
-    <MudText Typo="Typo.h4" Class="mb-4 font-weight-bold text-center">
+    <!-- Popular Categories - eBay Style -->
+    <MudText Typo="Typo.h5" Class="mb-3 font-weight-medium" Style="color: #0064d2;">
         Beliebte Kategorien
     </MudText>
-    <MudGrid Class="mb-6" Spacing="3">
+    <MudGrid Class="mb-6" Spacing="2">
         @foreach (var category in _popularCategories)
         {
             <MudItem xs="6" sm="4" md="3" lg="2">
                 <MudButton Href="@($"/items?category={category.Slug}")"
                            Variant="Variant.Outlined"
-                           Class="category-button pa-4 w-100 h-100"
-                           Style="flex-direction: column; border-radius: 12px;">
-                    <MudIcon Icon="@category.Icon" Size="Size.Large" Color="Color.Success" Class="mb-2" />
-                    <MudText Typo="Typo.body2" Class="text-center">
+                           Class="ebay-category-button pa-3 w-100 h-100"
+                           Style="flex-direction: column; border-radius: 8px; border-color: #e5e5e5;">
+                    <MudIcon Icon="@category.Icon" Size="Size.Medium" Color="Color.Primary" Class="mb-2" />
+                    <MudText Typo="Typo.caption" Class="text-center" Style="color: #0064d2; font-weight: 500;">
                         @category.Name
                     </MudText>
                 </MudButton>
@@ -120,21 +122,22 @@
         }
     </MudGrid>
 
-    <!-- Recent Items Preview -->
-    <MudText Typo="Typo.h4" Class="mb-4 font-weight-bold text-center">
+    <!-- Recent Items Preview - eBay Style -->
+    <MudText Typo="Typo.h5" Class="mb-3 font-weight-medium" Style="color: #0064d2;">
         Neueste Artikel
     </MudText>
     
-    <div class="recent-items-preview mb-6">
+    <div class="recent-items-preview mb-5">
         <ItemGrid Items="_recentItems" ShowPagination="false" />
     </div>
 
     <div class="text-center">
         <MudButton Href="/items"
                    Variant="Variant.Outlined"
-                   Color="Color.Success"
+                   Color="Color.Primary"
                    Size="Size.Large"
-                   EndIcon="@Icons.Material.Filled.ArrowForward">
+                   EndIcon="@Icons.Material.Filled.ArrowForward"
+                   Class="ebay-view-all-button">
             Alle Artikel anzeigen
         </MudButton>
     </div>
@@ -146,12 +149,25 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await JSRuntime.InvokeVoidAsync("console.log", "UI-Dev: Initializing Index page");
-        
         LoadPopularCategories();
         await LoadRecentItems();
-        
-        await JSRuntime.InvokeVoidAsync("console.log", "UI-Dev: Index page initialized with hero section and item preview");
+    }
+    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            try
+            {
+                await JSRuntime.InvokeVoidAsync("console.log", "UI-Dev: Initializing Index page");
+                await JSRuntime.InvokeVoidAsync("console.log", "UI-Dev: Index page initialized with hero section and item preview");
+            }
+            catch (Exception ex)
+            {
+                // Log exception but don't throw - this is for debugging only
+                Console.WriteLine($"JS Interop failed: {ex.Message}");
+            }
+        }
     }
 
     private void LoadPopularCategories()
@@ -233,74 +249,122 @@
 }
 
 <style>
+    /* eBay-Style Hero Section */
     .hero-section {
         position: relative;
-        overflow: hidden;
-    }
-    
-    .hero-section::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" fill-opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" fill-opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-        pointer-events: none;
+        background: #f7f7f7;
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
     }
 
-    .feature-card {
-        border-radius: 16px;
-        border: 1px solid rgba(34, 197, 94, 0.1);
-        transition: all 0.3s ease;
+    .ebay-primary-button {
+        background-color: #0064d2 !important;
+        border: none !important;
+        border-radius: 18px !important;
+        font-weight: 600 !important;
+        text-transform: none !important;
+        padding: 8px 24px !important;
+        transition: all 0.2s ease !important;
     }
     
-    .feature-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 8px 25px rgba(34, 197, 94, 0.15);
+    .ebay-primary-button:hover {
+        background-color: #004c9c !important;
+        transform: translateY(-1px);
     }
 
-    .category-button {
-        border-color: rgba(34, 197, 94, 0.3);
-        transition: all 0.3s ease;
-        min-height: 120px;
+    .ebay-secondary-button {
+        border-color: #0064d2 !important;
+        color: #0064d2 !important;
+        border-radius: 18px !important;
+        font-weight: 500 !important;
+        text-transform: none !important;
+        padding: 8px 24px !important;
+        transition: all 0.2s ease !important;
     }
     
-    .category-button:hover {
-        border-color: #22c55e;
-        background-color: rgba(34, 197, 94, 0.04);
+    .ebay-secondary-button:hover {
+        background-color: rgba(0, 100, 210, 0.04) !important;
+        border-color: #004c9c !important;
+        color: #004c9c !important;
+    }
+
+    /* eBay-Style Feature Cards */
+    .ebay-feature-card {
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+        background: white;
+        transition: all 0.2s ease;
+    }
+    
+    .ebay-feature-card:hover {
+        border-color: #0064d2;
+        box-shadow: 0 2px 8px rgba(0, 100, 210, 0.1);
+    }
+
+    /* eBay-Style Category Buttons */
+    .ebay-category-button {
+        border: 1px solid #e5e5e5 !important;
+        background: white !important;
+        transition: all 0.2s ease !important;
+        min-height: 100px;
+        color: #0064d2 !important;
+    }
+    
+    .ebay-category-button:hover {
+        border-color: #0064d2 !important;
+        background-color: rgba(0, 100, 210, 0.02) !important;
         transform: translateY(-2px);
+        box-shadow: 0 2px 8px rgba(0, 100, 210, 0.1);
+    }
+
+    /* eBay-Style View All Button */
+    .ebay-view-all-button {
+        border-color: #0064d2 !important;
+        color: #0064d2 !important;
+        border-radius: 18px !important;
+        font-weight: 500 !important;
+        text-transform: none !important;
+        padding: 10px 32px !important;
+        transition: all 0.2s ease !important;
+    }
+    
+    .ebay-view-all-button:hover {
+        background-color: rgba(0, 100, 210, 0.04) !important;
+        border-color: #004c9c !important;
+        color: #004c9c !important;
+        transform: translateY(-1px);
     }
 
     .recent-items-preview {
         max-width: 100%;
     }
 
+    /* Responsive Design */
     @@media (max-width: 960px) {
-        .hero-section .pa-8 {
-            padding: 32px 16px !important;
+        .hero-section {
+            padding: 24px 16px !important;
         }
         
-        .hero-section h2 {
-            font-size: 2rem !important;
-        }
-        
-        .hero-section h5 {
-            font-size: 1.25rem !important;
-        }
-        
-        .d-flex.gap-4 {
+        .d-flex.gap-3 {
             gap: 12px !important;
             flex-direction: column;
         }
         
-        .feature-card {
-            padding: 32px 24px !important;
+        .ebay-feature-card {
+            padding: 24px 16px !important;
         }
         
-        .category-button {
-            min-height: 100px;
-            padding: 16px !important;
+        .ebay-category-button {
+            min-height: 80px;
+            padding: 12px !important;
+        }
+    }
+
+    @@media (max-width: 600px) {
+        .ebay-primary-button,
+        .ebay-secondary-button {
+            width: 100%;
+            margin-bottom: 8px;
         }
     }
 </style>

@@ -113,7 +113,7 @@
                                 <MudIcon Icon="@Icons.Material.Filled.Category" Size="Size.Small" Class="mr-1" />
                                 Kategorie:
                             </MudText>
-                            <MudChip Size="Size.Small" Color="Color.Primary">
+                            <MudChip T="string" Size="Size.Small" Color="Color.Primary">
                                 @_analysisResult.Category
                             </MudChip>
                         </MudItem>
@@ -123,7 +123,7 @@
                                 <MudIcon Icon="@Icons.Material.Filled.Star" Size="Size.Small" Class="mr-1" />
                                 Zustand:
                             </MudText>
-                            <MudChip Size="Size.Small" Color="@GetConditionColor()">
+                            <MudChip T="string" Size="Size.Small" Color="@GetConditionColor()">
                                 @_analysisResult.Condition
                             </MudChip>
                         </MudItem>
@@ -161,7 +161,7 @@
                                 <div class="d-flex flex-wrap gap-1">
                                     @foreach (var tag in _analysisResult.Tags)
                                     {
-                                        <MudChip Size="Size.Small" 
+                                        <MudChip T="string" Size="Size.Small" 
                                                  Color="Color.Secondary" 
                                                  Variant="Variant.Outlined">
                                             @tag

@@ -1,9 +1,12 @@
 using DorfkisteBlazor.Application.Features.Items.Queries;
+using DorfkisteBlazor.Application.Features.Items.Commands;
 using DorfkisteBlazor.Application.Common.Interfaces;
 using DorfkisteBlazor.Application.Common.Models;
 using DorfkisteBlazor.Application.Features.Items.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using MediatR;
+using System.Security.Claims;
 
 namespace DorfkisteBlazor.Server.Controllers;
 
@@ -15,13 +18,16 @@ namespace DorfkisteBlazor.Server.Controllers;
 public class ItemsController : ControllerBase
 {
     private readonly IQueryHandler<GetItemsQuery, Result<ItemsResponse>> _getItemsHandler;
+    private readonly IMediator _mediator;
     private readonly ILogger<ItemsController> _logger;
 
     public ItemsController(
         IQueryHandler<GetItemsQuery, Result<ItemsResponse>> getItemsHandler,
+        IMediator mediator,
         ILogger<ItemsController> logger)
     {
         _getItemsHandler = getItemsHandler;
+        _mediator = mediator;
         _logger = logger;
     }
 
@@ -92,14 +98,47 @@ public class ItemsController : ControllerBase
     /// </summary>
     [HttpPost]
     [Authorize]
-    public async Task<ActionResult<ItemDto>> CreateItem([FromBody] CreateItemRequest request)
+    public async Task<ActionResult<CreateItemResponse>> CreateItem([FromBody] CreateItemRequest request)
     {
         try
         {
-            // TODO: Implement CreateItemCommand and handler
-            _logger.LogInformation("Creating item for user {UserId}", User.Identity?.Name);
+            var userId = GetCurrentUserId();
+            if (userId == null)
+            {
+                return Unauthorized("User not authenticated");
+            }
+
+            var command = new CreateItemCommand
+            {
+                Title = request.Title,
+                Description = request.Description,
+                Condition = request.Condition,
+                PricePerDay = request.PricePerDay,
+                PricePerHour = request.PricePerHour,
+                Deposit = request.Deposit,
+                Location = request.Location,
+                Latitude = request.Latitude,
+                Longitude = request.Longitude,
+                DeliveryAvailable = request.DeliveryAvailable,
+                DeliveryFee = request.DeliveryFee,
+                DeliveryRadius = request.DeliveryRadius,
+                DeliveryDetails = request.DeliveryDetails,
+                PickupAvailable = request.PickupAvailable,
+                CategoryId = request.CategoryId,
+                UserId = userId.Value,
+                ImageUrls = request.ImageUrls
+            };
+
+            var result = await _mediator.Send(command);
             
-            return StatusCode(501, "Not implemented yet");
+            if (result.IsFailure)
+            {
+                _logger.LogWarning("Failed to create item for user {UserId}: {Error}", userId, result.Error);
+                return BadRequest(result.Error);
+            }
+
+            _logger.LogInformation("Created item {ItemId} for user {UserId}", result.Value.ItemId, userId);
+            return CreatedAtAction(nameof(GetItem), new { id = result.Value.ItemId }, result.Value);
         }
         catch (Exception ex)
         {
@@ -148,6 +187,12 @@ public class ItemsController : ControllerBase
             _logger.LogError(ex, "Error occurred while deleting item {ItemId}", id);
             return StatusCode(500, "An error occurred while processing your request");
         }
+    }
+
+    private Guid? GetCurrentUserId()
+    {
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        return Guid.TryParse(userIdClaim, out var userId) ? userId : null;
     }
 }
 

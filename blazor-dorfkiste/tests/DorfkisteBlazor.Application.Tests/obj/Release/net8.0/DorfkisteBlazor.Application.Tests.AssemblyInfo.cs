@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DorfkisteBlazor.Application.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+991b20daa6c0682c40956487ffc9eb9c35913f03")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+34d70c06ee935514c3f7fb8e9028e5752ba22fa2")]
 [assembly: System.Reflection.AssemblyProductAttribute("DorfkisteBlazor.Application.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DorfkisteBlazor.Application.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

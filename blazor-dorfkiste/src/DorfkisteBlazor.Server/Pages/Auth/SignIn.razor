@@ -52,7 +52,7 @@
                           Class="mb-4" />
 
             <div class="d-flex justify-between align-center mb-4">
-                <MudCheckBox @bind-Checked="_signInModel.RememberMe" 
+                <MudCheckBox T="bool" @bind-Checked="_signInModel.RememberMe" 
                              Label="Angemeldet bleiben"
                              Color="Color.Success" />
                 <MudLink Href="/auth/forgot-password" Color="Color.Success">

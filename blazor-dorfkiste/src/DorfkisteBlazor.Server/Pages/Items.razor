@@ -47,7 +47,7 @@
             
             <!-- Category Filter -->
             <MudItem xs="12" md="3">
-                <MudSelect @bind-Value="_selectedCategory"
+                <MudSelect T="string" @bind-Value="_selectedCategory"
                            Label="Kategorie"
                            Variant="Variant.Outlined"
                            AnchorOrigin="Origin.BottomCenter">
@@ -92,21 +92,21 @@
                 
                 @if (!string.IsNullOrEmpty(_currentSearchTerm))
                 {
-                    <MudChip Text="@($"Suche: {_currentSearchTerm}")"
+                    <MudChip T="string" Text="@($"Suche: {_currentSearchTerm}")"
                              OnClose="() => ClearSearchFilter()"
                              Color="Color.Primary" />
                 }
                 
                 @if (!string.IsNullOrEmpty(_selectedCategory))
                 {
-                    <MudChip Text="@($"Kategorie: {_selectedCategory}")"
+                    <MudChip T="string" Text="@($"Kategorie: {_selectedCategory}")"
                              OnClose="() => ClearCategoryFilter()"
                              Color="Color.Secondary" />
                 }
                 
                 @if (!string.IsNullOrEmpty(_locationFilter))
                 {
-                    <MudChip Text="@($"Standort: {_locationFilter}")"
+                    <MudChip T="string" Text="@($"Standort: {_locationFilter}")"
                              OnClose="() => ClearLocationFilter()"
                              Color="Color.Info" />
                 }

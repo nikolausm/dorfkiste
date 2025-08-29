@@ -81,3 +81,4 @@ coverage.cobertura.xml
 # Roslyn/Analyzer caches
 **/.sonarqube/
 **/.scannerwork/
+/.serena/
