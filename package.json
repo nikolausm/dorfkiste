@@ -92,7 +92,7 @@
     "isomorphic-dompurify": "^2.26.0",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.400.0",
-    "next": "^15.4.4",
+    "next": "^15.5.2",
     "next-auth": "^5.0.0-beta.29",
     "node-cron": "^3.0.3",
     "rate-limiter-flexible": "^5.0.5",
