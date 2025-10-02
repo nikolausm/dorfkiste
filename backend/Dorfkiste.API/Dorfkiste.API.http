@@ -1,0 +1,6 @@
+@Dorfkiste.API_HostAddress = http://localhost:5124
+
+GET {{Dorfkiste.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

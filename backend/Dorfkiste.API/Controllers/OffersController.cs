@@ -1,0 +1,635 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using Dorfkiste.Core.Interfaces;
+using Dorfkiste.Core.Entities;
+
+namespace Dorfkiste.API.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+public class OffersController : ControllerBase
+{
+    private readonly IOfferRepository _offerRepository;
+    private readonly IOfferService _offerService;
+
+    public OffersController(IOfferRepository offerRepository, IOfferService offerService)
+    {
+        _offerRepository = offerRepository;
+        _offerService = offerService;
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<OfferDto>>> GetOffers([FromQuery] int? categoryId, [FromQuery] string? search)
+    {
+        IEnumerable<Offer> offers;
+
+        if (!string.IsNullOrEmpty(search))
+        {
+            offers = await _offerRepository.SearchAsync(search);
+        }
+        else if (categoryId.HasValue)
+        {
+            offers = await _offerRepository.GetByCategoryAsync(categoryId.Value);
+        }
+        else
+        {
+            offers = await _offerRepository.GetActiveAsync();
+        }
+
+        var offerDtos = offers.Select(MapToOfferDto);
+        return Ok(offerDtos);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<OfferDetailDto>> GetOffer(int id)
+    {
+        var offer = await _offerRepository.GetByIdAsync(id);
+
+        if (offer == null)
+        {
+            return NotFound();
+        }
+
+        var offerDto = MapToOfferDetailDto(offer);
+        return Ok(offerDto);
+    }
+
+    [HttpPost]
+    [Authorize]
+    public async Task<ActionResult<OfferDto>> CreateOffer([FromBody] CreateOfferRequest request)
+    {
+        var userId = GetCurrentUserId();
+        
+        var offer = new Offer
+        {
+            Title = request.Title,
+            Description = request.Description,
+            PricePerDay = request.PricePerDay,
+            PricePerHour = request.PricePerHour,
+            IsService = request.IsService,
+            CategoryId = request.CategoryId,
+            UserId = userId,
+            IsActive = true
+        };
+
+        var createdOffer = await _offerRepository.CreateAsync(offer);
+        var result = await _offerRepository.GetByIdAsync(createdOffer.Id);
+        
+        return CreatedAtAction(nameof(GetOffer), new { id = createdOffer.Id }, MapToOfferDto(result!));
+    }
+
+    [HttpPut("{id}")]
+    [Authorize]
+    public async Task<ActionResult<OfferDto>> UpdateOffer(int id, [FromBody] UpdateOfferRequest request)
+    {
+        var userId = GetCurrentUserId();
+        var offer = await _offerRepository.GetByIdAsync(id);
+
+        if (offer == null)
+        {
+            return NotFound();
+        }
+
+        if (offer.UserId != userId)
+        {
+            return Forbid();
+        }
+
+        offer.Title = request.Title;
+        offer.Description = request.Description;
+        offer.PricePerDay = request.PricePerDay;
+        offer.PricePerHour = request.PricePerHour;
+        offer.IsService = request.IsService;
+        offer.CategoryId = request.CategoryId;
+        offer.IsActive = request.IsActive;
+
+        await _offerRepository.UpdateAsync(offer);
+        var result = await _offerRepository.GetByIdAsync(id);
+        
+        return Ok(MapToOfferDto(result!));
+    }
+
+    [HttpPatch("{id}/toggle-active")]
+    [Authorize]
+    public async Task<ActionResult<OfferDto>> ToggleOfferActive(int id)
+    {
+        var userId = GetCurrentUserId();
+        var offer = await _offerRepository.GetByIdAsync(id);
+
+        if (offer == null)
+        {
+            return NotFound();
+        }
+
+        if (offer.UserId != userId)
+        {
+            return Forbid();
+        }
+
+        offer.IsActive = !offer.IsActive;
+        await _offerRepository.UpdateAsync(offer);
+        
+        var result = await _offerRepository.GetByIdAsync(id);
+        return Ok(MapToOfferDto(result!));
+    }
+
+    [HttpDelete("{id}")]
+    [Authorize]
+    public async Task<IActionResult> DeleteOffer(int id)
+    {
+        var userId = GetCurrentUserId();
+        var offer = await _offerRepository.GetByIdAsync(id);
+
+        if (offer == null)
+        {
+            return NotFound();
+        }
+
+        if (offer.UserId != userId)
+        {
+            return Forbid();
+        }
+
+        await _offerRepository.DeleteAsync(id);
+        return NoContent();
+    }
+
+    [HttpGet("user/{userId}")]
+    public async Task<ActionResult<IEnumerable<OfferDto>>> GetUserOffers(int userId)
+    {
+        var offers = await _offerRepository.GetByUserAsync(userId);
+        var offerDtos = offers.Select(MapToOfferDto);
+        
+        return Ok(offerDtos);
+    }
+
+    [HttpGet("my-offers")]
+    [Authorize]
+    public async Task<ActionResult<IEnumerable<OfferDto>>> GetMyOffers()
+    {
+        var userId = GetCurrentUserId();
+        var offers = await _offerRepository.GetByUserAsync(userId);
+        var offerDtos = offers.Select(MapToOfferDto);
+
+        return Ok(offerDtos);
+    }
+
+    [HttpPost("test-analyze")]
+    [Authorize]
+    public async Task<ActionResult<AnalyzeImageResponse>> TestAnalyze(IFormFile file)
+    {
+        if (file == null || file.Length == 0)
+        {
+            return BadRequest("No file uploaded");
+        }
+
+        // Return a mock response for testing
+        return Ok(new AnalyzeImageResponse
+        {
+            Title = "Test Bohrmaschine",
+            Description = "Eine Test-Beschreibung für die Bohrmaschine",
+            IsService = false,
+            SuggestedCategoryName = "Werkzeuge & Geräte",
+            SuggestedCategoryId = 1,
+            SuggestedPricePerDay = 15.00m
+        });
+    }
+
+    [HttpPost("analyze-image")]
+    [Authorize]
+    public async Task<ActionResult<AnalyzeImageResponse>> AnalyzeImage(IFormFile file)
+    {
+        if (file == null || file.Length == 0)
+        {
+            return BadRequest("No file uploaded");
+        }
+
+        if (file.Length > 5 * 1024 * 1024) // 5MB limit
+        {
+            return BadRequest("File size exceeds 5MB limit");
+        }
+
+        var allowedTypes = new[] { "image/jpeg", "image/jpg", "image/png", "image/gif", "image/webp" };
+        if (!allowedTypes.Contains(file.ContentType.ToLowerInvariant()))
+        {
+            return BadRequest("Invalid file type. Only JPEG, PNG, GIF, and WebP images are allowed");
+        }
+
+        using var memoryStream = new MemoryStream();
+        await file.CopyToAsync(memoryStream);
+        var imageData = memoryStream.ToArray();
+
+        try
+        {
+            var analysis = await _offerService.AnalyzeImageAndSuggestOfferDataAsync(imageData);
+
+            if (analysis == null)
+            {
+                // This should not happen with our new implementation, but provide a fallback just in case
+                return StatusCode(500, "Die Bildanalyse ist temporär nicht verfügbar. Bitte versuchen Sie es später erneut oder erstellen Sie das Angebot manuell.");
+            }
+
+            return Ok(analysis);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Controller error analyzing image: {ex.GetType().Name}: {ex.Message}");
+            return StatusCode(500, "Es gab einen Fehler bei der Bildanalyse. Bitte versuchen Sie es erneut oder erstellen Sie das Angebot manuell.");
+        }
+    }
+
+    [HttpPost("generate-description")]
+    [Authorize]
+    public async Task<ActionResult<GenerateDescriptionResponse>> GenerateDescriptionFromImage(IFormFile file)
+    {
+        if (file == null || file.Length == 0)
+        {
+            return BadRequest("No file uploaded");
+        }
+
+        if (file.Length > 5 * 1024 * 1024) // 5MB limit
+        {
+            return BadRequest("File size exceeds 5MB limit");
+        }
+
+        var allowedTypes = new[] { "image/jpeg", "image/jpg", "image/png", "image/gif", "image/webp" };
+        if (!allowedTypes.Contains(file.ContentType.ToLowerInvariant()))
+        {
+            return BadRequest("Invalid file type. Only JPEG, PNG, GIF, and WebP images are allowed");
+        }
+
+        using var memoryStream = new MemoryStream();
+        await file.CopyToAsync(memoryStream);
+        var imageData = memoryStream.ToArray();
+
+        var description = await _offerService.GenerateDescriptionFromImageAsync(imageData);
+
+        if (description == null)
+        {
+            return StatusCode(500, "Die automatische Beschreibungsgenerierung ist temporär nicht verfügbar. Bitte erstellen Sie eine Beschreibung manuell.");
+        }
+
+        return Ok(new GenerateDescriptionResponse
+        {
+            Description = description
+        });
+    }
+
+    [HttpPost("{id}/generate-description-from-picture")]
+    [Authorize]
+    public async Task<ActionResult<GenerateDescriptionResponse>> GenerateDescriptionFromOfferPicture(int id)
+    {
+        var userId = GetCurrentUserId();
+        var offer = await _offerRepository.GetByIdAsync(id);
+
+        if (offer == null)
+        {
+            return NotFound("Offer not found");
+        }
+
+        if (offer.UserId != userId)
+        {
+            return Forbid("You don't have permission to generate descriptions for this offer");
+        }
+
+        var pictures = await _offerService.GetOfferPicturesAsync(id);
+        var firstPicture = pictures.OrderBy(p => p.DisplayOrder).FirstOrDefault();
+
+        if (firstPicture == null)
+        {
+            return BadRequest("No pictures found for this offer. Please upload a picture first.");
+        }
+
+        var allowedTypes = new[] { "image/jpeg", "image/jpg", "image/png", "image/gif", "image/webp" };
+        if (!allowedTypes.Contains(firstPicture.ContentType.ToLowerInvariant()))
+        {
+            return BadRequest("The first picture has an unsupported format for AI description generation");
+        }
+
+        var description = await _offerService.GenerateDescriptionFromImageAsync(firstPicture.ImageData);
+
+        if (description == null)
+        {
+            return StatusCode(500, "Die automatische Beschreibungsgenerierung ist temporär nicht verfügbar. Bitte erstellen Sie eine Beschreibung manuell.");
+        }
+
+        return Ok(new GenerateDescriptionResponse
+        {
+            Description = description
+        });
+    }
+
+    [HttpPost("{id}/pictures")]
+    [Authorize]
+    public async Task<ActionResult<OfferPictureDto>> UploadPicture(int id, IFormFile file)
+    {
+        if (file == null || file.Length == 0)
+        {
+            return BadRequest("No file uploaded");
+        }
+
+        if (file.Length > 2 * 1024 * 1024) // 2MB limit
+        {
+            return BadRequest("File size exceeds 2MB limit");
+        }
+
+        var allowedTypes = new[] { "image/jpeg", "image/jpg", "image/png", "image/gif", "image/webp" };
+        if (!allowedTypes.Contains(file.ContentType.ToLowerInvariant()))
+        {
+            return BadRequest("Invalid file type. Only JPEG, PNG, GIF, and WebP images are allowed");
+        }
+
+        var userId = GetCurrentUserId();
+        var offer = await _offerRepository.GetByIdAsync(id);
+
+        if (offer == null)
+        {
+            return NotFound();
+        }
+
+        if (offer.UserId != userId)
+        {
+            return Forbid();
+        }
+
+        using var memoryStream = new MemoryStream();
+        await file.CopyToAsync(memoryStream);
+
+        var existingPictures = await _offerService.GetOfferPicturesAsync(id);
+        var nextDisplayOrder = existingPictures.Any() ? existingPictures.Max(p => p.DisplayOrder) + 1 : 1;
+
+        var picture = new OfferPicture
+        {
+            OfferId = id,
+            ImageData = memoryStream.ToArray(),
+            ContentType = file.ContentType,
+            FileName = file.FileName,
+            FileSize = file.Length,
+            DisplayOrder = nextDisplayOrder,
+            CreatedAt = DateTime.UtcNow
+        };
+
+        var createdPicture = await _offerService.AddPictureAsync(picture);
+
+        return Ok(new OfferPictureDto
+        {
+            Id = createdPicture.Id,
+            FileName = createdPicture.FileName,
+            ContentType = createdPicture.ContentType,
+            FileSize = createdPicture.FileSize,
+            DisplayOrder = createdPicture.DisplayOrder,
+            CreatedAt = createdPicture.CreatedAt
+        });
+    }
+
+    [HttpGet("pictures/{pictureId}")]
+    public async Task<IActionResult> GetPicture(int pictureId)
+    {
+        var picture = await _offerService.GetPictureAsync(pictureId);
+
+        if (picture == null)
+        {
+            return NotFound();
+        }
+
+        return File(picture.ImageData, picture.ContentType, picture.FileName);
+    }
+
+    [HttpDelete("{id}/pictures/{pictureId}")]
+    [Authorize]
+    public async Task<IActionResult> DeletePicture(int id, int pictureId)
+    {
+        var userId = GetCurrentUserId();
+        var offer = await _offerRepository.GetByIdAsync(id);
+
+        if (offer == null)
+        {
+            return NotFound("Offer not found");
+        }
+
+        if (offer.UserId != userId)
+        {
+            return Forbid();
+        }
+
+        var picture = await _offerService.GetPictureAsync(pictureId);
+        if (picture == null || picture.OfferId != id)
+        {
+            return NotFound("Picture not found");
+        }
+
+        await _offerService.DeletePictureAsync(pictureId);
+        return NoContent();
+    }
+
+    [HttpPut("{id}/pictures/{pictureId}/order")]
+    [Authorize]
+    public async Task<IActionResult> UpdatePictureOrder(int id, int pictureId, [FromBody] UpdatePictureOrderRequest request)
+    {
+        var userId = GetCurrentUserId();
+        var offer = await _offerRepository.GetByIdAsync(id);
+
+        if (offer == null)
+        {
+            return NotFound("Offer not found");
+        }
+
+        if (offer.UserId != userId)
+        {
+            return Forbid();
+        }
+
+        var picture = await _offerService.GetPictureAsync(pictureId);
+        if (picture == null || picture.OfferId != id)
+        {
+            return NotFound("Picture not found");
+        }
+
+        await _offerService.UpdatePictureOrderAsync(pictureId, request.DisplayOrder);
+        return NoContent();
+    }
+
+    private int GetCurrentUserId()
+    {
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        return int.Parse(userIdClaim!);
+    }
+
+    private static OfferDto MapToOfferDto(Offer offer)
+    {
+        return new OfferDto
+        {
+            Id = offer.Id,
+            Title = offer.Title,
+            Description = offer.Description,
+            PricePerDay = offer.PricePerDay,
+            PricePerHour = offer.PricePerHour,
+            IsService = offer.IsService,
+            ImagePath = offer.ImagePath,
+            IsActive = offer.IsActive,
+            CreatedAt = offer.CreatedAt,
+            Category = offer.Category != null ? new CategoryDto
+            {
+                Id = offer.Category.Id,
+                Name = offer.Category.Name,
+                Description = offer.Category.Description,
+                IconName = offer.Category.IconName
+            } : null,
+            User = offer.User != null ? new UserDto
+            {
+                Id = offer.User.Id,
+                Email = offer.User.Email,
+                FirstName = offer.User.FirstName,
+                LastName = offer.User.LastName
+            } : null,
+            FirstPicture = offer.Pictures?.OrderBy(p => p.DisplayOrder).FirstOrDefault() is OfferPicture firstPic ? new OfferPictureDto
+            {
+                Id = firstPic.Id,
+                FileName = firstPic.FileName,
+                ContentType = firstPic.ContentType,
+                FileSize = firstPic.FileSize,
+                DisplayOrder = firstPic.DisplayOrder,
+                CreatedAt = firstPic.CreatedAt
+            } : null
+        };
+    }
+
+    private static OfferDetailDto MapToOfferDetailDto(Offer offer)
+    {
+        return new OfferDetailDto
+        {
+            Id = offer.Id,
+            Title = offer.Title,
+            Description = offer.Description,
+            PricePerDay = offer.PricePerDay,
+            PricePerHour = offer.PricePerHour,
+            IsService = offer.IsService,
+            ImagePath = offer.ImagePath,
+            IsActive = offer.IsActive,
+            CreatedAt = offer.CreatedAt,
+            Category = offer.Category != null ? new CategoryDto
+            {
+                Id = offer.Category.Id,
+                Name = offer.Category.Name,
+                Description = offer.Category.Description,
+                IconName = offer.Category.IconName
+            } : null,
+            User = offer.User != null ? new UserDetailDto
+            {
+                Id = offer.User.Id,
+                FirstName = offer.User.FirstName,
+                LastName = offer.User.LastName,
+                ContactInfo = offer.User.ContactInfo != null ? new ContactInfoDto
+                {
+                    PhoneNumber = offer.User.ContactInfo.PhoneNumber,
+                    MobileNumber = offer.User.ContactInfo.MobileNumber,
+                    Street = offer.User.ContactInfo.Street,
+                    City = offer.User.ContactInfo.City,
+                    PostalCode = offer.User.ContactInfo.PostalCode
+                } : null
+            } : null,
+            Pictures = offer.Pictures?.OrderBy(p => p.DisplayOrder).Select(p => new OfferPictureDto
+            {
+                Id = p.Id,
+                FileName = p.FileName,
+                ContentType = p.ContentType,
+                FileSize = p.FileSize,
+                DisplayOrder = p.DisplayOrder,
+                CreatedAt = p.CreatedAt
+            }).ToList() ?? new List<OfferPictureDto>()
+        };
+    }
+}
+
+public class CreateOfferRequest
+{
+    public string Title { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public decimal? PricePerDay { get; set; }
+    public decimal? PricePerHour { get; set; }
+    public bool IsService { get; set; }
+    public int CategoryId { get; set; }
+}
+
+public class UpdateOfferRequest
+{
+    public string Title { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public decimal? PricePerDay { get; set; }
+    public decimal? PricePerHour { get; set; }
+    public bool IsService { get; set; }
+    public int CategoryId { get; set; }
+    public bool IsActive { get; set; } = true;
+}
+
+public class OfferDto
+{
+    public int Id { get; set; }
+    public string Title { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public decimal? PricePerDay { get; set; }
+    public decimal? PricePerHour { get; set; }
+    public bool IsService { get; set; }
+    public string? ImagePath { get; set; }
+    public bool IsActive { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public CategoryDto? Category { get; set; }
+    public UserDto? User { get; set; }
+    public OfferPictureDto? FirstPicture { get; set; }
+}
+
+public class OfferDetailDto
+{
+    public int Id { get; set; }
+    public string Title { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public decimal? PricePerDay { get; set; }
+    public decimal? PricePerHour { get; set; }
+    public bool IsService { get; set; }
+    public string? ImagePath { get; set; }
+    public bool IsActive { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public CategoryDto? Category { get; set; }
+    public UserDetailDto? User { get; set; }
+    public List<OfferPictureDto> Pictures { get; set; } = new List<OfferPictureDto>();
+}
+
+public class UserDetailDto
+{
+    public int Id { get; set; }
+    public string FirstName { get; set; } = string.Empty;
+    public string LastName { get; set; } = string.Empty;
+    public ContactInfoDto? ContactInfo { get; set; }
+}
+
+public class ContactInfoDto
+{
+    public string? PhoneNumber { get; set; }
+    public string? MobileNumber { get; set; }
+    public string? Street { get; set; }
+    public string? City { get; set; }
+    public string? PostalCode { get; set; }
+    public string? State { get; set; }
+    public string? Country { get; set; }
+}
+
+public class OfferPictureDto
+{
+    public int Id { get; set; }
+    public string FileName { get; set; } = string.Empty;
+    public string ContentType { get; set; } = string.Empty;
+    public long FileSize { get; set; }
+    public int DisplayOrder { get; set; }
+    public DateTime CreatedAt { get; set; }
+}
+
+public class UpdatePictureOrderRequest
+{
+    public int DisplayOrder { get; set; }
+}
+
+public class GenerateDescriptionResponse
+{
+    public string Description { get; set; } = string.Empty;
+}

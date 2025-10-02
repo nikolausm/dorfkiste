@@ -1,0 +1,128 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    background: linear-gradient(135deg, #fafafa 0%, #f4f4f5 100%);
+    color: theme('colors.neutral.800');
+    line-height: 1.6;
+  }
+
+  * {
+    @apply border-neutral-200;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold text-neutral-900;
+    line-height: 1.2;
+  }
+
+  h1 { @apply text-4xl lg:text-5xl; }
+  h2 { @apply text-3xl lg:text-4xl; }
+  h3 { @apply text-2xl lg:text-3xl; }
+  h4 { @apply text-xl lg:text-2xl; }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 
+           text-white font-semibold py-3 px-6 rounded-xl shadow-soft hover:shadow-medium 
+           transition-all duration-300 transform hover:scale-105 active:scale-95;
+  }
+
+  .btn-secondary {
+    @apply bg-white hover:bg-neutral-50 border border-neutral-200 hover:border-neutral-300 
+           text-neutral-700 hover:text-neutral-900 font-semibold py-3 px-6 rounded-xl shadow-soft 
+           transition-all duration-300 transform hover:scale-105 active:scale-95;
+  }
+
+  .btn-accent {
+    @apply bg-gradient-to-r from-accent-400 to-accent-500 hover:from-accent-500 hover:to-accent-600
+           text-neutral-900 font-semibold py-3 px-6 rounded-xl shadow-soft hover:shadow-medium
+           transition-all duration-300 transform hover:scale-105 active:scale-95;
+  }
+
+  .btn-outline {
+    @apply bg-transparent hover:bg-primary-50 border-2 border-primary-500 hover:border-primary-600
+           text-primary-600 hover:text-primary-700 font-semibold py-3 px-6 rounded-xl
+           transition-all duration-300 transform hover:scale-105 active:scale-95;
+  }
+
+  .card {
+    @apply bg-white/80 backdrop-blur-sm border border-neutral-200/50 rounded-2xl shadow-soft 
+           hover:shadow-medium hover:border-primary-200/50 transition-all duration-300 
+           transform hover:-translate-y-1;
+  }
+
+  .card-hover {
+    @apply hover:shadow-large hover:-translate-y-2;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 bg-white/50 backdrop-blur-sm border border-neutral-200 rounded-xl 
+           focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-400 
+           transition-all duration-300 placeholder:text-neutral-400;
+  }
+
+  .nav-link {
+    @apply text-neutral-600 hover:text-primary-600 font-medium px-4 py-2 rounded-lg 
+           transition-colors duration-200 relative;
+  }
+
+  .nav-link::after {
+    @apply absolute bottom-0 left-1/2 w-0 h-0.5 bg-primary-500 transition-all duration-300;
+    content: '';
+    transform: translateX(-50%);
+  }
+
+  .nav-link:hover::after {
+    @apply w-full;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent;
+  }
+
+  .glass-effect {
+    @apply bg-white/20 backdrop-blur-md border border-white/20;
+  }
+
+  .hero-gradient {
+    background: linear-gradient(135deg, 
+      theme('colors.primary.50') 0%, 
+      theme('colors.secondary.50') 25%,
+      theme('colors.accent.50') 50%,
+      theme('colors.primary.100') 75%,
+      theme('colors.secondary.100') 100%
+    );
+  }
+
+  .category-card {
+    @apply card p-6 cursor-pointer overflow-hidden relative;
+  }
+
+  .category-card::before {
+    @apply absolute inset-0 bg-gradient-to-br from-transparent to-primary-50/30 
+           opacity-0 group-hover:opacity-100 transition-opacity duration-300;
+    content: '';
+  }
+
+  .feature-section {
+    @apply py-20 px-4 bg-gradient-to-br from-white via-primary-50/30 to-secondary-50/20;
+  }
+
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
