@@ -9,4 +9,9 @@ public interface IAuthService
     Task<User> RegisterUserAsync(string email, string password, string firstName, string lastName);
     string HashPassword(string password);
     bool VerifyPassword(string password, string hashedPassword);
+
+    // GDPR: Email Verification
+    Task<bool> VerifyEmailAsync(string token);
+    Task<bool> ResendVerificationEmailAsync(string email);
+    string GenerateVerificationToken();
 }

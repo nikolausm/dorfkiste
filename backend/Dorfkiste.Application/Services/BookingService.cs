@@ -435,6 +435,11 @@ public class BookingService : IBookingService
         }
     }
 
+    public async Task<IEnumerable<Booking>> GetRecentCompletedBookingsAsync(int count = 6)
+    {
+        return await _bookingRepository.GetRecentCompletedAsync(count);
+    }
+
     private async Task SendCancellationNotificationAsync(Booking booking, string? reason)
     {
         try

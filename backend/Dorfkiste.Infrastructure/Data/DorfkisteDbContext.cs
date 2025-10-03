@@ -17,6 +17,9 @@ public class DorfkisteDbContext : DbContext
     public DbSet<Message> Messages => Set<Message>();
     public DbSet<Booking> Bookings => Set<Booking>();
     public DbSet<AvailabilityOverride> AvailabilityOverrides => Set<AvailabilityOverride>();
+    public DbSet<Report> Reports => Set<Report>();
+    public DbSet<RentalContract> RentalContracts => Set<RentalContract>();
+    public DbSet<UserPrivacySettings> UserPrivacySettings => Set<UserPrivacySettings>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -30,6 +33,9 @@ public class DorfkisteDbContext : DbContext
         ConfigureMessageEntity(modelBuilder);
         ConfigureBookingEntity(modelBuilder);
         ConfigureAvailabilityOverrideEntity(modelBuilder);
+        ConfigureReportEntity(modelBuilder);
+        ConfigureRentalContractEntity(modelBuilder);
+        ConfigureUserPrivacySettingsEntity(modelBuilder);
     }
 
     private static void ConfigureUserEntity(ModelBuilder modelBuilder)
@@ -63,6 +69,11 @@ public class DorfkisteDbContext : DbContext
         userEntity.HasOne(u => u.ContactInfo)
             .WithOne(c => c.User)
             .HasForeignKey<ContactInfo>(c => c.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        userEntity.HasOne(u => u.PrivacySettings)
+            .WithOne(p => p.User)
+            .HasForeignKey<UserPrivacySettings>(p => p.UserId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 
@@ -318,5 +329,192 @@ public class DorfkisteDbContext : DbContext
         availabilityEntity.HasIndex(a => new { a.OfferId, a.Date })
             .IsUnique()
             .HasDatabaseName("IX_AvailabilityOverride_Offer_Date_Unique");
+    }
+
+    private static void ConfigureReportEntity(ModelBuilder modelBuilder)
+    {
+        var reportEntity = modelBuilder.Entity<Report>();
+
+        reportEntity.HasKey(r => r.Id);
+
+        reportEntity.Property(r => r.ReportType)
+            .IsRequired();
+
+        reportEntity.Property(r => r.Description)
+            .IsRequired()
+            .HasMaxLength(2000);
+
+        reportEntity.Property(r => r.Status)
+            .IsRequired()
+            .HasDefaultValue(ReportStatus.Pending);
+
+        reportEntity.Property(r => r.ResolutionNotes)
+            .HasMaxLength(2000);
+
+        reportEntity.Property(r => r.CreatedAt)
+            .IsRequired();
+
+        // Reporter relationship
+        reportEntity.HasOne(r => r.Reporter)
+            .WithMany()
+            .HasForeignKey(r => r.ReporterId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // Reported Offer relationship
+        reportEntity.HasOne(r => r.ReportedOffer)
+            .WithMany()
+            .HasForeignKey(r => r.ReportedOfferId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // Reported User relationship
+        reportEntity.HasOne(r => r.ReportedUser)
+            .WithMany()
+            .HasForeignKey(r => r.ReportedUserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // Reported Message relationship
+        reportEntity.HasOne(r => r.ReportedMessage)
+            .WithMany()
+            .HasForeignKey(r => r.ReportedMessageId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // Reviewed By relationship
+        reportEntity.HasOne(r => r.ReviewedBy)
+            .WithMany()
+            .HasForeignKey(r => r.ReviewedById)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // Indexes for performance
+        reportEntity.HasIndex(r => r.ReporterId);
+        reportEntity.HasIndex(r => r.ReportedOfferId);
+        reportEntity.HasIndex(r => r.ReportedUserId);
+        reportEntity.HasIndex(r => r.ReportedMessageId);
+        reportEntity.HasIndex(r => r.Status);
+        reportEntity.HasIndex(r => r.CreatedAt);
+        reportEntity.HasIndex(r => r.ReviewedById);
+    }
+
+    private static void ConfigureRentalContractEntity(ModelBuilder modelBuilder)
+    {
+        var contractEntity = modelBuilder.Entity<RentalContract>();
+
+        contractEntity.HasKey(c => c.Id);
+
+        // Booking relationship (one-to-one)
+        contractEntity.HasOne(c => c.Booking)
+            .WithMany()
+            .HasForeignKey(c => c.BookingId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // Lessor (provider) relationship
+        contractEntity.HasOne(c => c.Lessor)
+            .WithMany()
+            .HasForeignKey(c => c.LessorId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // Lessee (customer) relationship
+        contractEntity.HasOne(c => c.Lessee)
+            .WithMany()
+            .HasForeignKey(c => c.LesseeId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // Offer details
+        contractEntity.Property(c => c.OfferTitle)
+            .IsRequired()
+            .HasMaxLength(200);
+
+        contractEntity.Property(c => c.OfferDescription)
+            .IsRequired()
+            .HasMaxLength(2000);
+
+        contractEntity.Property(c => c.OfferType)
+            .IsRequired()
+            .HasMaxLength(50);
+
+        // Financial details
+        contractEntity.Property(c => c.TotalPrice)
+            .HasPrecision(10, 2)
+            .IsRequired();
+
+        contractEntity.Property(c => c.DepositAmount)
+            .HasPrecision(10, 2)
+            .IsRequired();
+
+        contractEntity.Property(c => c.PricePerDay)
+            .HasPrecision(10, 2)
+            .IsRequired();
+
+        // Terms
+        contractEntity.Property(c => c.TermsAndConditions)
+            .IsRequired();
+
+        contractEntity.Property(c => c.SpecialConditions)
+            .HasMaxLength(2000);
+
+        // Status
+        contractEntity.Property(c => c.Status)
+            .IsRequired()
+            .HasDefaultValue(ContractStatus.Draft);
+
+        // Cancellation
+        contractEntity.Property(c => c.CancellationReason)
+            .HasMaxLength(500);
+
+        // Indexes for performance
+        contractEntity.HasIndex(c => c.BookingId)
+            .IsUnique();
+        contractEntity.HasIndex(c => c.LessorId);
+        contractEntity.HasIndex(c => c.LesseeId);
+        contractEntity.HasIndex(c => c.Status);
+        contractEntity.HasIndex(c => c.CreatedAt);
+        contractEntity.HasIndex(c => new { c.LessorId, c.Status });
+        contractEntity.HasIndex(c => new { c.LesseeId, c.Status });
+    }
+
+    private static void ConfigureUserPrivacySettingsEntity(ModelBuilder modelBuilder)
+    {
+        var privacyEntity = modelBuilder.Entity<UserPrivacySettings>();
+
+        privacyEntity.HasKey(p => p.Id);
+
+        // User relationship configured in ConfigureUserEntity
+
+        privacyEntity.Property(p => p.MarketingEmailsConsent)
+            .IsRequired()
+            .HasDefaultValue(false);
+
+        privacyEntity.Property(p => p.DataProcessingConsent)
+            .IsRequired()
+            .HasDefaultValue(true);
+
+        privacyEntity.Property(p => p.ProfileVisibilityConsent)
+            .IsRequired()
+            .HasDefaultValue(true);
+
+        privacyEntity.Property(p => p.DataSharingConsent)
+            .IsRequired()
+            .HasDefaultValue(false);
+
+        privacyEntity.Property(p => p.MarketingEmailsConsentDate)
+            .IsRequired(false);
+
+        privacyEntity.Property(p => p.DataProcessingConsentDate)
+            .IsRequired(false);
+
+        privacyEntity.Property(p => p.ProfileVisibilityConsentDate)
+            .IsRequired(false);
+
+        privacyEntity.Property(p => p.DataSharingConsentDate)
+            .IsRequired(false);
+
+        privacyEntity.Property(p => p.CreatedAt)
+            .IsRequired();
+
+        privacyEntity.Property(p => p.UpdatedAt)
+            .IsRequired();
+
+        // Indexes for performance
+        privacyEntity.HasIndex(p => p.UserId)
+            .IsUnique();
     }
 }

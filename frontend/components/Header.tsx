@@ -4,15 +4,22 @@ import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
+import { useTheme } from '@/contexts/ThemeContext';
 import { apiClient } from '@/lib/api';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [mounted, setMounted] = useState(false);
   const { user, isLoggedIn, logout, isLoading } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const router = useRouter();
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -56,7 +63,7 @@ export default function Header() {
   };
 
   return (
-    <header className="glass-effect shadow-soft border-b border-white/20 sticky top-0 z-50">
+    <header className="glass-effect dark:bg-gray-800/95 shadow-soft border-b border-white/20 dark:border-gray-700/50 sticky top-0 z-50">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
@@ -93,6 +100,25 @@ export default function Header() {
                   </div>
                 </Link>
               )}
+
+              {/* Dark Mode Toggle - Only render on client */}
+              {mounted && (
+                <button
+                  onClick={toggleTheme}
+                  className="nav-link p-2 rounded-lg hover:bg-white/20 dark:hover:bg-gray-700/50 transition-colors"
+                  aria-label="Toggle dark mode"
+                >
+                  {theme === 'dark' ? (
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                  ) : (
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                  )}
+                </button>
+              )}
             </div>
           </div>
 
@@ -120,50 +146,55 @@ export default function Header() {
 
                   {/* User dropdown menu */}
                   {isUserMenuOpen && (
-                    <div className="absolute right-0 mt-2 w-48 glass-effect rounded-xl shadow-medium py-2 z-10 backdrop-blur-md animate-scale-in">
-                      <Link
-                        href="/profil"
-                        className="block px-4 py-2 text-sm text-neutral-700 hover:bg-white/20 rounded-lg mx-2 transition-colors duration-200"
-                        onClick={() => setIsUserMenuOpen(false)}
-                      >
-                        Mein Profil
-                      </Link>
-                      <Link
-                        href="/meine-angebote"
-                        className="block px-4 py-2 text-sm text-neutral-700 hover:bg-white/20 rounded-lg mx-2 transition-colors duration-200"
-                        onClick={() => setIsUserMenuOpen(false)}
-                      >
-                        Meine Angebote
-                      </Link>
-                      <Link
-                        href="/meine-buchungen"
-                        className="block px-4 py-2 text-sm text-neutral-700 hover:bg-white/20 rounded-lg mx-2 transition-colors duration-200"
-                        onClick={() => setIsUserMenuOpen(false)}
-                      >
-                        Meine Buchungen
-                      </Link>
-                      <Link
-                        href="/nachrichten"
-                        className="block px-4 py-2 text-sm text-neutral-700 hover:bg-white/20 rounded-lg mx-2 transition-colors duration-200 relative"
-                        onClick={() => setIsUserMenuOpen(false)}
-                      >
-                        <div className="flex items-center justify-between">
-                          Nachrichten
-                          {unreadCount > 0 && (
-                            <span className="bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-semibold">
-                              {unreadCount > 9 ? '9+' : unreadCount}
-                            </span>
-                          )}
-                        </div>
-                      </Link>
-                      <div className="border-t border-white/20 my-2"></div>
-                      <button
-                        onClick={handleLogout}
-                        className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50/20 rounded-lg mx-2 transition-colors duration-200"
-                      >
-                        Abmelden
-                      </button>
-                    </div>
+                    <>
+                      {/* Backdrop overlay with blur */}
+                      <div className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40" onClick={() => setIsUserMenuOpen(false)}></div>
+
+                      <div className="absolute right-0 mt-2 w-48 bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-xl shadow-medium border border-white/20 dark:border-gray-700/50 py-2 z-50 animate-scale-in">
+                        <Link
+                          href="/profil"
+                          className="block px-4 py-2 text-sm text-neutral-700 dark:text-gray-200 hover:bg-white/20 dark:hover:bg-gray-700/30 rounded-lg mx-2 transition-colors duration-200"
+                          onClick={() => setIsUserMenuOpen(false)}
+                        >
+                          Mein Profil
+                        </Link>
+                        <Link
+                          href="/meine-angebote"
+                          className="block px-4 py-2 text-sm text-neutral-700 dark:text-gray-200 hover:bg-white/20 dark:hover:bg-gray-700/30 rounded-lg mx-2 transition-colors duration-200"
+                          onClick={() => setIsUserMenuOpen(false)}
+                        >
+                          Meine Angebote
+                        </Link>
+                        <Link
+                          href="/meine-buchungen"
+                          className="block px-4 py-2 text-sm text-neutral-700 dark:text-gray-200 hover:bg-white/20 dark:hover:bg-gray-700/30 rounded-lg mx-2 transition-colors duration-200"
+                          onClick={() => setIsUserMenuOpen(false)}
+                        >
+                          Meine Buchungen
+                        </Link>
+                        <Link
+                          href="/nachrichten"
+                          className="block px-4 py-2 text-sm text-neutral-700 dark:text-gray-200 hover:bg-white/20 dark:hover:bg-gray-700/30 rounded-lg mx-2 transition-colors duration-200 relative"
+                          onClick={() => setIsUserMenuOpen(false)}
+                        >
+                          <div className="flex items-center justify-between">
+                            Nachrichten
+                            {unreadCount > 0 && (
+                              <span className="bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-semibold">
+                                {unreadCount > 9 ? '9+' : unreadCount}
+                              </span>
+                            )}
+                          </div>
+                        </Link>
+                        <div className="border-t border-white/20 dark:border-gray-700/30 my-2"></div>
+                        <button
+                          onClick={handleLogout}
+                          className="block w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50/20 dark:hover:bg-red-900/20 rounded-lg mx-2 transition-colors duration-200"
+                        >
+                          Abmelden
+                        </button>
+                      </div>
+                    </>
                   )}
                 </div>
               </div>

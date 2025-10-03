@@ -110,4 +110,15 @@ public class OfferRepository : IOfferRepository
             .OrderByDescending(o => o.CreatedAt)
             .ToListAsync();
     }
+
+    public async Task<IEnumerable<Offer>> GetByUserIdAsync(int userId)
+    {
+        return await _context.Offers
+            .Include(o => o.User)
+            .Include(o => o.Category)
+            .Include(o => o.Pictures)
+            .Where(o => o.UserId == userId)
+            .OrderByDescending(o => o.CreatedAt)
+            .ToListAsync();
+    }
 }

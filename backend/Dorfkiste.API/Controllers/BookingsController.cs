@@ -252,6 +252,14 @@ public class BookingsController : ControllerBase
         }
     }
 
+    [HttpGet("recent-completed")]
+    [AllowAnonymous]
+    public async Task<ActionResult<IEnumerable<BookingResponseDto>>> GetRecentCompletedBookings([FromQuery] int count = 6)
+    {
+        var bookings = await _bookingService.GetRecentCompletedBookingsAsync(count);
+        return Ok(bookings.Select(MapToBookingResponseDto));
+    }
+
     private int GetCurrentUserId()
     {
         var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;

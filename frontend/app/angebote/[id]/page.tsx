@@ -176,53 +176,53 @@ export default function OfferDetailPage() {
     <div className="container mx-auto px-4 py-8">
       {/* Breadcrumb */}
       <nav className="mb-8">
-        <ol className="flex items-center space-x-2 text-sm text-gray-500">
-          <li><Link href="/" className="hover:text-primary-600">Startseite</Link></li>
+        <ol className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
+          <li><Link href="/" className="hover:text-primary-600 dark:hover:text-primary-400">Startseite</Link></li>
           <li>›</li>
           {offer.category ? (
             <li>
-              <Link 
-                href={`/angebote?categoryId=${offer.category.id}`} 
-                className="hover:text-primary-600"
+              <Link
+                href={`/angebote?categoryId=${offer.category.id}`}
+                className="hover:text-primary-600 dark:hover:text-primary-400"
               >
                 {offer.category.name}
               </Link>
             </li>
           ) : (
-            <li><Link href="/angebote" className="hover:text-primary-600">Angebote</Link></li>
+            <li><Link href="/angebote" className="hover:text-primary-600 dark:hover:text-primary-400">Angebote</Link></li>
           )}
           <li>›</li>
-          <li className="text-gray-900">{offer.title}</li>
+          <li className="text-gray-900 dark:text-gray-100">{offer.title}</li>
         </ol>
       </nav>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Main content */}
         <div className="lg:col-span-2 order-2 lg:order-1">
-          <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 mb-6">
             {/* Header */}
             <div className="flex items-start justify-between mb-6">
               <div>
-                <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
                   {offer.title}
                 </h1>
                 {offer.category && (
-                  <div className="flex items-center text-gray-600">
+                  <div className="flex items-center text-gray-600 dark:text-gray-400">
                     <span className="mr-2">{getCategoryIcon(offer.category.iconName)}</span>
                     <span>{offer.category.name}</span>
                   </div>
                 )}
               </div>
               {offer.isService && (
-                <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                <span className="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-3 py-1 rounded-full text-sm font-medium">
                   Service
                 </span>
               )}
             </div>
 
             {/* Price */}
-            <div className="mb-6 p-4 bg-primary-50 rounded-lg">
-              <div className="text-2xl font-bold text-primary-600">
+            <div className="mb-6 p-4 bg-primary-50 dark:bg-primary-900/20 rounded-lg">
+              <div className="text-2xl font-bold text-primary-600 dark:text-primary-400">
                 {formatPrice(offer)}
               </div>
             </div>
@@ -230,10 +230,10 @@ export default function OfferDetailPage() {
             {/* Image Gallery */}
             {offer.pictures && offer.pictures.length > 0 && (
               <div className="mb-6">
-                <h2 className="text-xl font-semibold mb-3">Bilder</h2>
+                <h2 className="text-xl font-semibold mb-3 text-gray-900 dark:text-gray-100">Bilder</h2>
                 <div className="space-y-4">
                   {/* Main Image */}
-                  <div className="relative aspect-video bg-gray-100 rounded-lg overflow-hidden group">
+                  <div className="relative aspect-video bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden group">
                     {offer.pictures[selectedImageIndex]?.id ? (
                       <Image
                         src={apiClient.getPictureUrl(offer.pictures[selectedImageIndex].id)}
@@ -280,8 +280,8 @@ export default function OfferDetailPage() {
                           onClick={() => setSelectedImageIndex(index)}
                           className={`relative flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-colors ${
                             index === selectedImageIndex
-                              ? 'border-primary-500'
-                              : 'border-gray-200 hover:border-gray-300'
+                              ? 'border-primary-500 dark:border-primary-400'
+                              : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500'
                           }`}
                         >
                           {picture?.id ? (
@@ -307,10 +307,10 @@ export default function OfferDetailPage() {
                   {/* Image Counter and Navigation Help */}
                   {offer.pictures.length > 1 && (
                     <div className="text-center space-y-1">
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
                         Bild {selectedImageIndex + 1} von {offer.pictures.length}
                       </p>
-                      <p className="text-xs text-gray-400">
+                      <p className="text-xs text-gray-400 dark:text-gray-500">
                         Verwenden Sie die Pfeiltasten ← → oder klicken Sie auf die Navigationsbuttons
                       </p>
                     </div>
@@ -321,32 +321,32 @@ export default function OfferDetailPage() {
 
             {/* Description */}
             <div className="mb-6">
-              <h2 className="text-xl font-semibold mb-3">Beschreibung</h2>
-              <p className="text-gray-700 whitespace-pre-wrap">
+              <h2 className="text-xl font-semibold mb-3 text-gray-900 dark:text-gray-100">Beschreibung</h2>
+              <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
                 {offer.description}
               </p>
             </div>
 
             {/* Details */}
-            <div className="border-t pt-6">
-              <h2 className="text-xl font-semibold mb-3">Details</h2>
+            <div className="border-t dark:border-gray-700 pt-6">
+              <h2 className="text-xl font-semibold mb-3 text-gray-900 dark:text-gray-100">Details</h2>
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
-                  <span className="text-gray-500">Typ:</span>
-                  <span className="ml-2 text-gray-900">
+                  <span className="text-gray-500 dark:text-gray-400">Typ:</span>
+                  <span className="ml-2 text-gray-900 dark:text-gray-100">
                     {offer.isService ? 'Dienstleistung' : 'Gegenstand'}
                   </span>
                 </div>
                 <div>
-                  <span className="text-gray-500">Erstellt:</span>
-                  <span className="ml-2 text-gray-900">
+                  <span className="text-gray-500 dark:text-gray-400">Erstellt:</span>
+                  <span className="ml-2 text-gray-900 dark:text-gray-100">
                     {new Date(offer.createdAt).toLocaleDateString('de-DE')}
                   </span>
                 </div>
                 {offer.category && (
                   <div>
-                    <span className="text-gray-500">Kategorie:</span>
-                    <span className="ml-2 text-gray-900">{offer.category.name}</span>
+                    <span className="text-gray-500 dark:text-gray-400">Kategorie:</span>
+                    <span className="ml-2 text-gray-900 dark:text-gray-100">{offer.category.name}</span>
                   </div>
                 )}
               </div>
@@ -372,12 +372,12 @@ export default function OfferDetailPage() {
           </div>
 
           {/* Contact Card */}
-          <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-            <h3 className="text-lg font-semibold mb-4">Anbieter kontaktieren</h3>
-            
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 mb-6">
+            <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Anbieter kontaktieren</h3>
+
             {offer.user && (
               <div className="mb-4">
-                <p className="text-gray-900 font-medium">
+                <p className="text-gray-900 dark:text-gray-100 font-medium">
                   {offer.user.firstName} {offer.user.lastName}
                 </p>
               </div>
@@ -388,10 +388,10 @@ export default function OfferDetailPage() {
               <div className="space-y-2 text-sm">
                 {offer.user.contactInfo.mobileNumber && (
                   <div className="flex items-center">
-                    <span className="text-gray-500 w-20">Mobil:</span>
-                    <a 
+                    <span className="text-gray-500 dark:text-gray-400 w-20">Mobil:</span>
+                    <a
                       href={`tel:${offer.user.contactInfo.mobileNumber}`}
-                      className="text-primary-600 hover:text-primary-700"
+                      className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300"
                     >
                       {offer.user.contactInfo.mobileNumber}
                     </a>
@@ -399,10 +399,10 @@ export default function OfferDetailPage() {
                 )}
                 {offer.user.contactInfo.phoneNumber && (
                   <div className="flex items-center">
-                    <span className="text-gray-500 w-20">Telefon:</span>
-                    <a 
+                    <span className="text-gray-500 dark:text-gray-400 w-20">Telefon:</span>
+                    <a
                       href={`tel:${offer.user.contactInfo.phoneNumber}`}
-                      className="text-primary-600 hover:text-primary-700"
+                      className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300"
                     >
                       {offer.user.contactInfo.phoneNumber}
                     </a>
@@ -410,8 +410,8 @@ export default function OfferDetailPage() {
                 )}
                 {offer.user.contactInfo.city && (
                   <div className="flex items-center">
-                    <span className="text-gray-500 w-20">Ort:</span>
-                    <span className="text-gray-900">
+                    <span className="text-gray-500 dark:text-gray-400 w-20">Ort:</span>
+                    <span className="text-gray-900 dark:text-gray-100">
                       {offer.user.contactInfo.postalCode} {offer.user.contactInfo.city}
                     </span>
                   </div>
@@ -422,14 +422,14 @@ export default function OfferDetailPage() {
             <div className="mt-6">
               {isOwnOffer ? (
                 <div className="space-y-4">
-                  <div className="text-center p-4 bg-green-50 border border-green-200 rounded-lg">
+                  <div className="text-center p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg">
                     <div className="flex items-center justify-center mb-2">
-                      <span className="text-green-600 text-lg">👤</span>
+                      <span className="text-green-600 dark:text-green-400 text-lg">👤</span>
                     </div>
-                    <p className="text-sm font-medium text-green-800 mb-1">
+                    <p className="text-sm font-medium text-green-800 dark:text-green-200 mb-1">
                       Ihr Angebot
                     </p>
-                    <p className="text-xs text-green-700">
+                    <p className="text-xs text-green-700 dark:text-green-300">
                       Status: {offer.isActive ? 'Aktiv und sichtbar' : 'Deaktiviert'}
                     </p>
                   </div>
@@ -473,8 +473,8 @@ export default function OfferDetailPage() {
               )}
             </div>
 
-            <p className="text-xs text-neutral-500 mt-3 text-center">
-              {isLoggedIn 
+            <p className="text-xs text-neutral-500 dark:text-gray-400 mt-3 text-center">
+              {isLoggedIn
                 ? 'Kontaktdaten sind nur für angemeldete Nutzer sichtbar'
                 : 'Melden Sie sich an, um Kontaktdaten zu sehen und Nachrichten zu senden'
               }
@@ -482,9 +482,9 @@ export default function OfferDetailPage() {
           </div>
 
           {/* Tips */}
-          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-            <h4 className="font-medium text-yellow-800 mb-2">💡 Sicherheitstipp</h4>
-            <p className="text-sm text-yellow-700">
+          <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700 rounded-lg p-4">
+            <h4 className="font-medium text-yellow-800 dark:text-yellow-200 mb-2">💡 Sicherheitstipp</h4>
+            <p className="text-sm text-yellow-700 dark:text-yellow-300">
               Treffen Sie sich an öffentlichen Orten und prüfen Sie die Gegenstände vor der Übergabe.
               Bei Dienstleistungen sprechen Sie vorher alle Details ab.
             </p>

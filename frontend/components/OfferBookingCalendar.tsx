@@ -200,7 +200,7 @@ export default function OfferBookingCalendar({
     const baseClasses = `${sizeClasses} rounded-lg font-medium flex items-center justify-center transition-all cursor-pointer`;
 
     if (!day.isCurrentMonth) {
-      return `${baseClasses} text-gray-300 cursor-default`;
+      return `${baseClasses} text-gray-300 dark:text-gray-600 cursor-default`;
     }
 
     const isSelected = selectedStartDate === day.dateString || selectedEndDate === day.dateString;
@@ -208,22 +208,22 @@ export default function OfferBookingCalendar({
     const isDisabled = day.isPast || day.isBooked;
 
     if (isDisabled) {
-      return `${baseClasses} bg-red-100 text-red-600 cursor-not-allowed`;
+      return `${baseClasses} bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 cursor-not-allowed`;
     }
 
     if (isSelected) {
-      return `${baseClasses} bg-green-600 text-white shadow-md`;
+      return `${baseClasses} bg-green-600 dark:bg-green-600 text-white shadow-md`;
     }
 
     if (isInRange) {
-      return `${baseClasses} bg-green-100 text-green-800`;
+      return `${baseClasses} bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200`;
     }
 
     if (day.isToday) {
-      return `${baseClasses} bg-gray-100 text-gray-900 border-2 border-primary-300`;
+      return `${baseClasses} bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 border-2 border-primary-300 dark:border-primary-500`;
     }
 
-    return `${baseClasses} text-gray-700 hover:bg-gray-100`;
+    return `${baseClasses} text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700`;
   };
 
   const days = generateCalendarDays();
@@ -233,12 +233,12 @@ export default function OfferBookingCalendar({
     const skeletonHeight = compact ? 'h-8' : 'h-10';
     const gridGap = compact ? 'gap-1' : 'gap-2';
     return (
-      <div className={`bg-white rounded-lg border border-gray-200 ${compact ? 'p-4' : 'p-6'} ${className}`}>
+      <div className={`bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 ${compact ? 'p-4' : 'p-6'} ${className}`}>
         <div className="animate-pulse">
-          <div className="h-6 bg-gray-200 rounded w-32 mb-4"></div>
+          <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-32 mb-4"></div>
           <div className={`grid grid-cols-7 ${gridGap}`}>
             {Array.from({ length: 42 }).map((_, i) => (
-              <div key={i} className={`${skeletonHeight} bg-gray-200 rounded`}></div>
+              <div key={i} className={`${skeletonHeight} bg-gray-200 dark:bg-gray-700 rounded`}></div>
             ))}
           </div>
         </div>
@@ -247,16 +247,16 @@ export default function OfferBookingCalendar({
   }
 
   return (
-    <div className={`bg-white rounded-lg border border-gray-200 ${compact ? 'p-4' : 'p-6'} ${className}`}>
+    <div className={`bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 ${compact ? 'p-4' : 'p-6'} ${className}`}>
       <div className="mb-6">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-gray-900">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
             Zeitraum auswählen
           </h3>
           {(selectedStartDate || selectedEndDate) && (
             <button
               onClick={clearSelection}
-              className="text-xs text-gray-500 hover:text-gray-700"
+              className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
             >
               Zurücksetzen
             </button>
@@ -265,18 +265,18 @@ export default function OfferBookingCalendar({
         <div className="flex items-center justify-between">
           <button
             onClick={() => navigateMonth('prev')}
-            className="p-2 rounded-lg hover:bg-gray-100 text-gray-500 hover:text-gray-700"
+            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-          <h4 className="font-medium text-gray-900 min-w-[120px] text-center">
+          <h4 className="font-medium text-gray-900 dark:text-gray-100 min-w-[120px] text-center">
             {MONTHS[currentDate.getMonth()]} {currentDate.getFullYear()}
           </h4>
           <button
             onClick={() => navigateMonth('next')}
-            className="p-2 rounded-lg hover:bg-gray-100 text-gray-500 hover:text-gray-700"
+            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -289,7 +289,7 @@ export default function OfferBookingCalendar({
       <div className={`grid grid-cols-7 ${compact ? 'gap-1' : 'gap-1'}`}>
         {/* Weekday headers */}
         {WEEKDAYS.map(day => (
-          <div key={day} className={`${compact ? 'h-8' : 'h-10'} flex items-center justify-center ${compact ? 'text-xs' : 'text-sm'} font-medium text-gray-500`}>
+          <div key={day} className={`${compact ? 'h-8' : 'h-10'} flex items-center justify-center ${compact ? 'text-xs' : 'text-sm'} font-medium text-gray-500 dark:text-gray-400`}>
             {day}
           </div>
         ))}
@@ -318,23 +318,23 @@ export default function OfferBookingCalendar({
 
       {/* Selected Date Range Display */}
       {selectedStartDate && (
-        <div className="mt-6 pt-6 border-t border-gray-100">
-          <div className="text-sm text-gray-600 mb-2">
+        <div className="mt-6 pt-6 border-t border-gray-100 dark:border-gray-700">
+          <div className="text-sm text-gray-600 dark:text-gray-400 mb-2">
             Gewählter Zeitraum:
           </div>
-          <div className="font-medium text-gray-900">
+          <div className="font-medium text-gray-900 dark:text-gray-100">
             {selectedStartDate && selectedEndDate ? (
               <>
                 {new Date(selectedStartDate).toLocaleDateString('de-DE')} - {' '}
                 {new Date(selectedEndDate).toLocaleDateString('de-DE')}
-                <span className="text-sm text-gray-500 ml-2">
+                <span className="text-sm text-gray-500 dark:text-gray-400 ml-2">
                   ({Math.floor((new Date(selectedEndDate).getTime() - new Date(selectedStartDate).getTime()) / (1000 * 60 * 60 * 24)) + 1} Tag{Math.floor((new Date(selectedEndDate).getTime() - new Date(selectedStartDate).getTime()) / (1000 * 60 * 60 * 24)) + 1 === 1 ? '' : 'e'})
                 </span>
               </>
             ) : (
               <>
                 {new Date(selectedStartDate).toLocaleDateString('de-DE')}
-                <span className="text-sm text-gray-500 ml-2">
+                <span className="text-sm text-gray-500 dark:text-gray-400 ml-2">
                   (Enddatum auswählen)
                 </span>
               </>
@@ -345,29 +345,29 @@ export default function OfferBookingCalendar({
 
       {/* Price Calculation */}
       {canBook && (
-        <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg">
+        <div className="mt-4 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg">
           {isPriceLoading ? (
-            <div className="text-center text-green-600">
-              <div className="inline-block animate-spin rounded-full h-4 w-4 border-2 border-green-600 border-t-transparent"></div>
+            <div className="text-center text-green-600 dark:text-green-400">
+              <div className="inline-block animate-spin rounded-full h-4 w-4 border-2 border-green-600 dark:border-green-400 border-t-transparent"></div>
               <span className="ml-2 text-sm">Preis wird berechnet...</span>
             </div>
           ) : (
             <div className="space-y-2">
               <div className="flex justify-between items-center text-sm">
-                <span className="text-green-700">Dauer:</span>
-                <span className="text-green-900 font-medium">
+                <span className="text-green-700 dark:text-green-300">Dauer:</span>
+                <span className="text-green-900 dark:text-green-100 font-medium">
                   {priceCalculation?.daysCount} Tag{priceCalculation?.daysCount === 1 ? '' : 'e'}
                 </span>
               </div>
               <div className="flex justify-between items-center text-sm">
-                <span className="text-green-700">Preis pro Tag:</span>
-                <span className="text-green-900 font-medium">
+                <span className="text-green-700 dark:text-green-300">Preis pro Tag:</span>
+                <span className="text-green-900 dark:text-green-100 font-medium">
                   {priceCalculation?.pricePerDay.toFixed(2)}€
                 </span>
               </div>
-              <div className="flex justify-between items-center text-lg font-bold border-t border-green-300 pt-2">
-                <span className="text-green-800">Gesamtpreis:</span>
-                <span className="text-green-900">
+              <div className="flex justify-between items-center text-lg font-bold border-t border-green-300 dark:border-green-700 pt-2">
+                <span className="text-green-800 dark:text-green-200">Gesamtpreis:</span>
+                <span className="text-green-900 dark:text-green-100">
                   {priceCalculation?.totalPrice.toFixed(2)}€
                 </span>
               </div>
@@ -391,11 +391,11 @@ export default function OfferBookingCalendar({
 
       {/* Error Display */}
       {error && (
-        <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
-          <p className="text-red-700 text-sm">{error}</p>
+        <div className="mt-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-lg">
+          <p className="text-red-700 dark:text-red-300 text-sm">{error}</p>
           <button
             onClick={loadBookedDates}
-            className="mt-2 text-sm text-red-600 hover:text-red-700"
+            className="mt-2 text-sm text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300"
           >
             Erneut versuchen
           </button>
@@ -403,7 +403,7 @@ export default function OfferBookingCalendar({
       )}
 
       {/* Helper Text */}
-      <div className="mt-4 text-xs text-gray-500 space-y-1">
+      <div className="mt-4 text-xs text-gray-500 dark:text-gray-400 space-y-1">
         <p>Klicken Sie auf ein Startdatum und dann auf ein Enddatum</p>
         <p>Maximale Buchungsdauer: 14 Tage</p>
       </div>

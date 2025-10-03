@@ -1,5 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using BCrypt.Net;
@@ -11,12 +12,14 @@ namespace Dorfkiste.Application.Services;
 public class AuthService : IAuthService
 {
     private readonly IUserRepository _userRepository;
+    private readonly IEmailService _emailService;
     private readonly string _jwtSecret;
     private readonly string _jwtIssuer;
 
-    public AuthService(IUserRepository userRepository, string jwtSecret, string jwtIssuer)
+    public AuthService(IUserRepository userRepository, IEmailService emailService, string jwtSecret, string jwtIssuer)
     {
         _userRepository = userRepository;
+        _emailService = emailService;
         _jwtSecret = jwtSecret;
         _jwtIssuer = jwtIssuer;
     }
@@ -30,7 +33,8 @@ public class AuthService : IAuthService
         {
             new(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new(ClaimTypes.Email, user.Email),
-            new(ClaimTypes.Name, $"{user.FirstName} {user.LastName}")
+            new(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
+            new("IsAdmin", user.IsAdmin.ToString())
         };
 
         var tokenDescriptor = new SecurityTokenDescriptor
@@ -68,6 +72,8 @@ public class AuthService : IAuthService
         if (await _userRepository.ExistsAsync(email))
             throw new InvalidOperationException("Ein Benutzer mit dieser E-Mail-Adresse existiert bereits.");
 
+        var verificationToken = GenerateVerificationToken();
+
         var user = new User
         {
             Email = email.ToLowerInvariant(),
@@ -76,10 +82,96 @@ public class AuthService : IAuthService
             LastName = lastName,
             CreatedAt = DateTime.UtcNow,
             IsActive = true,
-            ContactInfo = new ContactInfo()
+            EmailVerified = false,
+            VerificationToken = verificationToken,
+            VerificationTokenExpiry = DateTime.UtcNow.AddHours(24),
+            ContactInfo = new ContactInfo(),
+            PrivacySettings = new UserPrivacySettings
+            {
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
+                DataProcessingConsentDate = DateTime.UtcNow
+            }
         };
 
-        return await _userRepository.CreateAsync(user);
+        var createdUser = await _userRepository.CreateAsync(user);
+
+        // Send verification email
+        try
+        {
+            await _emailService.SendVerificationEmailAsync(user.Email, user.FirstName, verificationToken);
+        }
+        catch (Exception)
+        {
+            // Log error but don't fail registration
+        }
+
+        return createdUser;
+    }
+
+    public async Task<bool> VerifyEmailAsync(string token)
+    {
+        var users = await _userRepository.GetAllAsync();
+        var user = users.FirstOrDefault(u => u.VerificationToken == token);
+
+        if (user == null)
+            return false;
+
+        if (user.EmailVerified)
+            return true;
+
+        if (user.VerificationTokenExpiry == null || user.VerificationTokenExpiry < DateTime.UtcNow)
+            return false;
+
+        user.EmailVerified = true;
+        user.VerificationToken = null;
+        user.VerificationTokenExpiry = null;
+
+        await _userRepository.UpdateAsync(user);
+
+        // Send welcome email
+        try
+        {
+            await _emailService.SendWelcomeEmailAsync(user.Email, user.FirstName);
+        }
+        catch (Exception)
+        {
+            // Log error but don't fail verification
+        }
+
+        return true;
+    }
+
+    public async Task<bool> ResendVerificationEmailAsync(string email)
+    {
+        var user = await _userRepository.GetByEmailAsync(email);
+
+        if (user == null || user.EmailVerified)
+            return false;
+
+        var verificationToken = GenerateVerificationToken();
+        user.VerificationToken = verificationToken;
+        user.VerificationTokenExpiry = DateTime.UtcNow.AddHours(24);
+
+        await _userRepository.UpdateAsync(user);
+
+        try
+        {
+            await _emailService.SendVerificationEmailAsync(user.Email, user.FirstName, verificationToken);
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
+
+    public string GenerateVerificationToken()
+    {
+        var randomBytes = new byte[32];
+        using var rng = RandomNumberGenerator.Create();
+        rng.GetBytes(randomBytes);
+        return Convert.ToBase64String(randomBytes).Replace("+", "-").Replace("/", "_").Replace("=", "");
     }
 
     public string HashPassword(string password)

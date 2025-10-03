@@ -65,6 +65,44 @@ export interface BookedDatesResponse {
   bookedDates: string[];
 }
 
+// Rental Contract interfaces
+export interface RentalContract {
+  id: number;
+  bookingId: number;
+  lessorId: number;
+  lesseeId: number;
+  lessorName: string;
+  lesseeName: string;
+  lessorEmail: string;
+  lesseeEmail: string;
+  offerTitle: string;
+  offerDescription: string;
+  offerType: string;
+  rentalStartDate: string;
+  rentalEndDate: string;
+  rentalDays: number;
+  totalPrice: number;
+  depositAmount: number;
+  pricePerDay: number;
+  termsAndConditions: string;
+  specialConditions: string;
+  createdAt: string;
+  signedByLessorAt?: string;
+  signedByLesseeAt?: string;
+  status: string;
+  lastModifiedAt?: string;
+  cancellationReason?: string;
+  cancelledAt?: string;
+}
+
+export interface GenerateContractRequest {
+  bookingId: number;
+}
+
+export interface CancelContractRequest {
+  reason?: string;
+}
+
 export interface Category {
   id: number;
   name: string;
@@ -549,6 +587,162 @@ class ApiClient {
     params.append('endDate', endDate);
     return this.request(`/bookings/offers/${offerId}/block-dates?${params.toString()}`, {
       method: 'DELETE',
+    });
+  }
+
+  async getRecentCompletedBookings(count: number = 6): Promise<BookingResponse[]> {
+    return this.request(`/bookings/recent-completed?count=${count}`);
+  }
+
+  // Rental Contract endpoints
+  async generateContract(bookingId: number): Promise<RentalContract> {
+    return this.request('/rental-contracts', {
+      method: 'POST',
+      body: JSON.stringify({ bookingId }),
+    });
+  }
+
+  async getContract(contractId: number): Promise<RentalContract> {
+    return this.request(`/rental-contracts/${contractId}`);
+  }
+
+  async getContractByBooking(bookingId: number): Promise<RentalContract> {
+    return this.request(`/rental-contracts/booking/${bookingId}`);
+  }
+
+  async getMyContracts(): Promise<RentalContract[]> {
+    return this.request('/rental-contracts/my-contracts');
+  }
+
+  async signContract(contractId: number): Promise<RentalContract> {
+    return this.request(`/rental-contracts/${contractId}/sign`, {
+      method: 'POST',
+    });
+  }
+
+  async downloadContractPdf(contractId: number): Promise<Blob> {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`${API_BASE_URL}/rental-contracts/${contractId}/pdf`, {
+      method: 'GET',
+      headers: {
+        'Authorization': token ? `Bearer ${token}` : '',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to download contract PDF');
+    }
+
+    return response.blob();
+  }
+
+  async cancelContract(contractId: number, reason?: string): Promise<RentalContract> {
+    return this.request(`/rental-contracts/${contractId}/cancel`, {
+      method: 'POST',
+      body: JSON.stringify({ reason }),
+    });
+  }
+
+  // GDPR & Privacy Methods
+  async getPrivacySettings(): Promise<any> {
+    return this.request('/users/privacy-settings');
+  }
+
+  async updatePrivacySettings(settings: any): Promise<any> {
+    return this.request('/users/privacy-settings', {
+      method: 'PUT',
+      body: JSON.stringify(settings),
+    });
+  }
+
+  async exportUserData(): Promise<Blob> {
+    const response = await fetch(`${API_BASE_URL}/users/export-data`, {
+      headers: {
+        ...this.getAuthHeader(),
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to export data');
+    }
+
+    return response.blob();
+  }
+
+  async deleteAccount(): Promise<void> {
+    return this.request('/users/delete-account', {
+      method: 'DELETE',
+    });
+  }
+
+  async verifyEmail(token: string): Promise<void> {
+    const response = await fetch(`${API_BASE_URL}/users/verify-email?token=${token}`, {
+      method: 'POST',
+    });
+
+    if (!response.ok) {
+      const data = await response.json();
+      throw new Error(data.message || 'Email verification failed');
+    }
+  }
+
+  async resendVerificationEmail(): Promise<void> {
+    return this.request('/users/resend-verification', {
+      method: 'POST',
+    });
+  }
+
+  // Report Methods
+  async reportOffer(offerId: number, reportType: number, description: string): Promise<any> {
+    return this.request('/reports/offer', {
+      method: 'POST',
+      body: JSON.stringify({
+        reportedOfferId: offerId,
+        reportType,
+        description,
+      }),
+    });
+  }
+
+  async reportUser(userId: number, reportType: number, description: string): Promise<any> {
+    return this.request('/reports/user', {
+      method: 'POST',
+      body: JSON.stringify({
+        reportedUserId: userId,
+        reportType,
+        description,
+      }),
+    });
+  }
+
+  async getMyReports(): Promise<any[]> {
+    return this.request('/reports/my-reports');
+  }
+
+  // Admin Methods
+  async getAdminReports(status?: string): Promise<any[]> {
+    const query = status ? `?status=${status}` : '';
+    return this.request(`/admin/reports${query}`);
+  }
+
+  async resolveReport(reportId: number, resolution: string, notes?: string): Promise<any> {
+    return this.request(`/admin/reports/${reportId}/resolve`, {
+      method: 'POST',
+      body: JSON.stringify({ resolution, notes }),
+    });
+  }
+
+  async suspendUser(userId: number, reason: string): Promise<void> {
+    return this.request(`/admin/users/${userId}/suspend`, {
+      method: 'POST',
+      body: JSON.stringify({ reason }),
+    });
+  }
+
+  async removeOffer(offerId: number, reason: string): Promise<void> {
+    return this.request(`/admin/offers/${offerId}/remove`, {
+      method: 'DELETE',
+      body: JSON.stringify({ reason }),
     });
   }
 }

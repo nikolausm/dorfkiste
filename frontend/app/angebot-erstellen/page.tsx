@@ -267,7 +267,7 @@ export default function CreateOfferPage() {
               <div className={`rounded-full w-8 h-8 flex items-center justify-center text-sm font-medium ${step === 'analyze' ? 'bg-primary-100' : step === 'edit' ? 'bg-green-100' : 'bg-gray-100'}`}>
                 {step === 'edit' ? '✓' : '2'}
               </div>
-              <span className="ml-2 font-medium">KI-Analyse</span>
+              <span className="ml-2 font-medium">Analyse</span>
             </div>
             <div className={`h-0.5 flex-1 ${step === 'edit' ? 'bg-green-200' : 'bg-gray-200'}`}></div>
             <div className={`flex items-center ${step === 'edit' ? 'text-primary-600' : 'text-gray-400'}`}>
@@ -352,6 +352,12 @@ export default function CreateOfferPage() {
               {selectedFile && (
                 <div className="flex space-x-4">
                   <button
+                    onClick={() => setStep('edit')}
+                    className="flex-1 btn-secondary"
+                  >
+                    Manuell erstellen
+                  </button>
+                  <button
                     onClick={analyzeImage}
                     disabled={isAnalyzing}
                     className={`flex-1 btn-primary ${isAnalyzing ? 'opacity-50 cursor-not-allowed' : ''}`}
@@ -362,17 +368,11 @@ export default function CreateOfferPage() {
                           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
-                        KI analysiert Bild...
+                        Angebot wird erstellt...
                       </>
                     ) : (
-                      <>🤖 Mit KI analysieren</>
+                      <>🤖 Automatisch erstellen</>
                     )}
-                  </button>
-                  <button
-                    onClick={() => setStep('edit')}
-                    className="flex-1 btn-secondary"
-                  >
-                    Manuell erstellen
                   </button>
                 </div>
               )}

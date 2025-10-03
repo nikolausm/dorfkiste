@@ -62,16 +62,37 @@ builder.Services.AddScoped<IOfferPictureRepository, OfferPictureRepository>();
 builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 builder.Services.AddScoped<IAvailabilityRepository, AvailabilityRepository>();
+builder.Services.AddScoped<IRentalContractRepository, RentalContractRepository>();
+builder.Services.AddScoped<IReportRepository, ReportRepository>();
 
 // Register services
+builder.Services.AddScoped<IEmailService>(provider =>
+{
+    var logger = provider.GetRequiredService<ILogger<EmailService>>();
+    var config = builder.Configuration;
+    return new EmailService(
+        logger,
+        config["Email:SmtpHost"] ?? "smtp.gmail.com",
+        int.Parse(config["Email:SmtpPort"] ?? "587"),
+        config["Email:SmtpUsername"] ?? "",
+        config["Email:SmtpPassword"] ?? "",
+        config["Email:FromEmail"] ?? "noreply@dorfkiste.local",
+        config["Email:FromName"] ?? "Dorfkiste",
+        config["Email:BaseUrl"] ?? "http://localhost:3000"
+    );
+});
 builder.Services.AddScoped<IAuthService>(provider =>
 {
     var userRepository = provider.GetRequiredService<IUserRepository>();
-    return new AuthService(userRepository, jwtSecret, jwtIssuer);
+    var emailService = provider.GetRequiredService<IEmailService>();
+    return new AuthService(userRepository, emailService, jwtSecret, jwtIssuer);
 });
 builder.Services.AddScoped<IOfferService, OfferService>();
 builder.Services.AddScoped<IMessageService, MessageService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
+builder.Services.AddScoped<IRentalContractService, RentalContractService>();
+builder.Services.AddScoped<IReportService, ReportService>();
+builder.Services.AddScoped<ContractPdfGenerator>();
 
 var app = builder.Build();
 

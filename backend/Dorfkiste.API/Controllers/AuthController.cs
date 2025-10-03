@@ -66,9 +66,36 @@ public class AuthController : ControllerBase
                 Id = user.Id,
                 Email = user.Email,
                 FirstName = user.FirstName,
-                LastName = user.LastName
+                LastName = user.LastName,
+                EmailVerified = user.EmailVerified
             }
         });
+    }
+
+    [HttpPost("verify-email")]
+    public async Task<IActionResult> VerifyEmail([FromBody] VerifyEmailRequest request)
+    {
+        var success = await _authService.VerifyEmailAsync(request.Token);
+
+        if (!success)
+        {
+            return BadRequest(new { message = "Ungültiger oder abgelaufener Verifizierungstoken." });
+        }
+
+        return Ok(new { message = "E-Mail-Adresse erfolgreich bestätigt." });
+    }
+
+    [HttpPost("resend-verification")]
+    public async Task<IActionResult> ResendVerification([FromBody] ResendVerificationRequest request)
+    {
+        var success = await _authService.ResendVerificationEmailAsync(request.Email);
+
+        if (!success)
+        {
+            return BadRequest(new { message = "E-Mail-Adresse nicht gefunden oder bereits bestätigt." });
+        }
+
+        return Ok(new { message = "Verifizierungs-E-Mail wurde erneut gesendet." });
     }
 }
 
@@ -98,4 +125,15 @@ public class UserDto
     public string Email { get; set; } = string.Empty;
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
+    public bool EmailVerified { get; set; }
+}
+
+public class VerifyEmailRequest
+{
+    public string Token { get; set; } = string.Empty;
+}
+
+public class ResendVerificationRequest
+{
+    public string Email { get; set; } = string.Empty;
 }

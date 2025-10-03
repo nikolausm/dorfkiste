@@ -14,6 +14,7 @@ public interface IBookingService
     Task BlockDatesAsync(int offerId, int providerId, DateOnly startDate, DateOnly endDate, string? reason);
     Task UnblockDatesAsync(int offerId, int providerId, DateOnly startDate, DateOnly endDate);
     Task<BookingResult> CancelBookingAsync(int bookingId, int providerId, string? reason);
+    Task<IEnumerable<Booking>> GetRecentCompletedBookingsAsync(int count = 6);
 }
 
 public class AvailabilityResult

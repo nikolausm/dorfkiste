@@ -119,4 +119,18 @@ public class BookingRepository : IBookingRepository
             await _context.SaveChangesAsync();
         }
     }
+
+    public async Task<IEnumerable<Booking>> GetRecentCompletedAsync(int count = 6)
+    {
+        return await _context.Bookings
+            .Include(b => b.Offer)
+                .ThenInclude(o => o.User)
+            .Include(b => b.Offer)
+                .ThenInclude(o => o.Pictures)
+            .Include(b => b.Customer)
+            .Where(b => b.Status == BookingStatus.Completed)
+            .OrderByDescending(b => b.ConfirmedAt ?? b.CreatedAt)
+            .Take(count)
+            .ToListAsync();
+    }
 }

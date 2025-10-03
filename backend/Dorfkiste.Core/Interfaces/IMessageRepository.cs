@@ -14,4 +14,6 @@ public interface IMessageRepository
     Task<int> GetUnreadCountAsync(int userId);
     Task DeleteAsync(int id);
     Task DeleteConversationAsync(int userId, int recipientId, int offerId);
+    Task<IEnumerable<Message>> GetSentMessagesAsync(int userId);
+    Task<IEnumerable<Message>> GetReceivedMessagesAsync(int userId);
 }

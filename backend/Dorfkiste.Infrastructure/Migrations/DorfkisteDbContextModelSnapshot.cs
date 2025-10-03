@@ -326,6 +326,173 @@ namespace Dorfkiste.Infrastructure.Migrations
                     b.ToTable("OfferPictures");
                 });
 
+            modelBuilder.Entity("Dorfkiste.Core.Entities.RentalContract", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("BookingId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CancellationReason")
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("CancelledAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("DepositAmount")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("LastModifiedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("LesseeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("LessorId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("OfferDescription")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("OfferTitle")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("OfferType")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("PricePerDay")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("RentalDays")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateOnly>("RentalEndDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateOnly>("RentalStartDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("SignedByLesseeAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("SignedByLessorAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SpecialConditions")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Status")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(0);
+
+                    b.Property<string>("TermsAndConditions")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasPrecision(10, 2)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookingId")
+                        .IsUnique();
+
+                    b.HasIndex("CreatedAt");
+
+                    b.HasIndex("LesseeId");
+
+                    b.HasIndex("LessorId");
+
+                    b.HasIndex("Status");
+
+                    b.HasIndex("LesseeId", "Status");
+
+                    b.HasIndex("LessorId", "Status");
+
+                    b.ToTable("RentalContracts");
+                });
+
+            modelBuilder.Entity("Dorfkiste.Core.Entities.Report", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ReportType")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ReportedMessageId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ReportedOfferId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ReportedUserId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ReporterId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ResolutionNotes")
+                        .HasMaxLength(2000)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("ReviewedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("ReviewedById")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Status")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(0);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedAt");
+
+                    b.HasIndex("ReportedMessageId");
+
+                    b.HasIndex("ReportedOfferId");
+
+                    b.HasIndex("ReportedUserId");
+
+                    b.HasIndex("ReporterId");
+
+                    b.HasIndex("ReviewedById");
+
+                    b.HasIndex("Status");
+
+                    b.ToTable("Reports");
+                });
+
             modelBuilder.Entity("Dorfkiste.Core.Entities.User", b =>
                 {
                     b.Property<int>("Id")
@@ -335,10 +502,19 @@ namespace Dorfkiste.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DeletionReason")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("EmailVerified")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -346,6 +522,12 @@ namespace Dorfkiste.Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime?>("LastLoginAt")
@@ -361,12 +543,73 @@ namespace Dorfkiste.Infrastructure.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("VerificationToken")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("VerificationTokenExpiry")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.HasIndex("Email")
                         .IsUnique();
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Dorfkiste.Core.Entities.UserPrivacySettings", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("DataProcessingConsent")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(true);
+
+                    b.Property<DateTime?>("DataProcessingConsentDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("DataSharingConsent")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(false);
+
+                    b.Property<DateTime?>("DataSharingConsentDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("MarketingEmailsConsent")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(false);
+
+                    b.Property<DateTime?>("MarketingEmailsConsentDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("ProfileVisibilityConsent")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(true);
+
+                    b.Property<DateTime?>("ProfileVisibilityConsentDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("UserPrivacySettings");
                 });
 
             modelBuilder.Entity("Dorfkiste.Core.Entities.AvailabilityOverride", b =>
@@ -467,6 +710,83 @@ namespace Dorfkiste.Infrastructure.Migrations
                     b.Navigation("Offer");
                 });
 
+            modelBuilder.Entity("Dorfkiste.Core.Entities.RentalContract", b =>
+                {
+                    b.HasOne("Dorfkiste.Core.Entities.Booking", "Booking")
+                        .WithMany()
+                        .HasForeignKey("BookingId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Dorfkiste.Core.Entities.User", "Lessee")
+                        .WithMany()
+                        .HasForeignKey("LesseeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Dorfkiste.Core.Entities.User", "Lessor")
+                        .WithMany()
+                        .HasForeignKey("LessorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Booking");
+
+                    b.Navigation("Lessee");
+
+                    b.Navigation("Lessor");
+                });
+
+            modelBuilder.Entity("Dorfkiste.Core.Entities.Report", b =>
+                {
+                    b.HasOne("Dorfkiste.Core.Entities.Message", "ReportedMessage")
+                        .WithMany()
+                        .HasForeignKey("ReportedMessageId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Dorfkiste.Core.Entities.Offer", "ReportedOffer")
+                        .WithMany()
+                        .HasForeignKey("ReportedOfferId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Dorfkiste.Core.Entities.User", "ReportedUser")
+                        .WithMany()
+                        .HasForeignKey("ReportedUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Dorfkiste.Core.Entities.User", "Reporter")
+                        .WithMany()
+                        .HasForeignKey("ReporterId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Dorfkiste.Core.Entities.User", "ReviewedBy")
+                        .WithMany()
+                        .HasForeignKey("ReviewedById")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("ReportedMessage");
+
+                    b.Navigation("ReportedOffer");
+
+                    b.Navigation("ReportedUser");
+
+                    b.Navigation("Reporter");
+
+                    b.Navigation("ReviewedBy");
+                });
+
+            modelBuilder.Entity("Dorfkiste.Core.Entities.UserPrivacySettings", b =>
+                {
+                    b.HasOne("Dorfkiste.Core.Entities.User", "User")
+                        .WithOne("PrivacySettings")
+                        .HasForeignKey("Dorfkiste.Core.Entities.UserPrivacySettings", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Dorfkiste.Core.Entities.Category", b =>
                 {
                     b.Navigation("Offers");
@@ -489,6 +809,9 @@ namespace Dorfkiste.Infrastructure.Migrations
                     b.Navigation("CustomerBookings");
 
                     b.Navigation("Offers");
+
+                    b.Navigation("PrivacySettings")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

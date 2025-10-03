@@ -124,4 +124,26 @@ public class MessageRepository : IMessageRepository
             await _context.SaveChangesAsync();
         }
     }
+
+    public async Task<IEnumerable<Message>> GetSentMessagesAsync(int userId)
+    {
+        return await _context.Messages
+            .Include(m => m.Sender)
+            .Include(m => m.Recipient)
+            .Include(m => m.Offer)
+            .Where(m => m.SenderId == userId)
+            .OrderByDescending(m => m.SentAt)
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<Message>> GetReceivedMessagesAsync(int userId)
+    {
+        return await _context.Messages
+            .Include(m => m.Sender)
+            .Include(m => m.Recipient)
+            .Include(m => m.Offer)
+            .Where(m => m.RecipientId == userId)
+            .OrderByDescending(m => m.SentAt)
+            .ToListAsync();
+    }
 }

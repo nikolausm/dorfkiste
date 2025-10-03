@@ -14,4 +14,5 @@ public interface IBookingRepository
     Task<Booking> UpdateAsync(Booking booking);
     Task DeleteAsync(int id);
     Task<bool> HasOverlappingBookingsAsync(int offerId, DateOnly startDate, DateOnly endDate, int? excludeBookingId = null);
+    Task<IEnumerable<Booking>> GetRecentCompletedAsync(int count = 6);
 }

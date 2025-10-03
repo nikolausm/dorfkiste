@@ -12,14 +12,16 @@ public class OfferService : IOfferService
     private readonly IOfferRepository _offerRepository;
     private readonly IOfferPictureRepository _pictureRepository;
     private readonly ICategoryRepository _categoryRepository;
+    private readonly IUserRepository _userRepository;
     private readonly IConfiguration _configuration;
     private readonly OpenAIClient _openAIClient;
 
-    public OfferService(IOfferRepository offerRepository, IOfferPictureRepository pictureRepository, ICategoryRepository categoryRepository, IConfiguration configuration)
+    public OfferService(IOfferRepository offerRepository, IOfferPictureRepository pictureRepository, ICategoryRepository categoryRepository, IUserRepository userRepository, IConfiguration configuration)
     {
         _offerRepository = offerRepository;
         _pictureRepository = pictureRepository;
         _categoryRepository = categoryRepository;
+        _userRepository = userRepository;
         _configuration = configuration;
         _openAIClient = new OpenAIClient(_configuration["OpenAI:ApiKey"]);
     }
@@ -46,6 +48,14 @@ public class OfferService : IOfferService
 
     public async Task<Offer> CreateOfferAsync(Offer offer, int userId)
     {
+        // GDPR: Check if user's email is verified
+        var user = await _userRepository.GetByIdAsync(userId);
+        if (user == null)
+            throw new InvalidOperationException("Benutzer wurde nicht gefunden.");
+
+        if (!user.EmailVerified)
+            throw new InvalidOperationException("Bitte bestätigen Sie zuerst Ihre E-Mail-Adresse, bevor Sie Angebote erstellen können.");
+
         offer.UserId = userId;
         offer.CreatedAt = DateTime.UtcNow;
         offer.UpdatedAt = DateTime.UtcNow;
@@ -125,7 +135,9 @@ public class OfferService : IOfferService
 
             var chatClient = _openAIClient.GetChatClient("gpt-4o");
 
-            var systemPrompt = @"Du bist ein Experte für das Erstellen von Angeboten auf einem lokalen Marktplatz namens 'Dorfkiste'. Analysiere das hochgeladene Bild und erstelle Vorschläge für ein Angebot.
+            var systemPrompt = @"Du bist ein Experte für das Erstellen von Angeboten auf einem lokalen Marktplatz namens 'Dorfkiste'. 
+
+Analysiere das hochgeladene Bild und erstelle Vorschläge für ein Angebot. Das angebot soll den Interessenten auf der Grundlage des Bildes und der Kategorie ausreichend detailliert sein und aus sicht des erstellers sinnvoll sein.
 
 Verfügbare Kategorien:
 " + categoryList + @"
@@ -154,10 +166,10 @@ Andernfalls, falls das Bild erfolgreich analysiert werden kann:
 
 Regeln:
 - Titel: Kurz und prägnant, inkl. Marke/Model falls erkennbar
-- Beschreibung: 2-4 Sätze, Zustand, Eigenschaften, warum interessant
+- Beschreibung: 2-4 Sätze, Zustand, Eigenschaften, warum interessant, für was kann es benutzt werden.
 - isService: false für Gegenstände, true für Dienstleistungen
 - Kategorie: Wähle die passendste aus der Liste
-- Preise: Realistische Preise für die Region (€5-50/Tag für Gegenstände, €20-50/h für Services)
+- Preise: Realistische Preise für die Region (€5-500/Tag für Gegenstände, €15-150/h für Services)
 - Verwende nur einen Preis (pricePerDay oder pricePerHour)
 
 ANTWORT NUR DAS JSON-OBJEKT!";

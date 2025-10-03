@@ -1,7 +1,30 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import SearchBar from '@/components/SearchBar';
+import OfferThumbnail from '@/components/OfferThumbnail';
+import { apiClient, BookingResponse } from '@/lib/api';
 
 export default function Home() {
+  const [recentBookings, setRecentBookings] = useState<BookingResponse[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    loadRecentBookings();
+  }, []);
+
+  const loadRecentBookings = async () => {
+    try {
+      const bookings = await apiClient.getRecentCompletedBookings(6);
+      setRecentBookings(bookings);
+    } catch (error) {
+      console.error('Fehler beim Laden der letzten Verleihungen:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -32,6 +55,63 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Recent Rentals Section */}
+      {!isLoading && recentBookings.length > 0 && (
+        <section className="py-16 px-4 bg-gray-50">
+          <div className="container mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl lg:text-4xl font-bold text-neutral-900 mb-4">
+                Letzte erfolgreiche Verleihungen
+              </h2>
+              <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
+                Diese Gegenstände und Dienstleistungen wurden kürzlich erfolgreich verliehen
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {recentBookings.map((booking) => (
+                <Link
+                  key={booking.id}
+                  href={`/angebote/${booking.offer.id}`}
+                  className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow p-4"
+                >
+                  <div className="flex items-start space-x-4">
+                    <div className="flex-shrink-0">
+                      <OfferThumbnail
+                        offer={booking.offer.firstPicture ? {
+                          id: booking.offer.id,
+                          title: booking.offer.title,
+                          firstPicture: {
+                            id: booking.offer.firstPicture.id,
+                            fileName: booking.offer.firstPicture.fileName,
+                            contentType: booking.offer.firstPicture.contentType,
+                            displayOrder: booking.offer.firstPicture.displayOrder
+                          },
+                          isService: booking.offer.isService
+                        } : null}
+                        size="medium"
+                        isInactive={!booking.offer.isActive}
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-gray-900 truncate mb-1">
+                        {booking.offer.title}
+                      </h3>
+                      <p className="text-sm text-gray-600 mb-2">
+                        {booking.daysCount} Tag{booking.daysCount !== 1 ? 'e' : ''} • {booking.totalPrice.toFixed(2)} €
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        Verliehen von {booking.offer.provider.firstName}
+                      </p>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Categories Section */}
       <section className="feature-section">
