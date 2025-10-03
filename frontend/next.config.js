@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'standalone',
   serverExternalPackages: [],
   outputFileTracingRoot: __dirname,
   images: {
@@ -7,32 +8,20 @@ const nextConfig = {
       {
         protocol: 'http',
         hostname: 'localhost',
-        port: '5124',
-        pathname: '/api/offers/pictures/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'localhost',
-        port: '7000',
+        port: '8000',
         pathname: '/api/offers/pictures/**',
       },
       {
         protocol: 'http',
-        hostname: 'localhost',
-        port: '',
-        pathname: '/api/offers/pictures/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'localhost',
-        port: '',
+        hostname: 'backend',
+        port: '8080',
         pathname: '/api/offers/pictures/**',
       },
     ],
-    domains: ['localhost'],
+    domains: ['localhost', 'backend'],
     dangerouslyAllowSVG: false,
     contentSecurityPolicy: "default-src 'self'; style-src 'self' 'unsafe-inline' fonts.googleapis.com; font-src 'self' fonts.gstatic.com data:; script-src 'self'; connect-src 'self';",
-    unoptimized: process.env.NODE_ENV === 'development',
+    unoptimized: true, // Disable optimization for all images
   },
   async headers() {
     return [

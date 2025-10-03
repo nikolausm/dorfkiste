@@ -267,71 +267,40 @@ public static class DbSeeder
         if (!context.OfferPictures.Any())
         {
             var offers = await context.Offers.ToListAsync();
-            var sampleImagesPath = Path.Combine(Directory.GetCurrentDirectory(), "SampleImages");
+
+            // Generate placeholder image (1x1 transparent PNG)
+            var placeholderImageData = Convert.FromBase64String("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==");
 
             // Define multiple images per offer with display order
-            var imageSeeds = new List<(string offerTitle, List<(string imageName, string fileName)> images)>
+            var imageSeeds = new List<(string offerTitle, List<string> fileNames)>
             {
-                ("Bohrmaschine Makita HP2050H", new List<(string, string)>
-                {
-                    ("drill.jpg", "Bohrmaschine_Makita.jpg"),
-                    ("drill-bits.jpg", "Bohrmaschine_Zubehoer.jpg"),
-                    ("drill-action.jpg", "Bohrmaschine_Action.jpg")
-                }),
-                ("Rasenmäher Benzin - Honda HRG 536", new List<(string, string)>
-                {
-                    ("lawnmower.jpg", "Rasenmäher_Honda.jpg"),
-                    ("lawnmower-action.jpg", "Rasenmäher_Action.jpg")
-                }),
-                ("Handwerkerservice - Renovierungsarbeiten", new List<(string, string)>
-                {
-                    ("handyman.jpg", "Handwerker_Tools.jpg")
-                }),
-                ("Küchenmaschine KitchenAid", new List<(string, string)>
-                {
-                    ("kitchenaid.jpg", "KitchenAid_Maschine.jpg")
-                }),
-                ("Gartenservice - Rasenpflege", new List<(string, string)>
-                {
-                    ("garden-service.jpg", "Garten_Service.jpg")
-                }),
-                ("Beamer Epson EH-TW7000", new List<(string, string)>
-                {
-                    ("projector.jpg", "Epson_Beamer.jpg"),
-                    ("home-theater-setup.jpg", "Heimkino_Setup.jpg")
-                })
+                ("Bohrmaschine Makita HP2050H", new List<string> { "Bohrmaschine_Makita.jpg", "Bohrmaschine_Zubehoer.jpg", "Bohrmaschine_Action.jpg" }),
+                ("Rasenmäher Benzin - Honda HRG 536", new List<string> { "Rasenmäher_Honda.jpg", "Rasenmäher_Action.jpg" }),
+                ("Handwerkerservice - Renovierungsarbeiten", new List<string> { "Handwerker_Tools.jpg" }),
+                ("Küchenmaschine KitchenAid", new List<string> { "KitchenAid_Maschine.jpg" }),
+                ("Gartenservice - Rasenpflege", new List<string> { "Garten_Service.jpg" }),
+                ("Beamer Epson EH-TW7000", new List<string> { "Epson_Beamer.jpg", "Heimkino_Setup.jpg" })
             };
 
             var pictures = new List<OfferPicture>();
 
-            foreach (var (offerTitle, images) in imageSeeds)
+            foreach (var (offerTitle, fileNames) in imageSeeds)
             {
                 var offer = offers.FirstOrDefault(o => o.Title == offerTitle);
                 if (offer != null)
                 {
-                    for (int i = 0; i < images.Count; i++)
+                    for (int i = 0; i < fileNames.Count; i++)
                     {
-                        var (imageName, fileName) = images[i];
-                        var imagePath = Path.Combine(sampleImagesPath, imageName);
-                        var imageData = ReadImageFile(imagePath);
-                        
-                        if (imageData != null)
+                        pictures.Add(new OfferPicture
                         {
-                            pictures.Add(new OfferPicture
-                            {
-                                OfferId = offer.Id,
-                                ImageData = imageData,
-                                ContentType = "image/jpeg",
-                                FileName = fileName,
-                                FileSize = imageData.Length,
-                                DisplayOrder = i + 1, // 1, 2, 3...
-                                CreatedAt = DateTime.UtcNow
-                            });
-                        }
-                        else
-                        {
-                            Console.WriteLine($"Warning: Could not load image {imageName} for offer {offerTitle}");
-                        }
+                            OfferId = offer.Id,
+                            ImageData = placeholderImageData,
+                            ContentType = "image/png",
+                            FileName = fileNames[i],
+                            FileSize = placeholderImageData.Length,
+                            DisplayOrder = i + 1,
+                            CreatedAt = DateTime.UtcNow
+                        });
                     }
                 }
             }
@@ -340,7 +309,7 @@ public static class DbSeeder
             {
                 context.OfferPictures.AddRange(pictures);
                 await context.SaveChangesAsync();
-                Console.WriteLine($"Seeded {pictures.Count} sample images for {imageSeeds.Count} offers.");
+                Console.WriteLine($"Seeded {pictures.Count} placeholder images for {imageSeeds.Count} offers.");
             }
         }
     }
