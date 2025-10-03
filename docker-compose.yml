@@ -1,34 +1,91 @@
-version: '3.8'
-
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: builder
+  nginx:
+    image: nginx:alpine
+    container_name: dorfkiste-nginx
+    expose:
+      - "80"
     volumes:
-      - .:/app
-      - /app/node_modules
-      - /app/.next
-    ports:
-      - "3000:3000"
-    environment:
-      - NODE_ENV=development
-      - DATABASE_URL=postgresql://postgres:password@db:5432/dorfkiste
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
-      - db
-    command: npm run dev
+      - frontend
+      - backend
+    networks:
+      - dorfkiste-network
+      - traefik-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dorfkiste.rule=Host(`dorfkiste.org`) || Host(`www.dorfkiste.org`) || Host(`dev.dorfkiste.org`)"
+      - "traefik.http.routers.dorfkiste.entrypoints=web"
+      - "traefik.http.services.dorfkiste.loadbalancer.server.port=80"
+      - "traefik.docker.network=traefik-network"
+    restart: unless-stopped
 
-  db:
-    image: postgres:16-alpine
-    ports:
-      - "5432:5432"
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: dorfkiste-backend
+    expose:
+      - "8080"
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=dorfkiste
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=Data Source=/app/data/dorfkiste.db
+      - Jwt__Secret=${JWT_SECRET:-your-secret-key-min-32-characters-long-for-production}
+      - Jwt__Issuer=DorfkisteAPI
+      - Jwt__Audience=DorfkisteClient
+      - Jwt__ExpiryMinutes=60
+      - OpenAI__ApiKey=${OPENAI_API_KEY}
+      - OpenAI__Model=gpt-4o
+      - Email__SmtpHost=mailhog
+      - Email__SmtpPort=1025
+      - Email__SmtpUsername=
+      - Email__SmtpPassword=
+      - Email__FromEmail=noreply@dorfkiste.org
+      - Email__FromName=Dorfkiste
+      - Email__BaseUrl=https://dorfkiste.org
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - backend-data:/app/data
+    networks:
+      - dorfkiste-network
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_API_URL=/api
+    container_name: dorfkiste-frontend
+    expose:
+      - "3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=/api
+    depends_on:
+      - backend
+    networks:
+      - dorfkiste-network
+    restart: unless-stopped
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    platform: linux/amd64
+    container_name: dorfkiste-mailhog
+    ports:
+      - "1025:1025"  # SMTP port
+      - "8025:8025"  # Web UI port
+    networks:
+      - dorfkiste-network
+    restart: unless-stopped
 
 volumes:
-  postgres_data:
+  backend-data:
+    driver: local
+
+networks:
+  dorfkiste-network:
+    driver: bridge
+  traefik-network:
+    external: true
+    name: traefik-network

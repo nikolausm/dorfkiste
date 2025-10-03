@@ -1,0 +1,26 @@
+# Globaler Traefik Reverse Proxy (einmalig starten)
+# docker-compose -f docker-compose.traefik.yml up -d
+
+version: '3.8'
+
+services:
+  traefik:
+    image: traefik:v2.10
+    container_name: traefik-global
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "8080:8080"  # Traefik Dashboard
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - traefik-network
+
+networks:
+  traefik-network:
+    external: true
+    name: traefik-network
