@@ -15,7 +15,7 @@ public class Message
     public int RecipientId { get; set; }
     public User Recipient { get; set; } = null!;
     
-    // Related offer
-    public int OfferId { get; set; }
-    public Offer Offer { get; set; } = null!;
+    // Related offer (optional - not required for direct admin messages)
+    public int? OfferId { get; set; }
+    public Offer? Offer { get; set; }
 }

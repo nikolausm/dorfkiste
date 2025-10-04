@@ -47,18 +47,27 @@ public class MessageRepository : IMessageRepository
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<Message>> GetConversationAsync(int senderId, int recipientId, int offerId)
+    public async Task<IEnumerable<Message>> GetConversationAsync(int senderId, int recipientId, int? offerId)
     {
-        return await _context.Messages
+        var query = _context.Messages
             .Include(m => m.Sender)
             .Include(m => m.Recipient)
             .Include(m => m.Offer)
                 .ThenInclude(o => o.Pictures)
-            .Where(m => m.OfferId == offerId &&
-                       ((m.SenderId == senderId && m.RecipientId == recipientId) ||
-                        (m.SenderId == recipientId && m.RecipientId == senderId)))
-            .OrderBy(m => m.SentAt)
-            .ToListAsync();
+            .Where(m => ((m.SenderId == senderId && m.RecipientId == recipientId) ||
+                        (m.SenderId == recipientId && m.RecipientId == senderId)));
+
+        if (offerId.HasValue)
+        {
+            query = query.Where(m => m.OfferId == offerId.Value);
+        }
+        else
+        {
+            // For direct messages without an offer
+            query = query.Where(m => m.OfferId == null);
+        }
+
+        return await query.OrderBy(m => m.SentAt).ToListAsync();
     }
 
     public async Task<IEnumerable<Message>> GetUserInboxAsync(int userId)
@@ -110,13 +119,22 @@ public class MessageRepository : IMessageRepository
         }
     }
 
-    public async Task DeleteConversationAsync(int userId, int recipientId, int offerId)
+    public async Task DeleteConversationAsync(int userId, int recipientId, int? offerId)
     {
-        var messages = await _context.Messages
-            .Where(m => m.OfferId == offerId &&
-                       ((m.SenderId == userId && m.RecipientId == recipientId) ||
-                        (m.SenderId == recipientId && m.RecipientId == userId)))
-            .ToListAsync();
+        var query = _context.Messages
+            .Where(m => ((m.SenderId == userId && m.RecipientId == recipientId) ||
+                        (m.SenderId == recipientId && m.RecipientId == userId)));
+
+        if (offerId.HasValue)
+        {
+            query = query.Where(m => m.OfferId == offerId.Value);
+        }
+        else
+        {
+            query = query.Where(m => m.OfferId == null);
+        }
+
+        var messages = await query.ToListAsync();
 
         if (messages.Any())
         {

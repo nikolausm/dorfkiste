@@ -19,19 +19,22 @@ public class MessageService : IMessageService
         _userRepository = userRepository;
     }
 
-    public async Task<Message> SendMessageAsync(int senderId, int recipientId, int offerId, string content)
+    public async Task<Message> SendMessageAsync(int senderId, int recipientId, int? offerId, string content)
     {
-        // Validate that the offer exists
-        var offer = await _offerRepository.GetByIdAsync(offerId);
-        if (offer == null)
+        // Validate that the offer exists (if provided)
+        if (offerId.HasValue)
         {
-            throw new ArgumentException("Offer not found", nameof(offerId));
+            var offer = await _offerRepository.GetByIdAsync(offerId.Value);
+            if (offer == null)
+            {
+                throw new ArgumentException("Offer not found", nameof(offerId));
+            }
         }
 
         // Validate that users exist
         var sender = await _userRepository.GetByIdAsync(senderId);
         var recipient = await _userRepository.GetByIdAsync(recipientId);
-        
+
         if (sender == null || recipient == null)
         {
             throw new ArgumentException("Invalid user IDs");
@@ -54,7 +57,7 @@ public class MessageService : IMessageService
         return await _messageRepository.CreateAsync(message);
     }
 
-    public async Task<IEnumerable<Message>> GetConversationAsync(int senderId, int recipientId, int offerId)
+    public async Task<IEnumerable<Message>> GetConversationAsync(int senderId, int recipientId, int? offerId)
     {
         return await _messageRepository.GetConversationAsync(senderId, recipientId, offerId);
     }
@@ -109,14 +112,14 @@ public class MessageService : IMessageService
         await _messageRepository.DeleteAsync(messageId);
     }
 
-    public async Task DeleteConversationAsync(int userId, int recipientId, int offerId)
+    public async Task DeleteConversationAsync(int userId, int recipientId, int? offerId)
     {
         // Validate that the user is part of this conversation
         var conversation = await _messageRepository.GetConversationAsync(userId, recipientId, offerId);
 
         if (!conversation.Any())
         {
-            throw new ArgumentException("Conversation not found", nameof(offerId));
+            throw new ArgumentException("Conversation not found");
         }
 
         // Ensure the user is authorized to delete this conversation

@@ -4,11 +4,14 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { apiClient, AdminUser } from '@/lib/api';
+import AdminMessageModal from '@/components/AdminMessageModal';
 
 export default function AdminUsersPage() {
   const [users, setUsers] = useState<AdminUser[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [messageModalOpen, setMessageModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<{ id: number; name: string } | null>(null);
   const { user, isLoggedIn, isLoading: authLoading } = useAuth();
   const router = useRouter();
 
@@ -36,9 +39,9 @@ export default function AdminUsersPage() {
     }
   };
 
-  const handleContactUser = (userId: number) => {
-    // Navigate to messages with pre-selected user
-    router.push(`/nachrichten?userId=${userId}`);
+  const handleContactUser = (userId: number, firstName: string, lastName: string) => {
+    setSelectedUser({ id: userId, name: `${firstName} ${lastName}` });
+    setMessageModalOpen(true);
   };
 
   const handleToggleAdmin = async (userId: number, currentIsAdmin: boolean) => {
@@ -172,7 +175,7 @@ export default function AdminUsersPage() {
                           {u.isAdmin ? 'Admin entfernen' : 'Zum Admin machen'}
                         </button>
                         <button
-                          onClick={() => handleContactUser(u.id)}
+                          onClick={() => handleContactUser(u.id, u.firstName, u.lastName)}
                           className="text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300"
                         >
                           Kontaktieren
@@ -192,6 +195,16 @@ export default function AdminUsersPage() {
           )}
         </div>
       </div>
+
+      <AdminMessageModal
+        isOpen={messageModalOpen}
+        onClose={() => {
+          setMessageModalOpen(false);
+          setSelectedUser(null);
+        }}
+        recipientId={selectedUser?.id || 0}
+        recipientName={selectedUser?.name || ''}
+      />
     </div>
   );
 }

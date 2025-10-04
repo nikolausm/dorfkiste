@@ -224,7 +224,7 @@ export interface Message {
   isRead: boolean;
   senderId: number;
   recipientId: number;
-  offerId: number;
+  offerId: number | null;
   sender?: User;
   recipient?: User;
   offer?: {
@@ -238,7 +238,7 @@ export interface Message {
 
 export interface SendMessageRequest {
   recipientId: number;
-  offerId: number;
+  offerId: number | null;
   content: string;
 }
 

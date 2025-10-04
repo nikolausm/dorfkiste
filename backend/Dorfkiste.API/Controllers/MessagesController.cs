@@ -191,7 +191,7 @@ public class MessagesController : ControllerBase
 public class SendMessageRequest
 {
     public int RecipientId { get; set; }
-    public int OfferId { get; set; }
+    public int? OfferId { get; set; }
     public string Content { get; set; } = string.Empty;
 }
 
@@ -203,7 +203,7 @@ public class MessageDto
     public bool IsRead { get; set; }
     public int SenderId { get; set; }
     public int RecipientId { get; set; }
-    public int OfferId { get; set; }
+    public int? OfferId { get; set; }
     public MessageUserDto? Sender { get; set; }
     public MessageUserDto? Recipient { get; set; }
     public MessageOfferDto? Offer { get; set; }
