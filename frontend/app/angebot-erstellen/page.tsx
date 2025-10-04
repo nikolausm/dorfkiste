@@ -152,7 +152,12 @@ export default function CreateOfferPage() {
         description: formData.description,
         pricePerDay: formData.pricePerDay ? parseFloat(formData.pricePerDay) : undefined,
         pricePerHour: formData.pricePerHour ? parseFloat(formData.pricePerHour) : undefined,
+        salePrice: undefined,
         isService: formData.isService,
+        isForSale: false,
+        deliveryAvailable: false,
+        deliveryCost: undefined,
+        deposit: undefined,
         categoryId: parseInt(formData.categoryId),
       };
 
