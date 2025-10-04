@@ -208,7 +208,7 @@ public class OffersController : ControllerBase
 
     [HttpPost("analyze-image")]
     [Authorize]
-    public async Task<ActionResult<AnalyzeImageResponse>> AnalyzeImage(IFormFile file)
+    public async Task<ActionResult<AnalyzeImageResponse>> AnalyzeImage(IFormFile file, [FromForm] string mode = "rent")
     {
         if (file == null || file.Length == 0)
         {
@@ -226,13 +226,19 @@ public class OffersController : ControllerBase
             return BadRequest("Invalid file type. Only JPEG, PNG, GIF, and WebP images are allowed");
         }
 
+        // Validate mode parameter
+        if (mode != "rent" && mode != "sale")
+        {
+            return BadRequest("Invalid mode. Must be 'rent' or 'sale'.");
+        }
+
         using var memoryStream = new MemoryStream();
         await file.CopyToAsync(memoryStream);
         var imageData = memoryStream.ToArray();
 
         try
         {
-            var analysis = await _offerService.AnalyzeImageAndSuggestOfferDataAsync(imageData);
+            var analysis = await _offerService.AnalyzeImageAndSuggestOfferDataAsync(imageData, mode);
 
             if (analysis == null)
             {

@@ -12,7 +12,7 @@ public interface IOfferService
     Task<Offer> UpdateOfferAsync(Offer offer, int userId);
     Task DeleteOfferAsync(int id, int userId);
     Task<string?> GenerateDescriptionFromImageAsync(byte[] imageData);
-    Task<AnalyzeImageResponse?> AnalyzeImageAndSuggestOfferDataAsync(byte[] imageData);
+    Task<AnalyzeImageResponse?> AnalyzeImageAndSuggestOfferDataAsync(byte[] imageData, string mode = "rent");
     
     Task<OfferPicture> AddPictureAsync(OfferPicture picture);
     Task<OfferPicture?> GetPictureAsync(int pictureId);

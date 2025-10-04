@@ -76,7 +76,7 @@ export default function CreateOfferPage() {
     setErrors([]);
 
     try {
-      const result = await apiClient.analyzeImage(selectedFile);
+      const result = await apiClient.analyzeImage(selectedFile, mode);
       setAnalysisResult(result);
 
       // Auto-fill form data based on mode

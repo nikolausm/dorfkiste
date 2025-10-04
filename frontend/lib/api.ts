@@ -457,9 +457,10 @@ class ApiClient {
     });
   }
 
-  async analyzeImage(file: File): Promise<AnalyzeImageResponse> {
+  async analyzeImage(file: File, mode: 'rent' | 'sale' = 'rent'): Promise<AnalyzeImageResponse> {
     const formData = new FormData();
     formData.append('file', file);
+    formData.append('mode', mode);
 
     return this.request('/offers/analyze-image', {
       method: 'POST',

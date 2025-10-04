@@ -126,7 +126,7 @@ public class OfferService : IOfferService
         }
     }
 
-    public async Task<AnalyzeImageResponse?> AnalyzeImageAndSuggestOfferDataAsync(byte[] imageData)
+    public async Task<AnalyzeImageResponse?> AnalyzeImageAndSuggestOfferDataAsync(byte[] imageData, string mode = "rent")
     {
         try
         {
@@ -135,42 +135,52 @@ public class OfferService : IOfferService
 
             var chatClient = _openAIClient.GetChatClient("gpt-4o");
 
-            var systemPrompt = @"Du bist ein Experte für das Erstellen von Angeboten auf einem lokalen Marktplatz namens 'Dorfkiste'. 
+            // Adjust prompt based on mode
+            var modeText = mode == "sale" ? "zum Verkauf" : "zur Vermietung";
+            var priceGuidance = mode == "sale"
+                ? "Realistische Verkaufspreise für die Region (€10-5000, je nach Zustand und Gegenstand)"
+                : "Realistische Mietpreise für die Region (€5-500/Tag für Gegenstände, €15-150/h für Services)";
 
-Analysiere das hochgeladene Bild und erstelle Vorschläge für ein Angebot. Das angebot soll den Interessenten auf der Grundlage des Bildes und der Kategorie ausreichend detailliert sein und aus sicht des erstellers sinnvoll sein.
+            var descriptionGuidance = mode == "sale"
+                ? "Beschreibe den Zustand, besondere Merkmale und warum jemand diesen Gegenstand kaufen sollte."
+                : "Beschreibe den Zustand, die Verwendungsmöglichkeiten und warum jemand diesen Gegenstand mieten sollte.";
+
+            var systemPrompt = $@"Du bist ein Experte für das Erstellen von Angeboten auf einem lokalen Marktplatz namens 'Dorfkiste'.
+
+Analysiere das hochgeladene Bild und erstelle Vorschläge für ein Angebot {modeText}. Das Angebot soll den Interessenten auf der Grundlage des Bildes und der Kategorie ausreichend detailliert sein und aus Sicht des Erstellers sinnvoll sein.
 
 Verfügbare Kategorien:
-" + categoryList + @"
+{categoryList}
 
 WICHTIG: Antworte AUSSCHLIESSLICH mit einem validen JSON-Objekt. Keine Erklärungen, kein Markdown, keine zusätzlichen Texte - nur das JSON:
 
 Falls das Bild nicht analysiert werden kann (zu unscharf, kein erkennbarer Gegenstand, etc.), antworte mit:
-{
+{{
   ""title"": ""Unbekannter Gegenstand"",
   ""description"": ""Das Bild konnte nicht eindeutig analysiert werden. Bitte fügen Sie eine detaillierte Beschreibung hinzu."",
   ""isService"": false,
   ""suggestedCategoryName"": ""Sonstiges"",
-  ""suggestedPricePerDay"": 10.00,
+  ""suggestedPricePerDay"": {(mode == "rent" ? "10.00" : "null")},
   ""suggestedPricePerHour"": null
-}
+}}
 
 Andernfalls, falls das Bild erfolgreich analysiert werden kann:
-{
+{{
   ""title"": ""Prägnanter Titel des Gegenstands/Service"",
   ""description"": ""Detaillierte, ansprechende Beschreibung auf Deutsch"",
   ""isService"": false,
   ""suggestedCategoryName"": ""Name der passendsten Kategorie"",
-  ""suggestedPricePerDay"": 15.00,
+  ""suggestedPricePerDay"": {(mode == "rent" ? "15.00" : "null")},
   ""suggestedPricePerHour"": null
-}
+}}
 
 Regeln:
-- Titel: Kurz und prägnant, inkl. Marke/Model falls erkennbar
-- Beschreibung: 2-4 Sätze, Zustand, Eigenschaften, warum interessant, für was kann es benutzt werden.
+- Titel: Kurz und prägnant, inkl. Marke/Modell falls erkennbar
+- Beschreibung: 2-4 Sätze. {descriptionGuidance}
 - isService: false für Gegenstände, true für Dienstleistungen
 - Kategorie: Wähle die passendste aus der Liste
-- Preise: Realistische Preise für die Region (€5-500/Tag für Gegenstände, €15-150/h für Services)
-- Verwende nur einen Preis (pricePerDay oder pricePerHour)
+- Preise: {priceGuidance}
+- Verwende nur einen Preis (pricePerDay oder pricePerHour für Vermietung, null für beide bei Verkauf)
 
 ANTWORT NUR DAS JSON-OBJEKT!";
 
