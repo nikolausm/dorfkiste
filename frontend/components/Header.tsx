@@ -203,8 +203,7 @@ export default function Header() {
                 <Link href="/anmelden" className="nav-link">
                   Anmelden
                 </Link>
-                <Link href="/registrieren" className="btn-primary">
-                  Registrieren
+                <Link href="/registrieren" className="btn-primary"> 
                 </Link>
               </div>
             )}</div>
@@ -213,7 +212,7 @@ export default function Header() {
           <div className="md:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-gray-700 hover:text-primary-600 focus:outline-none focus:text-primary-600"
+              className="text-gray-700 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-400 focus:outline-none focus:text-primary-600 dark:focus:text-primary-400"
             >
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 {isMenuOpen ? (
@@ -258,16 +257,16 @@ export default function Header() {
               {/* Mobile auth section */}
               {isLoggedIn ? (
                 <>
-                  <div className="border-t border-gray-200 mt-3 pt-3">
+                  <div className="border-t border-gray-200 dark:border-gray-700 mt-3 pt-3">
                     <div className="flex items-center px-3 py-2">
                       <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-primary-600 text-white rounded-full flex items-center justify-center text-sm font-semibold shadow-soft mr-3">
                         {user?.firstName?.charAt(0)}{user?.lastName?.charAt(0)}
                       </div>
                       <div>
-                        <div className="text-sm font-medium text-gray-900">
+                        <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
                           {user?.firstName} {user?.lastName}
                         </div>
-                        <div className="text-xs text-gray-500">{user?.email}</div>
+                        <div className="text-xs text-gray-500 dark:text-gray-400">{user?.email}</div>
                       </div>
                     </div>
                   </div>
@@ -290,9 +289,9 @@ export default function Header() {
                       )}
                     </div>
                   </Link>
-                  <button 
+                  <button
                     onClick={handleLogout}
-                    className="text-red-600 hover:text-red-700 block w-full text-left nav-link"
+                    className="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 block w-full text-left nav-link"
                   >
                     Abmelden
                   </button>

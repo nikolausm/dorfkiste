@@ -3,13 +3,13 @@ import React from 'react';
 export default function DatenschutzPage() {
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <h1 className="text-3xl font-bold mb-6">Datenschutzerklärung</h1>
+      <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">Datenschutzerklärung</h1>
 
-      <div className="space-y-6 text-gray-700">
+      <div className="space-y-6 text-gray-700 dark:text-gray-300">
         <section>
-          <h2 className="text-2xl font-semibold mb-3">1. Datenschutz auf einen Blick</h2>
+          <h2 className="text-2xl font-semibold mb-3 text-gray-900 dark:text-gray-100">1. Datenschutz auf einen Blick</h2>
 
-          <h3 className="text-xl font-semibold mb-2">Allgemeine Hinweise</h3>
+          <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-100">Allgemeine Hinweise</h3>
           <p className="mb-4">
             Die folgenden Hinweise geben einen einfachen Überblick darüber, was mit Ihren personenbezogenen Daten
             passiert, wenn Sie diese Website besuchen. Personenbezogene Daten sind alle Daten, mit denen Sie
@@ -17,7 +17,7 @@ export default function DatenschutzPage() {
             Sie unserer unter diesem Text aufgeführten Datenschutzerklärung.
           </p>
 
-          <h3 className="text-xl font-semibold mb-2">Datenerfassung auf dieser Website</h3>
+          <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-100">Datenerfassung auf dieser Website</h3>
           <p className="mb-2">
             <strong>Wer ist verantwortlich für die Datenerfassung auf dieser Website?</strong>
           </p>
@@ -59,7 +59,7 @@ export default function DatenschutzPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-3">2. Hosting</h2>
+          <h2 className="text-2xl font-semibold mb-3 text-gray-900 dark:text-gray-100">2. Hosting</h2>
           <p className="mb-2">
             Wir hosten die Inhalte unserer Website bei folgendem Anbieter:
           </p>
@@ -73,7 +73,7 @@ export default function DatenschutzPage() {
             Details entnehmen Sie der Datenschutzerklärung des Anbieters:{' '}
             <a
               href="https://www.ionos.de/terms-gtc/datenschutzerklaerung/"
-              className="text-blue-600 hover:underline"
+              className="text-blue-600 dark:text-blue-400 hover:underline"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -93,16 +93,16 @@ export default function DatenschutzPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-3">3. Allgemeine Hinweise und Pflichtinformationen</h2>
+          <h2 className="text-2xl font-semibold mb-3 text-gray-900 dark:text-gray-100">3. Allgemeine Hinweise und Pflichtinformationen</h2>
 
-          <h3 className="text-xl font-semibold mb-2">Datenschutz</h3>
+          <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-100">Datenschutz</h3>
           <p className="mb-4">
             Die Betreiber dieser Seiten nehmen den Schutz Ihrer persönlichen Daten sehr ernst. Wir behandeln Ihre
             personenbezogenen Daten vertraulich und entsprechend den gesetzlichen Datenschutzvorschriften sowie
             dieser Datenschutzerklärung.
           </p>
 
-          <h3 className="text-xl font-semibold mb-2">Hinweis zur verantwortlichen Stelle</h3>
+          <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-100">Hinweis zur verantwortlichen Stelle</h3>
           <p className="mb-2">
             Die verantwortliche Stelle für die Datenverarbeitung auf dieser Website ist:
           </p>
@@ -113,7 +113,7 @@ export default function DatenschutzPage() {
             E-Mail: info@minicon.eu
           </p>
 
-          <h3 className="text-xl font-semibold mb-2">Speicherdauer</h3>
+          <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-100">Speicherdauer</h3>
           <p className="mb-4">
             Soweit innerhalb dieser Datenschutzerklärung keine speziellere Speicherdauer genannt wurde, verbleiben
             Ihre personenbezogenen Daten bei uns, bis der Zweck für die Datenverarbeitung entfällt. Wenn Sie ein
@@ -122,7 +122,7 @@ export default function DatenschutzPage() {
             Ihrer personenbezogenen Daten haben.
           </p>
 
-          <h3 className="text-xl font-semibold mb-2">Widerruf Ihrer Einwilligung zur Datenverarbeitung</h3>
+          <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-100">Widerruf Ihrer Einwilligung zur Datenverarbeitung</h3>
           <p>
             Viele Datenverarbeitungsvorgänge sind nur mit Ihrer ausdrücklichen Einwilligung möglich. Sie können
             eine bereits erteilte Einwilligung jederzeit widerrufen. Die Rechtmäßigkeit der bis zum Widerruf
@@ -131,9 +131,9 @@ export default function DatenschutzPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-3">4. Datenerfassung auf dieser Website</h2>
+          <h2 className="text-2xl font-semibold mb-3 text-gray-900 dark:text-gray-100">4. Datenerfassung auf dieser Website</h2>
 
-          <h3 className="text-xl font-semibold mb-2">Cookies</h3>
+          <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-100">Cookies</h3>
           <p className="mb-4">
             Unsere Internetseiten verwenden so genannte „Cookies". Cookies sind kleine Datenpakete und richten
             auf Ihrem Endgerät keinen Schaden an. Sie werden entweder vorübergehend für die Dauer einer Sitzung
@@ -142,7 +142,7 @@ export default function DatenschutzPage() {
             gespeichert, bis Sie diese selbst löschen oder eine automatische Löschung durch Ihren Webbrowser erfolgt.
           </p>
 
-          <h3 className="text-xl font-semibold mb-2">Registrierung auf dieser Website</h3>
+          <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-100">Registrierung auf dieser Website</h3>
           <p className="mb-2">
             Sie können sich auf dieser Website registrieren, um zusätzliche Funktionen zu nutzen. Die dazu
             eingegebenen Daten verwenden wir nur zum Zwecke der Nutzung des jeweiligen Angebotes oder Dienstes,
@@ -160,7 +160,7 @@ export default function DatenschutzPage() {
             <li>Profilbild (optional)</li>
           </ul>
 
-          <h3 className="text-xl font-semibold mb-2">Kontaktformular und Nachrichten</h3>
+          <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-100">Kontaktformular und Nachrichten</h3>
           <p>
             Wenn Sie uns per Kontaktformular oder über die Nachrichtenfunktion Anfragen zukommen lassen, werden
             Ihre Angaben aus dem Anfrageformular inklusive der von Ihnen dort angegebenen Kontaktdaten zwecks
@@ -169,9 +169,9 @@ export default function DatenschutzPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-3">5. Analyse-Tools und Werbung</h2>
+          <h2 className="text-2xl font-semibold mb-3 text-gray-900 dark:text-gray-100">5. Analyse-Tools und Werbung</h2>
 
-          <h3 className="text-xl font-semibold mb-2">Google Analytics</h3>
+          <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-100">Google Analytics</h3>
           <p className="mb-4">
             Diese Website nutzt Funktionen des Webanalysedienstes Google Analytics. Anbieter ist die Google Ireland
             Limited („Google"), Gordon House, Barrow Street, Dublin 4, Irland.
@@ -202,7 +202,7 @@ export default function DatenschutzPage() {
             Details finden Sie hier:{' '}
             <a
               href="https://privacy.google.com/businesses/controllerterms/mccs/"
-              className="text-blue-600 hover:underline"
+              className="text-blue-600 dark:text-blue-400 hover:underline"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -214,7 +214,7 @@ export default function DatenschutzPage() {
             Datenschutzerklärung von Google:{' '}
             <a
               href="https://support.google.com/analytics/answer/6004245?hl=de"
-              className="text-blue-600 hover:underline"
+              className="text-blue-600 dark:text-blue-400 hover:underline"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -222,13 +222,13 @@ export default function DatenschutzPage() {
             </a>
           </p>
 
-          <h3 className="text-xl font-semibold mb-2 mt-6">Auftragsverarbeitung</h3>
+          <h3 className="text-xl font-semibold mb-2 mt-6 text-gray-900 dark:text-gray-100">Auftragsverarbeitung</h3>
           <p className="mb-4">
             Wir haben mit Google einen Vertrag zur Auftragsverarbeitung abgeschlossen und setzen die strengen
             Vorgaben der deutschen Datenschutzbehörden bei der Nutzung von Google Analytics vollständig um.
           </p>
 
-          <h3 className="text-xl font-semibold mb-2">Google Signals</h3>
+          <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-100">Google Signals</h3>
           <p className="mb-4">
             Wir nutzen Google Signals. Wenn Sie unsere Website besuchen, erfasst Google Analytics u. a. Ihren
             Standort, Suchverlauf und YouTube-Verlauf sowie demografische Daten (Besucherdaten). Diese Daten
@@ -238,7 +238,7 @@ export default function DatenschutzPage() {
             anonymisierter Statistiken zum Nutzerverhalten unserer User verwendet.
           </p>
 
-          <h3 className="text-xl font-semibold mb-2">IP-Anonymisierung</h3>
+          <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-100">IP-Anonymisierung</h3>
           <p>
             Wir haben auf dieser Website die Funktion IP-Anonymisierung aktiviert. Dadurch wird Ihre IP-Adresse
             von Google innerhalb von Mitgliedstaaten der Europäischen Union oder in anderen Vertragsstaaten des
@@ -249,9 +249,9 @@ export default function DatenschutzPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-3">6. Plugins und Tools</h2>
+          <h2 className="text-2xl font-semibold mb-3 text-gray-900 dark:text-gray-100">6. Plugins und Tools</h2>
 
-          <h3 className="text-xl font-semibold mb-2">Google Maps</h3>
+          <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-100">Google Maps</h3>
           <p className="mb-4">
             Diese Seite nutzt den Kartendienst Google Maps. Anbieter ist die Google Ireland Limited („Google"),
             Gordon House, Barrow Street, Dublin 4, Irland. Zur Nutzung der Funktionen von Google Maps ist es
@@ -259,7 +259,7 @@ export default function DatenschutzPage() {
             Google in den USA übertragen und dort gespeichert.
           </p>
 
-          <h3 className="text-xl font-semibold mb-2">Zahlungsanbieter</h3>
+          <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-100">Zahlungsanbieter</h3>
           <p className="mb-4">
             Wir binden auf unserer Website Zahlungsdienstleister ein. Wenn Sie einen Kauf bei uns tätigen,
             werden Ihre Zahlungsdaten (z.B. Name, Zahlungssumme, Kontoverbindung, Kreditkartennummer) vom
@@ -273,29 +273,29 @@ export default function DatenschutzPage() {
             Anbieter für Kunden innerhalb der EU ist die Stripe Payments Europe, Ltd., 1 Grand Canal Street Lower,
             Grand Canal Dock, Dublin, Irland (nachfolgend „Stripe"). Die Datenübertragung in die USA wird auf die
             Standardvertragsklauseln der EU-Kommission gestützt. Details finden Sie hier:{' '}
-            <a href="https://stripe.com/de/privacy" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">
+            <a href="https://stripe.com/de/privacy" className="text-blue-600 dark:text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">
               https://stripe.com/de/privacy
             </a>
           </p>
           <p>
             Details entnehmen Sie der Datenschutzerklärung von Stripe unter:{' '}
-            <a href="https://stripe.com/de/privacy" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">
+            <a href="https://stripe.com/de/privacy" className="text-blue-600 dark:text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">
               https://stripe.com/de/privacy
             </a>
           </p>
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-3">7. Eigene Dienste</h2>
+          <h2 className="text-2xl font-semibold mb-3 text-gray-900 dark:text-gray-100">7. Eigene Dienste</h2>
 
-          <h3 className="text-xl font-semibold mb-2">Umgang mit Angebotsdaten</h3>
+          <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-100">Umgang mit Angebotsdaten</h3>
           <p className="mb-4">
             Wenn Sie ein Angebot auf unserer Plattform erstellen, speichern wir die von Ihnen eingegebenen
             Informationen (Titel, Beschreibung, Preis, Bilder, Standort). Diese Daten sind für andere Nutzer
             sichtbar und dienen der Vermittlung von Miet- und Dienstleistungsangeboten.
           </p>
 
-          <h3 className="text-xl font-semibold mb-2">Buchungsdaten</h3>
+          <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-100">Buchungsdaten</h3>
           <p>
             Bei Buchungen speichern wir die Buchungsdaten (Zeitraum, Preis, beteiligte Nutzer) zur Abwicklung
             des Vermittlungsvertrages und für gesetzlich vorgeschriebene Aufbewahrungsfristen.
@@ -303,7 +303,7 @@ export default function DatenschutzPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-3">8. Ihre Rechte</h2>
+          <h2 className="text-2xl font-semibold mb-3 text-gray-900 dark:text-gray-100">8. Ihre Rechte</h2>
           <p className="mb-2">Sie haben folgende Rechte:</p>
           <ul className="list-disc ml-6 space-y-2">
             <li>
@@ -333,10 +333,16 @@ export default function DatenschutzPage() {
               <strong>Beschwerderecht:</strong> Sie haben das Recht, sich bei einer Aufsichtsbehörde zu beschweren.
             </li>
           </ul>
+          <p className="mt-4">
+            Für Anfragen zum Datenschutz wenden Sie sich bitte an:{' '}
+            <a href="mailto:datenschutz@dorfkiste.org" className="text-blue-600 dark:text-blue-400 hover:underline">
+              datenschutz@dorfkiste.org
+            </a>
+          </p>
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-3">9. SSL- bzw. TLS-Verschlüsselung</h2>
+          <h2 className="text-2xl font-semibold mb-3 text-gray-900 dark:text-gray-100">9. SSL- bzw. TLS-Verschlüsselung</h2>
           <p>
             Diese Seite nutzt aus Sicherheitsgründen und zum Schutz der Übertragung vertraulicher Inhalte eine
             SSL- bzw. TLS-Verschlüsselung. Eine verschlüsselte Verbindung erkennen Sie daran, dass die
@@ -345,8 +351,8 @@ export default function DatenschutzPage() {
           </p>
         </section>
 
-        <section className="pt-4 border-t border-gray-300">
-          <p className="text-sm text-gray-600">
+        <section className="pt-4 border-t border-gray-300 dark:border-gray-600">
+          <p className="text-sm text-gray-600 dark:text-gray-400">
             Stand: 3. Oktober 2025<br/>
             Dorfkiste - Minicon eG
           </p>

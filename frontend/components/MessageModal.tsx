@@ -84,22 +84,22 @@ export default function MessageModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-large w-full max-w-md animate-scale-in">
+    <div className="fixed inset-0 bg-black/50 dark:bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-large w-full max-w-md animate-scale-in">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-neutral-200">
+        <div className="flex items-center justify-between p-6 border-b border-neutral-200 dark:border-gray-700">
           <div>
-            <h3 className="text-xl font-bold text-neutral-900">Nachricht senden</h3>
-            <p className="text-sm text-neutral-600 mt-1">
+            <h3 className="text-xl font-bold text-neutral-900 dark:text-gray-100">Nachricht senden</h3>
+            <p className="text-sm text-neutral-600 dark:text-gray-400 mt-1">
               An {recipientName} bezüglich &ldquo;{offerTitle}&rdquo;
             </p>
           </div>
           <button
             onClick={handleClose}
-            className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
+            className="p-2 hover:bg-neutral-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
             disabled={isLoading}
           >
-            <svg className="w-5 h-5 text-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 text-neutral-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
@@ -109,20 +109,20 @@ export default function MessageModal({
         <form onSubmit={handleSubmit} className="p-6">
           {isSuccess ? (
             <div className="text-center py-8">
-              <div className="w-16 h-16 bg-secondary-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-secondary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-16 h-16 bg-secondary-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-secondary-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <h4 className="text-lg font-semibold text-neutral-900 mb-2">Nachricht gesendet!</h4>
-              <p className="text-neutral-600">
+              <h4 className="text-lg font-semibold text-neutral-900 dark:text-gray-100 mb-2">Nachricht gesendet!</h4>
+              <p className="text-neutral-600 dark:text-gray-400">
                 Ihre Nachricht wurde erfolgreich an {recipientName} gesendet.
               </p>
             </div>
           ) : (
             <div className="space-y-4">
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-neutral-700 mb-2">
+                <label htmlFor="message" className="block text-sm font-medium text-neutral-700 dark:text-gray-300 mb-2">
                   Ihre Nachricht
                 </label>
                 <textarea
@@ -136,18 +136,18 @@ export default function MessageModal({
                   maxLength={2000}
                 />
                 <div className="flex justify-between items-center mt-2">
-                  <div className="text-xs text-neutral-500">
+                  <div className="text-xs text-neutral-500 dark:text-gray-400">
                     {message.length}/2000 Zeichen
                   </div>
-                  <div className="text-xs text-neutral-500">
+                  <div className="text-xs text-neutral-500 dark:text-gray-400">
                     Drücken Sie Enter + Strg zum Senden
                   </div>
                 </div>
               </div>
 
               {error && (
-                <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
-                  <p className="text-sm text-red-600">{error}</p>
+                <div className="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-lg">
+                  <p className="text-sm text-red-600 dark:text-red-300">{error}</p>
                 </div>
               )}
 

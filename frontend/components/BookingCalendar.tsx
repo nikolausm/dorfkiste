@@ -177,16 +177,16 @@ export default function BookingCalendar({
   const days = getDaysInMonth();
 
   return (
-    <div className={`bg-white rounded-lg border border-gray-200 p-6 ${className}`}>
+    <div className={`bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 ${className}`}>
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <h3 className="text-lg font-semibold text-gray-900">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
           Verfügbarkeit prüfen
         </h3>
         {(selectedStartDate || selectedEndDate) && (
           <button
             onClick={clearSelection}
-            className="text-sm text-gray-500 hover:text-gray-700"
+            className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
           >
             Auswahl zurücksetzen
           </button>
@@ -197,24 +197,24 @@ export default function BookingCalendar({
       <div className="flex items-center justify-between mb-4">
         <button
           onClick={goToPreviousMonth}
-          className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
           disabled={isLoading}
         >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-5 h-5 text-gray-900 dark:text-gray-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
         </button>
 
-        <h4 className="text-lg font-medium">
+        <h4 className="text-lg font-medium text-gray-900 dark:text-gray-100">
           {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
         </h4>
 
         <button
           onClick={goToNextMonth}
-          className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
           disabled={isLoading}
         >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-5 h-5 text-gray-900 dark:text-gray-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
         </button>
@@ -223,7 +223,7 @@ export default function BookingCalendar({
       {/* Day Headers */}
       <div className="grid grid-cols-7 gap-1 mb-2">
         {dayNames.map((day) => (
-          <div key={day} className="p-2 text-center text-sm font-medium text-gray-500">
+          <div key={day} className="p-2 text-center text-sm font-medium text-gray-500 dark:text-gray-400">
             {day}
           </div>
         ))}
@@ -252,19 +252,19 @@ export default function BookingCalendar({
               className={`
                 p-2 text-sm rounded-lg transition-colors relative
                 ${isDisabled
-                  ? 'bg-red-100 text-red-600 cursor-not-allowed'
-                  : 'text-gray-900 hover:bg-green-50 cursor-pointer'
+                  ? 'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 cursor-not-allowed'
+                  : 'text-gray-900 dark:text-gray-100 hover:bg-green-50 dark:hover:bg-green-900/30 cursor-pointer'
                 }
                 ${isSelected
                   ? 'bg-green-600 text-white hover:bg-green-700'
                   : ''
                 }
                 ${isInRange && !isSelected
-                  ? 'bg-green-100 text-green-800'
+                  ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200'
                   : ''
                 }
                 ${isUnavailable && !isPast
-                  ? 'bg-red-100 text-red-600 line-through'
+                  ? 'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 line-through'
                   : ''
                 }
               `}
@@ -282,23 +282,23 @@ export default function BookingCalendar({
 
       {/* Selected Range Display */}
       {selectedStartDate && (
-        <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-          <div className="text-sm text-gray-600 mb-2">
+        <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+          <div className="text-sm text-gray-600 dark:text-gray-400 mb-2">
             Gewählter Zeitraum:
           </div>
-          <div className="font-medium">
+          <div className="font-medium text-gray-900 dark:text-gray-100">
             {selectedStartDate && selectedEndDate ? (
               <>
                 {new Date(selectedStartDate).toLocaleDateString('de-DE')} - {' '}
                 {new Date(selectedEndDate).toLocaleDateString('de-DE')}
-                <span className="text-sm text-gray-500 ml-2">
+                <span className="text-sm text-gray-500 dark:text-gray-400 ml-2">
                   ({Math.floor((new Date(selectedEndDate).getTime() - new Date(selectedStartDate).getTime()) / (1000 * 60 * 60 * 24)) + 1} Tage)
                 </span>
               </>
             ) : (
               <>
                 {new Date(selectedStartDate).toLocaleDateString('de-DE')}
-                <span className="text-sm text-gray-500 ml-2">
+                <span className="text-sm text-gray-500 dark:text-gray-400 ml-2">
                   (Enddatum auswählen)
                 </span>
               </>
@@ -308,34 +308,34 @@ export default function BookingCalendar({
       )}
 
       {/* Legend */}
-      <div className="mt-4 text-xs text-gray-500 space-y-1">
+      <div className="mt-4 text-xs text-gray-500 dark:text-gray-400 space-y-1">
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 bg-green-600 rounded"></div>
             <span>Ausgewählt</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-green-100 rounded"></div>
+            <div className="w-3 h-3 bg-green-100 dark:bg-green-900/30 rounded"></div>
             <span>Auswahlbereich</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-red-100 border border-red-200 rounded relative">
+            <div className="w-3 h-3 bg-red-100 dark:bg-red-900/30 border border-red-200 dark:border-red-700 rounded relative">
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-0.5 h-3 bg-red-600 rotate-45"></div>
+                <div className="w-0.5 h-3 bg-red-600 dark:bg-red-500 rotate-45"></div>
               </div>
             </div>
             <span>Nicht verfügbar</span>
           </div>
         </div>
-        <p className="text-gray-400">
+        <p className="text-gray-400 dark:text-gray-500">
           Maximale Buchungsdauer: 14 Tage
         </p>
       </div>
 
       {isLoading && (
-        <div className="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center rounded-lg">
-          <div className="flex items-center gap-2 text-gray-600">
-            <div className="animate-spin rounded-full h-4 w-4 border-2 border-primary-600 border-t-transparent"></div>
+        <div className="absolute inset-0 bg-white dark:bg-gray-800 bg-opacity-75 dark:bg-opacity-75 flex items-center justify-center rounded-lg">
+          <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
+            <div className="animate-spin rounded-full h-4 w-4 border-2 border-primary-600 dark:border-primary-400 border-t-transparent"></div>
             <span className="text-sm">Verfügbarkeit wird geladen...</span>
           </div>
         </div>

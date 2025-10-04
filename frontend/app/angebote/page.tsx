@@ -102,8 +102,8 @@ function OffersContent() {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="text-center">
-          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
-          <p className="mt-2 text-gray-600">Angebote werden geladen...</p>
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600 dark:border-primary-400"></div>
+          <p className="mt-2 text-gray-600 dark:text-gray-400">Angebote werden geladen...</p>
         </div>
       </div>
     );
@@ -113,7 +113,7 @@ function OffersContent() {
     <div className="container mx-auto px-4 py-8">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-4">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">
           Angebote durchsuchen
         </h1>
         <SearchBar initialQuery={initialSearch || ''} onSearch={handleSearch} />
@@ -122,15 +122,15 @@ function OffersContent() {
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Sidebar with categories */}
         <div className="lg:w-64 flex-shrink-0">
-          <div className="bg-white rounded-lg shadow-sm p-6">
-            <h3 className="text-lg font-semibold mb-4">Kategorien</h3>
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
+            <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Kategorien</h3>
             <div className="space-y-2">
               <button
                 onClick={() => handleCategoryChange(null)}
                 className={`w-full text-left px-3 py-2 rounded-md text-sm ${
                   selectedCategoryId === null
-                    ? 'bg-primary-100 text-primary-700'
-                    : 'text-gray-700 hover:bg-gray-100'
+                    ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300'
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
                 }`}
               >
                 Alle Angebote
@@ -141,8 +141,8 @@ function OffersContent() {
                   onClick={() => handleCategoryChange(category.id)}
                   className={`w-full text-left px-3 py-2 rounded-md text-sm ${
                     selectedCategoryId === category.id
-                      ? 'bg-primary-100 text-primary-700'
-                      : 'text-gray-700 hover:bg-gray-100'
+                      ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300'
+                      : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
                   }`}
                 >
                   {getCategoryIcon(category.iconName)} {category.name}
@@ -155,27 +155,27 @@ function OffersContent() {
         {/* Main content */}
         <div className="flex-1">
           {error && (
-            <div className="bg-red-50 border border-red-200 rounded-md p-4 mb-6">
-              <p className="text-red-700">{error}</p>
+            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-md p-4 mb-6">
+              <p className="text-red-700 dark:text-red-300">{error}</p>
             </div>
           )}
 
           {offers.length === 0 && !isLoading ? (
             <div className="text-center py-12">
-              <p className="text-gray-500 text-lg">
-                {initialSearch 
+              <p className="text-gray-500 dark:text-gray-400 text-lg">
+                {initialSearch
                   ? `Keine Angebote für "${initialSearch}" gefunden.`
                   : 'Keine Angebote in dieser Kategorie gefunden.'
                 }
               </p>
-              <p className="text-gray-400 mt-2">
+              <p className="text-gray-400 dark:text-gray-500 mt-2">
                 Versuchen Sie es mit anderen Suchbegriffen oder wählen Sie eine andere Kategorie.
               </p>
             </div>
           ) : (
             <>
               <div className="mb-4">
-                <p className="text-gray-600">
+                <p className="text-gray-600 dark:text-gray-400">
                   {offers.length} Angebot{offers.length !== 1 ? 'e' : ''} gefunden
                   {selectedCategoryId && categories.length > 0 && (
                     <span> in {categories.find(c => c.id === selectedCategoryId)?.name}</span>
@@ -192,7 +192,7 @@ function OffersContent() {
                   >
                     {/* Picture */}
                     {offer.firstPicture?.id ? (
-                      <div className="relative h-48 bg-gray-100">
+                      <div className="relative h-48 bg-gray-100 dark:bg-gray-700">
                         <Image
                           src={apiClient.getPictureUrl(offer.firstPicture.id)}
                           alt={offer.title}
@@ -204,30 +204,30 @@ function OffersContent() {
                         />
                       </div>
                     ) : (
-                      <div className="h-48 bg-gray-100 flex items-center justify-center">
-                        <span className="text-gray-400 text-4xl">📷</span>
+                      <div className="h-48 bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+                        <span className="text-gray-400 dark:text-gray-500 text-4xl">📷</span>
                       </div>
                     )}
 
                     {/* Content */}
                     <div className="p-6">
                       <div className="flex items-start justify-between mb-3">
-                        <h3 className="text-lg font-semibold text-gray-900 line-clamp-2">
+                        <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 line-clamp-2">
                           {offer.title}
                         </h3>
                         {offer.isService && (
-                          <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full ml-2 whitespace-nowrap">
+                          <span className="text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 px-2 py-1 rounded-full ml-2 whitespace-nowrap">
                             Service
                           </span>
                         )}
                       </div>
-                      
-                      <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+
+                      <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-3">
                         {offer.description}
                       </p>
 
                       <div className="flex items-center justify-between">
-                        <div className="text-sm text-gray-500">
+                        <div className="text-sm text-gray-500 dark:text-gray-400">
                           {offer.category && (
                             <span className="flex items-center">
                               <span className="mr-1">{getCategoryIcon(offer.category.iconName)}</span>
@@ -235,13 +235,13 @@ function OffersContent() {
                             </span>
                           )}
                         </div>
-                        <div className="text-lg font-semibold text-primary-600">
+                        <div className="text-lg font-semibold text-primary-600 dark:text-primary-400">
                           {formatPrice(offer)}
                         </div>
                       </div>
 
-                      <div className="mt-3 pt-3 border-t border-gray-100">
-                        <p className="text-xs text-gray-500">
+                      <div className="mt-3 pt-3 border-t border-gray-100 dark:border-gray-700">
+                        <p className="text-xs text-gray-500 dark:text-gray-400">
                           Angeboten von {offer.user?.firstName} {offer.user?.lastName}
                         </p>
                       </div>

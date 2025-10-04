@@ -206,13 +206,13 @@ export default function CreateOfferPage() {
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-8">
-            <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-primary-600 text-2xl">🔒</span>
+            <div className="w-16 h-16 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="text-primary-600 dark:text-primary-400 text-2xl">🔒</span>
             </div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-4">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">
               Anmeldung erforderlich
             </h1>
-            <p className="text-gray-600 mb-6">
+            <p className="text-gray-600 dark:text-gray-400 mb-6">
               Sie müssen angemeldet sein, um ein Angebot zu erstellen.
             </p>
             <div className="space-y-4">
@@ -230,7 +230,7 @@ export default function CreateOfferPage() {
               </Link>
               <Link
                 href="/angebote"
-                className="text-primary-600 hover:text-primary-500 text-sm"
+                className="text-primary-600 dark:text-primary-400 hover:text-primary-500 dark:hover:text-primary-300 text-sm"
               >
                 Zurück zu den Angeboten
               </Link>
@@ -245,10 +245,10 @@ export default function CreateOfferPage() {
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-2xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">
             Neues Angebot erstellen
           </h1>
-          <p className="text-gray-600">
+          <p className="text-gray-600 dark:text-gray-400">
             Laden Sie ein Bild hoch und lassen Sie die KI Ihr Angebot erstellen.
           </p>
         </div>
@@ -256,22 +256,22 @@ export default function CreateOfferPage() {
         {/* Progress Steps */}
         <div className="mb-8">
           <div className="flex items-center space-x-4">
-            <div className={`flex items-center ${step === 'upload' ? 'text-primary-600' : step === 'analyze' || step === 'edit' ? 'text-green-600' : 'text-gray-400'}`}>
-              <div className={`rounded-full w-8 h-8 flex items-center justify-center text-sm font-medium ${step === 'upload' ? 'bg-primary-100' : step === 'analyze' || step === 'edit' ? 'bg-green-100' : 'bg-gray-100'}`}>
+            <div className={`flex items-center ${step === 'upload' ? 'text-primary-600 dark:text-primary-400' : step === 'analyze' || step === 'edit' ? 'text-green-600 dark:text-green-400' : 'text-gray-400 dark:text-gray-500'}`}>
+              <div className={`rounded-full w-8 h-8 flex items-center justify-center text-sm font-medium ${step === 'upload' ? 'bg-primary-100 dark:bg-primary-900/30' : step === 'analyze' || step === 'edit' ? 'bg-green-100 dark:bg-green-900/30' : 'bg-gray-100 dark:bg-gray-700'}`}>
                 {step === 'analyze' || step === 'edit' ? '✓' : '1'}
               </div>
               <span className="ml-2 font-medium">Bild hochladen</span>
             </div>
-            <div className={`h-0.5 flex-1 ${step === 'analyze' || step === 'edit' ? 'bg-green-200' : 'bg-gray-200'}`}></div>
-            <div className={`flex items-center ${step === 'analyze' ? 'text-primary-600' : step === 'edit' ? 'text-green-600' : 'text-gray-400'}`}>
-              <div className={`rounded-full w-8 h-8 flex items-center justify-center text-sm font-medium ${step === 'analyze' ? 'bg-primary-100' : step === 'edit' ? 'bg-green-100' : 'bg-gray-100'}`}>
+            <div className={`h-0.5 flex-1 ${step === 'analyze' || step === 'edit' ? 'bg-green-200 dark:bg-green-800' : 'bg-gray-200 dark:bg-gray-700'}`}></div>
+            <div className={`flex items-center ${step === 'analyze' ? 'text-primary-600 dark:text-primary-400' : step === 'edit' ? 'text-green-600 dark:text-green-400' : 'text-gray-400 dark:text-gray-500'}`}>
+              <div className={`rounded-full w-8 h-8 flex items-center justify-center text-sm font-medium ${step === 'analyze' ? 'bg-primary-100 dark:bg-primary-900/30' : step === 'edit' ? 'bg-green-100 dark:bg-green-900/30' : 'bg-gray-100 dark:bg-gray-700'}`}>
                 {step === 'edit' ? '✓' : '2'}
               </div>
               <span className="ml-2 font-medium">Analyse</span>
             </div>
-            <div className={`h-0.5 flex-1 ${step === 'edit' ? 'bg-green-200' : 'bg-gray-200'}`}></div>
-            <div className={`flex items-center ${step === 'edit' ? 'text-primary-600' : 'text-gray-400'}`}>
-              <div className={`rounded-full w-8 h-8 flex items-center justify-center text-sm font-medium ${step === 'edit' ? 'bg-primary-100' : 'bg-gray-100'}`}>
+            <div className={`h-0.5 flex-1 ${step === 'edit' ? 'bg-green-200 dark:bg-green-800' : 'bg-gray-200 dark:bg-gray-700'}`}></div>
+            <div className={`flex items-center ${step === 'edit' ? 'text-primary-600 dark:text-primary-400' : 'text-gray-400 dark:text-gray-500'}`}>
+              <div className={`rounded-full w-8 h-8 flex items-center justify-center text-sm font-medium ${step === 'edit' ? 'bg-primary-100 dark:bg-primary-900/30' : 'bg-gray-100 dark:bg-gray-700'}`}>
                 3
               </div>
               <span className="ml-2 font-medium">Bearbeiten & Speichern</span>
@@ -279,15 +279,15 @@ export default function CreateOfferPage() {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-sm p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
           {errors.length > 0 && (
-            <div className="bg-red-50 border border-red-200 rounded-md p-4 mb-6">
+            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md p-4 mb-6">
               <div className="flex">
                 <div className="ml-3">
-                  <h3 className="text-sm font-medium text-red-800">
+                  <h3 className="text-sm font-medium text-red-800 dark:text-red-200">
                     Bitte korrigieren Sie die folgenden Fehler:
                   </h3>
-                  <div className="mt-2 text-sm text-red-700">
+                  <div className="mt-2 text-sm text-red-700 dark:text-red-300">
                     <ul className="list-disc list-inside space-y-1">
                       {errors.map((error, index) => (
                         <li key={index}>{error}</li>
@@ -303,14 +303,14 @@ export default function CreateOfferPage() {
           {step === 'upload' && (
             <div className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-3">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                   Bild hochladen *
                 </label>
-                <p className="text-sm text-gray-500 mb-4">
+                <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
                   Laden Sie ein Bild Ihres Gegenstands oder Ihrer Dienstleistung hoch. Die KI wird automatisch einen Titel, eine Beschreibung und passende Kategorie vorschlagen.
                 </p>
 
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-primary-400 transition-colors">
+                <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center hover:border-primary-400 dark:hover:border-primary-500 transition-colors bg-white dark:bg-gray-800">
                   <input
                     type="file"
                     accept="image/*"
@@ -332,16 +332,16 @@ export default function CreateOfferPage() {
                             className="object-cover rounded-lg"
                           />
                         </div>
-                        <p className="text-sm text-gray-600">Klicken Sie, um ein anderes Bild auszuwählen</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">Klicken Sie, um ein anderes Bild auszuwählen</p>
                       </div>
                     ) : (
                       <div className="space-y-4">
-                        <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto">
-                          <span className="text-primary-600 text-2xl">📷</span>
+                        <div className="w-16 h-16 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center mx-auto">
+                          <span className="text-primary-600 dark:text-primary-400 text-2xl">📷</span>
                         </div>
                         <div>
-                          <p className="text-lg font-medium text-gray-900">Bild auswählen</p>
-                          <p className="text-sm text-gray-500">PNG, JPG, GIF oder WebP bis zu 5MB</p>
+                          <p className="text-lg font-medium text-gray-900 dark:text-gray-100">Bild auswählen</p>
+                          <p className="text-sm text-gray-500 dark:text-gray-400">PNG, JPG, GIF oder WebP bis zu 5MB</p>
                         </div>
                       </div>
                     )}
@@ -384,13 +384,13 @@ export default function CreateOfferPage() {
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Show AI Analysis Result */}
               {analysisResult && (
-                <div className="bg-green-50 border border-green-200 rounded-md p-4 mb-6">
+                <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-md p-4 mb-6">
                   <div className="flex">
                     <div className="ml-3">
-                      <h3 className="text-sm font-medium text-green-800">
+                      <h3 className="text-sm font-medium text-green-800 dark:text-green-200">
                         ✨ KI-Analyse abgeschlossen!
                       </h3>
-                      <div className="mt-2 text-sm text-green-700">
+                      <div className="mt-2 text-sm text-green-700 dark:text-green-300">
                         <p>Die KI hat Ihr Bild analysiert und folgende Daten vorgeschlagen:</p>
                         <ul className="list-disc list-inside mt-2 space-y-1">
                           <li>Titel: {analysisResult.title}</li>
@@ -406,11 +406,11 @@ export default function CreateOfferPage() {
 
               {/* Service or Item */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-3">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                   Was möchten Sie anbieten?
                 </label>
                 <div className="flex space-x-4">
-                  <label className="flex items-center">
+                  <label className="flex items-center text-gray-700 dark:text-gray-300">
                     <input
                       type="radio"
                       name="isService"
@@ -420,7 +420,7 @@ export default function CreateOfferPage() {
                     />
                     <span>Gegenstand verleihen</span>
                   </label>
-                  <label className="flex items-center">
+                  <label className="flex items-center text-gray-700 dark:text-gray-300">
                     <input
                       type="radio"
                       name="isService"
@@ -435,7 +435,7 @@ export default function CreateOfferPage() {
 
               {/* Title */}
               <div>
-                <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="title" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                   Titel *
                 </label>
                 <input
@@ -452,7 +452,7 @@ export default function CreateOfferPage() {
 
               {/* Category */}
               <div>
-                <label htmlFor="categoryId" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="categoryId" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                   Kategorie *
                 </label>
                 <select
@@ -474,7 +474,7 @@ export default function CreateOfferPage() {
 
               {/* Description */}
               <div>
-                <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                   Beschreibung *
                 </label>
                 <textarea
@@ -495,7 +495,7 @@ export default function CreateOfferPage() {
               {/* Image Preview */}
               {previewUrl && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-3">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                     Bild
                   </label>
                   <div className="relative w-48 h-48">
@@ -511,12 +511,12 @@ export default function CreateOfferPage() {
 
               {/* Pricing */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-3">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                   Preise (mindestens ein Preis erforderlich)
                 </label>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="pricePerDay" className="block text-sm text-gray-600">
+                    <label htmlFor="pricePerDay" className="block text-sm text-gray-600 dark:text-gray-400">
                       Preis pro Tag
                     </label>
                     <div className="mt-1 relative">
@@ -532,13 +532,13 @@ export default function CreateOfferPage() {
                         placeholder="0.00"
                       />
                       <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                        <span className="text-gray-500 sm:text-sm">€</span>
+                        <span className="text-gray-500 dark:text-gray-400 sm:text-sm">€</span>
                       </div>
                     </div>
                   </div>
 
                   <div>
-                    <label htmlFor="pricePerHour" className="block text-sm text-gray-600">
+                    <label htmlFor="pricePerHour" className="block text-sm text-gray-600 dark:text-gray-400">
                       Preis pro Stunde
                     </label>
                     <div className="mt-1 relative">
@@ -554,7 +554,7 @@ export default function CreateOfferPage() {
                         placeholder="0.00"
                       />
                       <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                        <span className="text-gray-500 sm:text-sm">€</span>
+                        <span className="text-gray-500 dark:text-gray-400 sm:text-sm">€</span>
                       </div>
                     </div>
                   </div>

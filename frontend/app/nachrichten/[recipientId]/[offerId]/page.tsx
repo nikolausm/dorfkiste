@@ -231,8 +231,8 @@ export default function ConversationPage() {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="text-center">
-          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
-          <p className="mt-2 text-gray-600">
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600 dark:border-primary-400"></div>
+          <p className="mt-2 text-gray-600 dark:text-gray-400">
             {authLoading ? 'Anmeldung wird geprüft...' : 'Unterhaltung wird geladen...'}
           </p>
         </div>
@@ -244,7 +244,7 @@ export default function ConversationPage() {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="text-center">
-          <p className="text-red-600 text-lg">{error || 'Unterhaltung nicht gefunden'}</p>
+          <p className="text-red-600 dark:text-red-400 text-lg">{error || 'Unterhaltung nicht gefunden'}</p>
           <Link href="/nachrichten" className="btn-primary mt-4 inline-block">
             Zurück zu den Nachrichten
           </Link>
@@ -259,19 +259,19 @@ export default function ConversationPage() {
       <div className="mb-6">
         {/* Breadcrumb */}
         <nav className="mb-4">
-          <ol className="flex items-center space-x-2 text-sm text-gray-500">
-            <li><Link href="/" className="hover:text-primary-600">Startseite</Link></li>
+          <ol className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
+            <li><Link href="/" className="hover:text-primary-600 dark:hover:text-primary-400">Startseite</Link></li>
             <li>›</li>
-            <li><Link href="/nachrichten" className="hover:text-primary-600">Nachrichten</Link></li>
+            <li><Link href="/nachrichten" className="hover:text-primary-600 dark:hover:text-primary-400">Nachrichten</Link></li>
             <li>›</li>
-            <li className="text-gray-900">Unterhaltung</li>
+            <li className="text-gray-900 dark:text-gray-100">Unterhaltung</li>
           </ol>
         </nav>
 
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Unterhaltung</h1>
-            <p className="text-gray-600 mt-1">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Unterhaltung</h1>
+            <p className="text-gray-600 dark:text-gray-400 mt-1">
               Mit {recipient.firstName} {recipient.lastName} bezüglich &ldquo;{offer.title}&rdquo;
             </p>
           </div>
@@ -281,10 +281,10 @@ export default function ConversationPage() {
         </div>
 
         {/* Offer Info */}
-        <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+        <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
           <div className="flex items-center gap-4">
             {/* Offer Image */}
-            <div className="w-16 h-16 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
+            <div className="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden flex-shrink-0">
               {offer.pictures && offer.pictures.length > 0 ? (
                 <Image
                   src={apiClient.getPictureUrl(offer.pictures[0].id)}
@@ -299,7 +299,7 @@ export default function ConversationPage() {
                   }}
                 />
               ) : null}
-              <div className={`w-full h-full flex items-center justify-center text-gray-400 ${
+              <div className={`w-full h-full flex items-center justify-center text-gray-400 dark:text-gray-500 ${
                 offer.pictures && offer.pictures.length > 0 ? 'hidden' : ''
               }`}>
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -310,8 +310,8 @@ export default function ConversationPage() {
 
             {/* Offer Details */}
             <div className="flex-1 min-w-0">
-              <h3 className="font-medium text-gray-900 truncate">{offer.title}</h3>
-              <p className="text-sm text-gray-600">
+              <h3 className="font-medium text-gray-900 dark:text-gray-100 truncate">{offer.title}</h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
                 {offer.isService ? 'Dienstleistung' : 'Gegenstand'} •
                 {offer.category ? ` ${offer.category.name}` : ''}
               </p>
@@ -331,12 +331,12 @@ export default function ConversationPage() {
       </div>
 
       {/* Messages Area */}
-      <div className="bg-white rounded-lg shadow-sm flex flex-col" style={{ height: '70vh' }}>
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm flex flex-col" style={{ height: '70vh' }}>
         {/* Messages */}
         <div className="flex-1 overflow-y-auto p-6 space-y-3">
           {messages.length === 0 ? (
             <div className="text-center py-8">
-              <p className="text-gray-500">Noch keine Nachrichten in dieser Unterhaltung.</p>
+              <p className="text-gray-500 dark:text-gray-400">Noch keine Nachrichten in dieser Unterhaltung.</p>
             </div>
           ) : (
             <>
@@ -357,17 +357,17 @@ export default function ConversationPage() {
                     <div
                       className={`max-w-[70%] rounded-2xl px-4 py-3 ${
                         isOwnMessage
-                          ? 'bg-primary-500 text-white'
+                          ? 'bg-primary-500 dark:bg-primary-600 text-white'
                           : isUnread
-                          ? 'bg-blue-50 border-2 border-blue-200'
-                          : 'bg-gray-100 text-gray-900'
+                          ? 'bg-blue-50 dark:bg-blue-900/30 border-2 border-blue-200 dark:border-blue-700'
+                          : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100'
                       }`}
                     >
                       <p className="break-words leading-relaxed">{message.content}</p>
-                      <p className={`text-xs mt-2 ${isOwnMessage ? 'text-white/70' : 'text-gray-500'}`}>
+                      <p className={`text-xs mt-2 ${isOwnMessage ? 'text-white/70' : 'text-gray-500 dark:text-gray-400'}`}>
                         {formatDate(message.sentAt)}
                         {isUnread && (
-                          <span className="ml-2 text-xs bg-blue-500 text-white px-2 py-0.5 rounded-full">
+                          <span className="ml-2 text-xs bg-blue-500 dark:bg-blue-600 text-white px-2 py-0.5 rounded-full">
                             Neu
                           </span>
                         )}
@@ -383,13 +383,13 @@ export default function ConversationPage() {
 
         {/* Error Message */}
         {error && (
-          <div className="mx-6 p-3 bg-red-50 border border-red-200 rounded-lg">
-            <p className="text-sm text-red-600">{error}</p>
+          <div className="mx-6 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-lg">
+            <p className="text-sm text-red-600 dark:text-red-300">{error}</p>
           </div>
         )}
 
         {/* Message Input */}
-        <form onSubmit={handleSendMessage} className="p-6 border-t border-gray-200 flex-shrink-0">
+        <form onSubmit={handleSendMessage} className="p-6 border-t border-gray-200 dark:border-gray-700 flex-shrink-0">
           <div className="flex gap-3">
             <div className="flex-1">
               <textarea
@@ -404,10 +404,10 @@ export default function ConversationPage() {
                 rows={1}
               />
               <div className="flex justify-between items-center mt-2">
-                <div className="text-xs text-gray-500">
+                <div className="text-xs text-gray-500 dark:text-gray-400">
                   {newMessage.length}/2000 Zeichen
                 </div>
-                <div className="text-xs text-gray-500">
+                <div className="text-xs text-gray-500 dark:text-gray-400">
                   Strg+Enter zum Senden
                 </div>
               </div>

@@ -337,47 +337,47 @@ export default function BookingModal({
           {step === 'success' && booking && (
             <div className="space-y-6">
               <div className="text-center">
-                <div className="mx-auto flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
+                <div className="mx-auto flex items-center justify-center w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full mb-4">
                   <span className="text-2xl">✅</span>
                 </div>
-                <h3 className="text-lg font-medium text-gray-900 mb-2">
+                <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
                   Buchung erfolgreich bestätigt!
                 </h3>
-                <p className="text-gray-600">
+                <p className="text-gray-600 dark:text-gray-400">
                   Ihr Zeitraum wurde erfolgreich reserviert.
                 </p>
               </div>
 
-              <div className="bg-gray-50 rounded-lg p-4">
-                <h4 className="font-medium text-gray-900 mb-3">
+              <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                <h4 className="font-medium text-gray-900 dark:text-gray-100 mb-3">
                   Buchungsreferenz
                 </h4>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Buchungs-ID:</span>
-                    <span className="text-gray-900 font-mono">#{booking.id}</span>
+                    <span className="text-gray-600 dark:text-gray-400">Buchungs-ID:</span>
+                    <span className="text-gray-900 dark:text-gray-100 font-mono">#{booking.id}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Zeitraum:</span>
-                    <span className="text-gray-900">{formatDateRange()}</span>
+                    <span className="text-gray-600 dark:text-gray-400">Zeitraum:</span>
+                    <span className="text-gray-900 dark:text-gray-100">{formatDateRange()}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Gesamtpreis:</span>
-                    <span className="text-gray-900">{booking.totalPrice.toFixed(2)}€</span>
+                    <span className="text-gray-600 dark:text-gray-400">Gesamtpreis:</span>
+                    <span className="text-gray-900 dark:text-gray-100">{booking.totalPrice.toFixed(2)}€</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Status:</span>
-                    <span className="text-green-600 font-medium">Bestätigt</span>
+                    <span className="text-gray-600 dark:text-gray-400">Status:</span>
+                    <span className="text-green-600 dark:text-green-400 font-medium">Bestätigt</span>
                   </div>
                 </div>
               </div>
 
               {contract && (
-                <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
-                  <h4 className="font-medium text-purple-800 mb-2">
+                <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-700 rounded-lg p-4">
+                  <h4 className="font-medium text-purple-800 dark:text-purple-200 mb-2">
                     📄 Mietvertrag
                   </h4>
-                  <div className="text-sm text-purple-700 space-y-2">
+                  <div className="text-sm text-purple-700 dark:text-purple-300 space-y-2">
                     <p>• Ein Mietvertrag wurde automatisch erstellt</p>
                     <p>• Vertragsnummer: #{contract.id}</p>
                     <p>• Kaution: {contract.depositAmount.toFixed(2)}€ (20% vom Gesamtpreis)</p>
@@ -415,18 +415,18 @@ export default function BookingModal({
               )}
 
               {isGeneratingContract && (
-                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-                  <p className="text-sm text-yellow-700">
+                <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700 rounded-lg p-4">
+                  <p className="text-sm text-yellow-700 dark:text-yellow-300">
                     ⏳ Mietvertrag wird erstellt...
                   </p>
                 </div>
               )}
 
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                <h4 className="font-medium text-blue-800 mb-2">
+              <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-4">
+                <h4 className="font-medium text-blue-800 dark:text-blue-200 mb-2">
                   📱 Nächste Schritte
                 </h4>
-                <div className="text-sm text-blue-700 space-y-1">
+                <div className="text-sm text-blue-700 dark:text-blue-300 space-y-1">
                   <p>• Der Anbieter wurde automatisch benachrichtigt</p>
                   <p>• Ihre Buchung finden Sie unter &ldquo;Meine Buchungen&rdquo;</p>
                   <p>• Den Vertrag finden Sie unter &ldquo;Meine Verträge&rdquo;</p>

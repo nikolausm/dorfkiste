@@ -178,8 +178,8 @@ export default function InboxPage() {
     return (
       <div className="container mx-auto px-4 py-6">
         <div className="text-center">
-          <div className="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-primary-600"></div>
-          <p className="mt-2 text-gray-600 text-sm">Nachrichten werden geladen...</p>
+          <div className="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-primary-600 dark:border-primary-400"></div>
+          <p className="mt-2 text-gray-600 dark:text-gray-400 text-sm">Nachrichten werden geladen...</p>
         </div>
       </div>
     );
@@ -189,7 +189,7 @@ export default function InboxPage() {
     return (
       <div className="container mx-auto px-4 py-6">
         <div className="text-center">
-          <p className="text-red-600">{error}</p>
+          <p className="text-red-600 dark:text-red-400">{error}</p>
           <button onClick={loadConversations} className="btn-primary mt-3 text-sm px-4 py-2">
             Erneut versuchen
           </button>
@@ -203,8 +203,8 @@ export default function InboxPage() {
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Nachrichten</h1>
-          <p className="text-gray-600 text-sm mt-1">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Nachrichten</h1>
+          <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
             Ihre Unterhaltungen zu Angeboten
           </p>
         </div>
@@ -222,13 +222,13 @@ export default function InboxPage() {
       {/* Conversation List */}
       {conversations.length === 0 ? (
         <div className="text-center py-16">
-          <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <svg className="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="w-20 h-20 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg className="w-10 h-10 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
             </svg>
           </div>
-          <h3 className="text-xl font-semibold text-gray-900 mb-2">Keine Nachrichten</h3>
-          <p className="text-gray-600 mb-6">
+          <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">Keine Nachrichten</h3>
+          <p className="text-gray-600 dark:text-gray-400 mb-6">
             Sie haben noch keine Nachrichten erhalten. Sobald jemand Interesse an Ihren Angeboten zeigt, erscheinen die Nachrichten hier.
           </p>
           <Link href="/angebot-erstellen" className="btn-primary">
@@ -241,8 +241,8 @@ export default function InboxPage() {
             <div
               key={`${conversation.recipientId}-${conversation.offerId}`}
               onClick={() => openConversation(conversation)}
-              className={`group bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-all duration-200 cursor-pointer ${
-                conversation.unreadCount > 0 ? 'ring-2 ring-primary-200 bg-primary-50/20' : ''
+              className={`group bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4 hover:shadow-md transition-all duration-200 cursor-pointer ${
+                conversation.unreadCount > 0 ? 'ring-2 ring-primary-200 dark:ring-primary-700 bg-primary-50/20 dark:bg-primary-900/20' : ''
               }`}
             >
               <div className="flex items-center gap-4">
@@ -268,27 +268,27 @@ export default function InboxPage() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between mb-2">
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-gray-900 truncate">
+                      <h3 className="font-semibold text-gray-900 dark:text-gray-100 truncate">
                         {conversation.recipientName}
                       </h3>
-                      <p className="text-sm text-primary-600 font-medium truncate">
+                      <p className="text-sm text-primary-600 dark:text-primary-400 font-medium truncate">
                         {conversation.offerTitle}
                       </p>
                     </div>
                     <div className="flex items-center gap-2 ml-4">
                       {conversation.unreadCount > 0 && (
-                        <span className="bg-primary-500 text-white px-2 py-1 rounded-full text-xs font-medium">
+                        <span className="bg-primary-500 dark:bg-primary-600 text-white px-2 py-1 rounded-full text-xs font-medium">
                           {conversation.unreadCount}
                         </span>
                       )}
-                      <span className="text-xs text-gray-500 whitespace-nowrap">
+                      <span className="text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">
                         {formatDate(conversation.latestMessage.sentAt)}
                       </span>
                     </div>
                   </div>
 
                   {/* Latest Message Preview */}
-                  <p className="text-sm text-gray-700 line-clamp-2 leading-relaxed">
+                  <p className="text-sm text-gray-700 dark:text-gray-300 line-clamp-2 leading-relaxed">
                     <span className="font-medium">
                       {conversation.latestMessage.senderId === user?.id ? 'Sie: ' : `${conversation.recipientName}: `}
                     </span>
@@ -301,7 +301,7 @@ export default function InboxPage() {
                   {/* Delete button */}
                   <button
                     onClick={(e) => deleteConversation(conversation, e)}
-                    className="p-2 rounded-lg hover:bg-red-100 text-red-600 opacity-0 group-hover:opacity-100 transition-all duration-200"
+                    className="p-2 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/30 text-red-600 dark:text-red-400 opacity-0 group-hover:opacity-100 transition-all duration-200"
                     title="Unterhaltung löschen"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -310,7 +310,7 @@ export default function InboxPage() {
                   </button>
 
                   {/* Arrow Icon */}
-                  <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </div>

@@ -131,14 +131,14 @@ export default function ContractPreviewModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 bg-black bg-opacity-50 dark:bg-opacity-70 flex items-center justify-center z-50 p-4">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
-          <h2 className="text-2xl font-bold text-gray-900">Mietvertrag</h2>
+        <div className="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex justify-between items-center">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Mietvertrag</h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 text-2xl font-bold"
+            className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 text-2xl font-bold"
           >
             ×
           </button>
@@ -148,13 +148,13 @@ export default function ContractPreviewModal({
         <div className="p-6">
           {isLoading && (
             <div className="text-center py-8">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto"></div>
-              <p className="mt-4 text-gray-600">Vertrag wird geladen...</p>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 dark:border-green-400 mx-auto"></div>
+              <p className="mt-4 text-gray-600 dark:text-gray-400">Vertrag wird geladen...</p>
             </div>
           )}
 
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded mb-4">
+            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 text-red-800 dark:text-red-300 px-4 py-3 rounded mb-4">
               {error}
             </div>
           )}
@@ -162,11 +162,11 @@ export default function ContractPreviewModal({
           {contract && (
             <div className="space-y-6">
               {/* Contract Header */}
-              <div className="border-b border-gray-200 pb-4">
+              <div className="border-b border-gray-200 dark:border-gray-700 pb-4">
                 <div className="flex justify-between items-start mb-2">
                   <div>
-                    <p className="text-sm text-gray-600">Vertragsnummer: {contract.id}</p>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Vertragsnummer: {contract.id}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
                       Erstellt am: {new Date(contract.createdAt).toLocaleDateString('de-DE')}
                     </p>
                   </div>
@@ -176,28 +176,28 @@ export default function ContractPreviewModal({
 
               {/* Parties */}
               <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">Vertragsparteien</h3>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">Vertragsparteien</h3>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {/* Lessor */}
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <h4 className="font-semibold text-gray-900 mb-2">Vermieter</h4>
-                    <p className="text-gray-700">{contract.lessorName}</p>
-                    <p className="text-sm text-gray-600">{contract.lessorEmail}</p>
+                  <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                    <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">Vermieter</h4>
+                    <p className="text-gray-700 dark:text-gray-300">{contract.lessorName}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">{contract.lessorEmail}</p>
                     {contract.signedByLessorAt && (
-                      <p className="text-sm text-green-600 mt-2">
+                      <p className="text-sm text-green-600 dark:text-green-400 mt-2">
                         ✓ Unterschrieben am {new Date(contract.signedByLessorAt).toLocaleDateString('de-DE')}
                       </p>
                     )}
                   </div>
 
                   {/* Lessee */}
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <h4 className="font-semibold text-gray-900 mb-2">Mieter</h4>
-                    <p className="text-gray-700">{contract.lesseeName}</p>
-                    <p className="text-sm text-gray-600">{contract.lesseeEmail}</p>
+                  <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                    <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">Mieter</h4>
+                    <p className="text-gray-700 dark:text-gray-300">{contract.lesseeName}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">{contract.lesseeEmail}</p>
                     {contract.signedByLesseeAt && (
-                      <p className="text-sm text-green-600 mt-2">
+                      <p className="text-sm text-green-600 dark:text-green-400 mt-2">
                         ✓ Unterschrieben am {new Date(contract.signedByLesseeAt).toLocaleDateString('de-DE')}
                       </p>
                     )}
@@ -207,43 +207,43 @@ export default function ContractPreviewModal({
 
               {/* Offer Details */}
               <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">Mietgegenstand</h3>
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <h4 className="font-semibold text-gray-900">{contract.offerTitle}</h4>
-                  <p className="text-sm text-gray-600 mb-2">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">Mietgegenstand</h3>
+                <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                  <h4 className="font-semibold text-gray-900 dark:text-gray-100">{contract.offerTitle}</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
                     Typ: {contract.offerType === 'Item' ? 'Gegenstand' : 'Dienstleistung'}
                   </p>
-                  <p className="text-gray-700">{contract.offerDescription}</p>
+                  <p className="text-gray-700 dark:text-gray-300">{contract.offerDescription}</p>
                 </div>
               </div>
 
               {/* Rental Details */}
               <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">Mietdetails</h3>
-                <div className="bg-gray-50 p-4 rounded-lg">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">Mietdetails</h3>
+                <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
                   <div className="grid grid-cols-2 gap-4 mb-3">
                     <div>
-                      <p className="text-sm text-gray-600">Mietbeginn</p>
-                      <p className="font-semibold">{new Date(contract.rentalStartDate).toLocaleDateString('de-DE')}</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">Mietbeginn</p>
+                      <p className="font-semibold text-gray-900 dark:text-gray-100">{new Date(contract.rentalStartDate).toLocaleDateString('de-DE')}</p>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-600">Mietende</p>
-                      <p className="font-semibold">{new Date(contract.rentalEndDate).toLocaleDateString('de-DE')}</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">Mietende</p>
+                      <p className="font-semibold text-gray-900 dark:text-gray-100">{new Date(contract.rentalEndDate).toLocaleDateString('de-DE')}</p>
                     </div>
                   </div>
-                  <p className="text-sm text-gray-600 mb-3">Mietdauer: {contract.rentalDays} Tage</p>
-                  <div className="border-t border-gray-300 pt-3">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">Mietdauer: {contract.rentalDays} Tage</p>
+                  <div className="border-t border-gray-300 dark:border-gray-600 pt-3">
                     <div className="flex justify-between mb-2">
-                      <span className="text-gray-700">Preis pro Tag:</span>
-                      <span className="font-semibold">{contract.pricePerDay.toFixed(2)} €</span>
+                      <span className="text-gray-700 dark:text-gray-300">Preis pro Tag:</span>
+                      <span className="font-semibold text-gray-900 dark:text-gray-100">{contract.pricePerDay.toFixed(2)} €</span>
                     </div>
                     <div className="flex justify-between mb-2">
-                      <span className="text-gray-700 font-semibold">Gesamtpreis:</span>
-                      <span className="font-bold text-lg">{contract.totalPrice.toFixed(2)} €</span>
+                      <span className="text-gray-700 dark:text-gray-300 font-semibold">Gesamtpreis:</span>
+                      <span className="font-bold text-lg text-gray-900 dark:text-gray-100">{contract.totalPrice.toFixed(2)} €</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-700 font-semibold">Kaution:</span>
-                      <span className="font-bold text-green-600">{contract.depositAmount.toFixed(2)} €</span>
+                      <span className="text-gray-700 dark:text-gray-300 font-semibold">Kaution:</span>
+                      <span className="font-bold text-green-600 dark:text-green-400">{contract.depositAmount.toFixed(2)} €</span>
                     </div>
                   </div>
                 </div>
@@ -251,9 +251,9 @@ export default function ContractPreviewModal({
 
               {/* Terms and Conditions */}
               <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">Vertragsbedingungen</h3>
-                <div className="bg-gray-50 p-4 rounded-lg max-h-96 overflow-y-auto">
-                  <pre className="whitespace-pre-wrap text-sm text-gray-700 font-sans">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">Vertragsbedingungen</h3>
+                <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg max-h-96 overflow-y-auto">
+                  <pre className="whitespace-pre-wrap text-sm text-gray-700 dark:text-gray-300 font-sans">
                     {contract.termsAndConditions}
                   </pre>
                 </div>
@@ -261,9 +261,9 @@ export default function ContractPreviewModal({
 
               {contract.specialConditions && (
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3">Besondere Vereinbarungen</h3>
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <p className="text-gray-700">{contract.specialConditions}</p>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">Besondere Vereinbarungen</h3>
+                  <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                    <p className="text-gray-700 dark:text-gray-300">{contract.specialConditions}</p>
                   </div>
                 </div>
               )}
@@ -273,10 +273,10 @@ export default function ContractPreviewModal({
 
         {/* Footer */}
         {contract && (
-          <div className="sticky bottom-0 bg-gray-50 border-t border-gray-200 px-6 py-4 flex justify-between items-center">
+          <div className="sticky bottom-0 bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 px-6 py-4 flex justify-between items-center">
             <button
               onClick={onClose}
-              className="px-4 py-2 text-gray-700 hover:text-gray-900"
+              className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100"
             >
               Schließen
             </button>
@@ -284,7 +284,7 @@ export default function ContractPreviewModal({
               <button
                 onClick={handleDownloadPdf}
                 disabled={isDownloading}
-                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400"
+                className="px-6 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 disabled:bg-gray-400 dark:disabled:bg-gray-600"
               >
                 {isDownloading ? 'Wird heruntergeladen...' : 'PDF herunterladen'}
               </button>
@@ -292,7 +292,7 @@ export default function ContractPreviewModal({
                 <button
                   onClick={handleSign}
                   disabled={isSigning}
-                  className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:bg-gray-400"
+                  className="px-6 py-2 bg-green-600 dark:bg-green-500 text-white rounded-lg hover:bg-green-700 dark:hover:bg-green-600 disabled:bg-gray-400 dark:disabled:bg-gray-600"
                 >
                   {isSigning ? 'Unterschreiben...' : 'Vertrag unterschreiben'}
                 </button>
