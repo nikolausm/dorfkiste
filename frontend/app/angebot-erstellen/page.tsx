@@ -8,15 +8,20 @@ import { apiClient, Category, OfferPicture, AnalyzeImageResponse } from '@/lib/a
 import { useAuth } from '@/contexts/AuthContext';
 
 export default function CreateOfferPage() {
-  const [step, setStep] = useState<'upload' | 'analyze' | 'edit'>('upload');
+  const [step, setStep] = useState<'upload' | 'mode' | 'analyze' | 'edit'>('upload');
+  const [offerMode, setOfferMode] = useState<'rent' | 'sale' | null>(null);
 
   const [formData, setFormData] = useState({
     title: '',
     description: '',
     pricePerDay: '',
     pricePerHour: '',
+    salePrice: '',
     isService: false,
     categoryId: '',
+    deliveryAvailable: false,
+    deliveryCost: '',
+    deposit: '',
   });
 
   const [categories, setCategories] = useState<Category[]>([]);
@@ -64,7 +69,7 @@ export default function CreateOfferPage() {
     setErrors([]);
   };
 
-  const analyzeImage = async () => {
+  const analyzeImage = async (mode: 'rent' | 'sale') => {
     if (!selectedFile) return;
 
     setIsAnalyzing(true);
@@ -74,14 +79,18 @@ export default function CreateOfferPage() {
       const result = await apiClient.analyzeImage(selectedFile);
       setAnalysisResult(result);
 
-      // Auto-fill form data
+      // Auto-fill form data based on mode
       setFormData({
         title: result.title,
         description: result.description,
-        pricePerDay: result.suggestedPricePerDay?.toString() || '',
-        pricePerHour: result.suggestedPricePerHour?.toString() || '',
+        pricePerDay: mode === 'rent' ? (result.suggestedPricePerDay?.toString() || '') : '',
+        pricePerHour: mode === 'rent' ? (result.suggestedPricePerHour?.toString() || '') : '',
+        salePrice: mode === 'sale' ? '' : '',
         isService: result.isService,
         categoryId: result.suggestedCategoryId?.toString() || '',
+        deliveryAvailable: false,
+        deliveryCost: '',
+        deposit: '',
       });
 
       setStep('edit');
@@ -125,9 +134,17 @@ export default function CreateOfferPage() {
       newErrors.push('Kategorie ist erforderlich');
     }
 
-    // Check if at least one price is provided
-    if (!formData.pricePerDay && !formData.pricePerHour) {
-      newErrors.push('Bitte geben Sie mindestens einen Preis an');
+    // Check if appropriate price is provided based on mode
+    if (offerMode === 'rent' && !formData.pricePerDay && !formData.pricePerHour) {
+      newErrors.push('Bitte geben Sie mindestens einen Mietpreis an');
+    }
+    if (offerMode === 'sale' && !formData.salePrice) {
+      newErrors.push('Bitte geben Sie einen Verkaufspreis an');
+    }
+
+    // Validate delivery cost if delivery is enabled
+    if (formData.deliveryAvailable && !formData.deliveryCost) {
+      newErrors.push('Bitte geben Sie die Versandkosten an');
     }
 
     return newErrors;
@@ -150,14 +167,14 @@ export default function CreateOfferPage() {
       const offerData = {
         title: formData.title,
         description: formData.description,
-        pricePerDay: formData.pricePerDay ? parseFloat(formData.pricePerDay) : undefined,
-        pricePerHour: formData.pricePerHour ? parseFloat(formData.pricePerHour) : undefined,
-        salePrice: undefined,
+        pricePerDay: offerMode === 'rent' && formData.pricePerDay ? parseFloat(formData.pricePerDay) : undefined,
+        pricePerHour: offerMode === 'rent' && formData.pricePerHour ? parseFloat(formData.pricePerHour) : undefined,
+        salePrice: offerMode === 'sale' && formData.salePrice ? parseFloat(formData.salePrice) : undefined,
         isService: formData.isService,
-        isForSale: false,
-        deliveryAvailable: false,
-        deliveryCost: undefined,
-        deposit: undefined,
+        isForSale: offerMode === 'sale',
+        deliveryAvailable: formData.deliveryAvailable,
+        deliveryCost: formData.deliveryAvailable && formData.deliveryCost ? parseFloat(formData.deliveryCost) : undefined,
+        deposit: formData.deposit ? parseFloat(formData.deposit) : undefined,
         categoryId: parseInt(formData.categoryId),
       };
 
@@ -260,26 +277,33 @@ export default function CreateOfferPage() {
 
         {/* Progress Steps */}
         <div className="mb-8">
-          <div className="flex items-center space-x-4">
-            <div className={`flex items-center ${step === 'upload' ? 'text-primary-600 dark:text-primary-400' : step === 'analyze' || step === 'edit' ? 'text-green-600 dark:text-green-400' : 'text-gray-400 dark:text-gray-500'}`}>
-              <div className={`rounded-full w-8 h-8 flex items-center justify-center text-sm font-medium ${step === 'upload' ? 'bg-primary-100 dark:bg-primary-900/30' : step === 'analyze' || step === 'edit' ? 'bg-green-100 dark:bg-green-900/30' : 'bg-gray-100 dark:bg-gray-700'}`}>
-                {step === 'analyze' || step === 'edit' ? '✓' : '1'}
+          <div className="flex items-center space-x-2">
+            <div className={`flex items-center ${step === 'upload' ? 'text-primary-600 dark:text-primary-400' : (step === 'mode' || step === 'analyze' || step === 'edit') ? 'text-green-600 dark:text-green-400' : 'text-gray-400 dark:text-gray-500'}`}>
+              <div className={`rounded-full w-8 h-8 flex items-center justify-center text-sm font-medium ${step === 'upload' ? 'bg-primary-100 dark:bg-primary-900/30' : (step === 'mode' || step === 'analyze' || step === 'edit') ? 'bg-green-100 dark:bg-green-900/30' : 'bg-gray-100 dark:bg-gray-700'}`}>
+                {step === 'mode' || step === 'analyze' || step === 'edit' ? '✓' : '1'}
               </div>
-              <span className="ml-2 font-medium">Bild hochladen</span>
+              <span className="ml-2 font-medium text-sm">Bild hochladen</span>
+            </div>
+            <div className={`h-0.5 flex-1 ${step === 'mode' || step === 'analyze' || step === 'edit' ? 'bg-green-200 dark:bg-green-800' : 'bg-gray-200 dark:bg-gray-700'}`}></div>
+            <div className={`flex items-center ${step === 'mode' ? 'text-primary-600 dark:text-primary-400' : (step === 'analyze' || step === 'edit') ? 'text-green-600 dark:text-green-400' : 'text-gray-400 dark:text-gray-500'}`}>
+              <div className={`rounded-full w-8 h-8 flex items-center justify-center text-sm font-medium ${step === 'mode' ? 'bg-primary-100 dark:bg-primary-900/30' : (step === 'analyze' || step === 'edit') ? 'bg-green-100 dark:bg-green-900/30' : 'bg-gray-100 dark:bg-gray-700'}`}>
+                {step === 'analyze' || step === 'edit' ? '✓' : '2'}
+              </div>
+              <span className="ml-2 font-medium text-sm">Vermieten/Verkaufen</span>
             </div>
             <div className={`h-0.5 flex-1 ${step === 'analyze' || step === 'edit' ? 'bg-green-200 dark:bg-green-800' : 'bg-gray-200 dark:bg-gray-700'}`}></div>
             <div className={`flex items-center ${step === 'analyze' ? 'text-primary-600 dark:text-primary-400' : step === 'edit' ? 'text-green-600 dark:text-green-400' : 'text-gray-400 dark:text-gray-500'}`}>
               <div className={`rounded-full w-8 h-8 flex items-center justify-center text-sm font-medium ${step === 'analyze' ? 'bg-primary-100 dark:bg-primary-900/30' : step === 'edit' ? 'bg-green-100 dark:bg-green-900/30' : 'bg-gray-100 dark:bg-gray-700'}`}>
-                {step === 'edit' ? '✓' : '2'}
+                {step === 'edit' ? '✓' : '3'}
               </div>
-              <span className="ml-2 font-medium">Analyse</span>
+              <span className="ml-2 font-medium text-sm">KI-Analyse</span>
             </div>
             <div className={`h-0.5 flex-1 ${step === 'edit' ? 'bg-green-200 dark:bg-green-800' : 'bg-gray-200 dark:bg-gray-700'}`}></div>
             <div className={`flex items-center ${step === 'edit' ? 'text-primary-600 dark:text-primary-400' : 'text-gray-400 dark:text-gray-500'}`}>
               <div className={`rounded-full w-8 h-8 flex items-center justify-center text-sm font-medium ${step === 'edit' ? 'bg-primary-100 dark:bg-primary-900/30' : 'bg-gray-100 dark:bg-gray-700'}`}>
-                3
+                4
               </div>
-              <span className="ml-2 font-medium">Bearbeiten & Speichern</span>
+              <span className="ml-2 font-medium text-sm">Bearbeiten</span>
             </div>
           </div>
         </div>
@@ -355,36 +379,107 @@ export default function CreateOfferPage() {
               </div>
 
               {selectedFile && (
-                <div className="flex space-x-4">
+                <div className="mt-4">
                   <button
-                    onClick={() => setStep('edit')}
-                    className="flex-1 btn-secondary"
+                    onClick={() => setStep('mode')}
+                    className="w-full btn-primary"
                   >
-                    Manuell erstellen
-                  </button>
-                  <button
-                    onClick={analyzeImage}
-                    disabled={isAnalyzing}
-                    className={`flex-1 btn-primary ${isAnalyzing ? 'opacity-50 cursor-not-allowed' : ''}`}
-                  >
-                    {isAnalyzing ? (
-                      <>
-                        <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        Angebot wird erstellt...
-                      </>
-                    ) : (
-                      <>🤖 Automatisch erstellen</>
-                    )}
+                    Weiter
                   </button>
                 </div>
               )}
             </div>
           )}
 
-          {/* Step 2: Edit Form */}
+          {/* Step 2: Choose Mode */}
+          {step === 'mode' && (
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">
+                  Möchten Sie vermieten oder verkaufen?
+                </h2>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
+                  Wählen Sie, ob Sie Ihren Gegenstand vermieten oder verkaufen möchten. Die KI wird dann einen passenden Text für Sie erstellen.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Rent Button */}
+                <button
+                  onClick={() => {
+                    setOfferMode('rent');
+                    setStep('analyze');
+                    analyzeImage('rent');
+                  }}
+                  disabled={isAnalyzing}
+                  className={`group relative bg-white dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600 rounded-xl p-8 hover:border-primary-500 dark:hover:border-primary-400 hover:shadow-lg transition-all text-left ${isAnalyzing ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                >
+                  <div className="flex flex-col items-center text-center space-y-4">
+                    <div className="w-20 h-20 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <span className="text-4xl">🔄</span>
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                        Vermieten
+                      </h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                        Gegenstand zum Verleih anbieten
+                      </p>
+                    </div>
+                  </div>
+                </button>
+
+                {/* Sale Button */}
+                <button
+                  onClick={() => {
+                    setOfferMode('sale');
+                    setStep('analyze');
+                    analyzeImage('sale');
+                  }}
+                  disabled={isAnalyzing}
+                  className={`group relative bg-white dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600 rounded-xl p-8 hover:border-green-500 dark:hover:border-green-400 hover:shadow-lg transition-all text-left ${isAnalyzing ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                >
+                  <div className="flex flex-col items-center text-center space-y-4">
+                    <div className="w-20 h-20 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <span className="text-4xl">💰</span>
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                        Verkaufen
+                      </h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                        Gegenstand zum Verkauf anbieten
+                      </p>
+                    </div>
+                  </div>
+                </button>
+              </div>
+
+              {isAnalyzing && (
+                <div className="text-center py-4">
+                  <div className="inline-flex items-center space-x-2">
+                    <svg className="animate-spin h-5 w-5 text-primary-600 dark:text-primary-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span className="text-gray-700 dark:text-gray-300">Bild wird analysiert...</span>
+                  </div>
+                </div>
+              )}
+
+              <div className="flex space-x-4">
+                <button
+                  onClick={() => setStep('upload')}
+                  className="flex-1 btn-secondary"
+                  disabled={isAnalyzing}
+                >
+                  Zurück
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Step 3: Edit Form */}
           {step === 'edit' && (
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Show AI Analysis Result */}
@@ -517,43 +612,105 @@ export default function CreateOfferPage() {
               {/* Pricing */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
-                  Preise (mindestens ein Preis erforderlich)
+                  {offerMode === 'rent' ? 'Mietpreise (mindestens ein Preis erforderlich)' : 'Verkaufspreis *'}
                 </label>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="pricePerDay" className="block text-sm text-gray-600 dark:text-gray-400">
-                      Preis pro Tag
-                    </label>
-                    <div className="mt-1 relative">
-                      <input
-                        id="pricePerDay"
-                        name="pricePerDay"
-                        type="number"
-                        step="0.01"
-                        min="0"
-                        value={formData.pricePerDay}
-                        onChange={handleChange}
-                        className="input-field pr-8"
-                        placeholder="0.00"
-                      />
-                      <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                        <span className="text-gray-500 dark:text-gray-400 sm:text-sm">€</span>
+                {offerMode === 'rent' ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label htmlFor="pricePerDay" className="block text-sm text-gray-600 dark:text-gray-400">
+                        Preis pro Tag
+                      </label>
+                      <div className="mt-1 relative">
+                        <input
+                          id="pricePerDay"
+                          name="pricePerDay"
+                          type="number"
+                          step="0.01"
+                          min="0"
+                          value={formData.pricePerDay}
+                          onChange={handleChange}
+                          className="input-field pr-8"
+                          placeholder="0.00"
+                        />
+                        <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                          <span className="text-gray-500 dark:text-gray-400 sm:text-sm">€</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
+                    <div>
+                      <label htmlFor="pricePerHour" className="block text-sm text-gray-600 dark:text-gray-400">
+                        Preis pro Stunde
+                      </label>
+                      <div className="mt-1 relative">
+                        <input
+                          id="pricePerHour"
+                          name="pricePerHour"
+                          type="number"
+                          step="0.01"
+                          min="0"
+                          value={formData.pricePerHour}
+                          onChange={handleChange}
+                          className="input-field pr-8"
+                          placeholder="0.00"
+                        />
+                        <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                          <span className="text-gray-500 dark:text-gray-400 sm:text-sm">€</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="relative">
+                    <input
+                      id="salePrice"
+                      name="salePrice"
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      required
+                      value={formData.salePrice}
+                      onChange={handleChange}
+                      className="input-field pr-8"
+                      placeholder="0.00"
+                    />
+                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                      <span className="text-gray-500 dark:text-gray-400 sm:text-sm">€</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Delivery Option */}
+              <div className="space-y-4">
+                <div className="flex items-center">
+                  <input
+                    id="deliveryAvailable"
+                    name="deliveryAvailable"
+                    type="checkbox"
+                    checked={formData.deliveryAvailable}
+                    onChange={handleChange}
+                    className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+                  />
+                  <label htmlFor="deliveryAvailable" className="ml-2 block text-sm text-gray-700 dark:text-gray-300">
+                    Lieferung/Versand möglich
+                  </label>
+                </div>
+
+                {formData.deliveryAvailable && (
                   <div>
-                    <label htmlFor="pricePerHour" className="block text-sm text-gray-600 dark:text-gray-400">
-                      Preis pro Stunde
+                    <label htmlFor="deliveryCost" className="block text-sm text-gray-600 dark:text-gray-400">
+                      Versandkosten *
                     </label>
                     <div className="mt-1 relative">
                       <input
-                        id="pricePerHour"
-                        name="pricePerHour"
+                        id="deliveryCost"
+                        name="deliveryCost"
                         type="number"
                         step="0.01"
                         min="0"
-                        value={formData.pricePerHour}
+                        required={formData.deliveryAvailable}
+                        value={formData.deliveryCost}
                         onChange={handleChange}
                         className="input-field pr-8"
                         placeholder="0.00"
@@ -563,8 +720,37 @@ export default function CreateOfferPage() {
                       </div>
                     </div>
                   </div>
-                </div>
+                )}
               </div>
+
+              {/* Deposit (for items > 200 EUR) */}
+              {((offerMode === 'rent' && (parseFloat(formData.pricePerDay) > 200 || parseFloat(formData.pricePerHour) * 8 > 200)) ||
+                (offerMode === 'sale' && parseFloat(formData.salePrice) > 200)) && (
+                <div>
+                  <label htmlFor="deposit" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Kaution (optional für Gegenstände > 200 EUR)
+                  </label>
+                  <div className="mt-1 relative">
+                    <input
+                      id="deposit"
+                      name="deposit"
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      value={formData.deposit}
+                      onChange={handleChange}
+                      className="input-field pr-8"
+                      placeholder="0.00"
+                    />
+                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                      <span className="text-gray-500 dark:text-gray-400 sm:text-sm">€</span>
+                    </div>
+                  </div>
+                  <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                    Empfohlen bei höherwertigen Gegenständen
+                  </p>
+                </div>
+              )}
 
               {/* Submit buttons */}
               <div className="flex space-x-4">
@@ -577,7 +763,7 @@ export default function CreateOfferPage() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setStep('upload')}
+                  onClick={() => setStep('mode')}
                   className="flex-1 btn-secondary"
                   disabled={isLoading}
                 >
