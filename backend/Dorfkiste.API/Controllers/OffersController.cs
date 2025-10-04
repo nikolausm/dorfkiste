@@ -12,11 +12,13 @@ public class OffersController : ControllerBase
 {
     private readonly IOfferRepository _offerRepository;
     private readonly IOfferService _offerService;
+    private readonly IReportRepository _reportRepository;
 
-    public OffersController(IOfferRepository offerRepository, IOfferService offerService)
+    public OffersController(IOfferRepository offerRepository, IOfferService offerService, IReportRepository reportRepository)
     {
         _offerRepository = offerRepository;
         _offerService = offerService;
+        _reportRepository = reportRepository;
     }
 
     [HttpGet]
@@ -41,17 +43,32 @@ public class OffersController : ControllerBase
         return Ok(offerDtos);
     }
 
-    [HttpGet("{id}")]
-    public async Task<ActionResult<OfferDetailDto>> GetOffer(int id)
+    [HttpGet("{idOrSlug}")]
+    public async Task<ActionResult<OfferDetailDto>> GetOffer(string idOrSlug)
     {
-        var offer = await _offerRepository.GetByIdAsync(id);
+        Offer? offer = null;
+
+        // Try to parse as ID first
+        if (int.TryParse(idOrSlug, out int id))
+        {
+            offer = await _offerRepository.GetByIdAsync(id);
+        }
+
+        // If not found or not an ID, try slug
+        if (offer == null)
+        {
+            offer = await _offerRepository.GetBySlugAsync(idOrSlug);
+        }
 
         if (offer == null)
         {
             return NotFound();
         }
 
-        var offerDto = MapToOfferDetailDto(offer);
+        // Check if user is authenticated
+        var isAuthenticated = User.Identity?.IsAuthenticated ?? false;
+
+        var offerDto = MapToOfferDetailDto(offer, isAuthenticated);
         return Ok(offerDto);
     }
 
@@ -477,6 +494,7 @@ public class OffersController : ControllerBase
         return new OfferDto
         {
             Id = offer.Id,
+            Slug = offer.Slug,
             Title = offer.Title,
             Description = offer.Description,
             PricePerDay = offer.PricePerDay,
@@ -516,11 +534,28 @@ public class OffersController : ControllerBase
         };
     }
 
-    private static OfferDetailDto MapToOfferDetailDto(Offer offer)
+    private static OfferDetailDto MapToOfferDetailDto(Offer offer, bool isAuthenticated)
     {
+        ContactInfoDto? contactInfo = null;
+
+        // Only include contact information if user is authenticated
+        if (isAuthenticated && offer.User?.ContactInfo != null)
+        {
+            var privacySettings = offer.User.PrivacySettings;
+            contactInfo = new ContactInfoDto
+            {
+                PhoneNumber = privacySettings?.ShowPhoneNumber == true ? offer.User.ContactInfo.PhoneNumber : null,
+                MobileNumber = privacySettings?.ShowMobileNumber == true ? offer.User.ContactInfo.MobileNumber : null,
+                Street = privacySettings?.ShowStreet == true ? offer.User.ContactInfo.Street : null,
+                City = privacySettings?.ShowCity == true ? offer.User.ContactInfo.City : null,
+                PostalCode = privacySettings?.ShowCity == true ? offer.User.ContactInfo.PostalCode : null
+            };
+        }
+
         return new OfferDetailDto
         {
             Id = offer.Id,
+            Slug = offer.Slug,
             Title = offer.Title,
             Description = offer.Description,
             PricePerDay = offer.PricePerDay,
@@ -546,14 +581,7 @@ public class OffersController : ControllerBase
                 Id = offer.User.Id,
                 FirstName = offer.User.FirstName,
                 LastName = offer.User.LastName,
-                ContactInfo = offer.User.ContactInfo != null ? new ContactInfoDto
-                {
-                    PhoneNumber = offer.User.ContactInfo.PhoneNumber,
-                    MobileNumber = offer.User.ContactInfo.MobileNumber,
-                    Street = offer.User.ContactInfo.Street,
-                    City = offer.User.ContactInfo.City,
-                    PostalCode = offer.User.ContactInfo.PostalCode
-                } : null
+                ContactInfo = contactInfo
             } : null,
             Pictures = offer.Pictures?.OrderBy(p => p.DisplayOrder).Select(p => new OfferPictureDto
             {
@@ -565,6 +593,39 @@ public class OffersController : ControllerBase
                 CreatedAt = p.CreatedAt
             }).ToList() ?? new List<OfferPictureDto>()
         };
+    }
+
+    [HttpPost("{offerId}/report")]
+    [Authorize]
+    public async Task<ActionResult> ReportOffer(int offerId, [FromBody] ReportOfferRequest request)
+    {
+        var userId = GetCurrentUserId();
+
+        var offer = await _offerRepository.GetByIdAsync(offerId);
+        if (offer == null)
+        {
+            return NotFound(new { message = "Angebot nicht gefunden." });
+        }
+
+        // Prevent users from reporting their own offers
+        if (offer.UserId == userId)
+        {
+            return BadRequest(new { message = "Sie können Ihr eigenes Angebot nicht melden." });
+        }
+
+        var report = new Report
+        {
+            ReportType = request.ReportType,
+            Description = request.Description,
+            Status = ReportStatus.Pending,
+            CreatedAt = DateTime.UtcNow,
+            ReporterId = userId,
+            ReportedOfferId = offerId
+        };
+
+        await _reportRepository.CreateAsync(report);
+
+        return Ok(new { message = "Angebot erfolgreich gemeldet. Ein Administrator wird Ihre Meldung prüfen." });
     }
 }
 
@@ -602,6 +663,7 @@ public class UpdateOfferRequest
 public class OfferDto
 {
     public int Id { get; set; }
+    public string Slug { get; set; } = string.Empty;
     public string Title { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public decimal? PricePerDay { get; set; }
@@ -623,6 +685,7 @@ public class OfferDto
 public class OfferDetailDto
 {
     public int Id { get; set; }
+    public string Slug { get; set; } = string.Empty;
     public string Title { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public decimal? PricePerDay { get; set; }
@@ -677,5 +740,11 @@ public class UpdatePictureOrderRequest
 
 public class GenerateDescriptionResponse
 {
+    public string Description { get; set; } = string.Empty;
+}
+
+public class ReportOfferRequest
+{
+    public ReportType ReportType { get; set; }
     public string Description { get; set; } = string.Empty;
 }

@@ -4,6 +4,7 @@ public class Offer
 {
     public int Id { get; set; }
     public string Title { get; set; } = string.Empty;
+    public string Slug { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public decimal? PricePerDay { get; set; }
     public decimal? PricePerHour { get; set; }

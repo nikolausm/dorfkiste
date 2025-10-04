@@ -112,6 +112,20 @@ public class BookingService : IBookingService
                 };
             }
 
+            // Same-day bookings only allowed before 18:00
+            if (startDate == today)
+            {
+                var now = DateTime.Now;
+                if (now.Hour >= 18)
+                {
+                    return new AvailabilityResult
+                    {
+                        IsAvailable = false,
+                        ErrorMessage = "Buchungen am gleichen Tag sind nur bis 18 Uhr möglich."
+                    };
+                }
+            }
+
             if (endDate < startDate)
             {
                 return new AvailabilityResult
@@ -189,11 +203,30 @@ public class BookingService : IBookingService
         }
     }
 
-    public async Task<BookingResult> CreateBookingAsync(int offerId, int customerId, DateOnly startDate, DateOnly endDate)
+    public async Task<BookingResult> CreateBookingAsync(int offerId, int customerId, DateOnly startDate, DateOnly endDate, bool termsAccepted, bool withdrawalRightAcknowledged)
     {
         try
         {
             Console.WriteLine($"BookingService.CreateBookingAsync: offerId={offerId}, customerId={customerId}, startDate={startDate}, endDate={endDate}");
+
+            // Validate legal compliance
+            if (!termsAccepted)
+            {
+                return new BookingResult
+                {
+                    Success = false,
+                    ErrorMessage = "Sie müssen die AGB akzeptieren, um eine Buchung vorzunehmen."
+                };
+            }
+
+            if (!withdrawalRightAcknowledged)
+            {
+                return new BookingResult
+                {
+                    Success = false,
+                    ErrorMessage = "Sie müssen die Widerrufsbelehrung zur Kenntnis nehmen."
+                };
+            }
 
             var offer = await _offerRepository.GetByIdAsync(offerId);
             if (offer == null)
@@ -236,6 +269,7 @@ public class BookingService : IBookingService
 
             // Create booking - auto-confirmed immediately
             Console.WriteLine($"Creating booking: totalPrice={totalPrice}, daysCount={daysCount}");
+            var now = DateTime.UtcNow;
             var booking = new Booking
             {
                 OfferId = offerId,
@@ -245,8 +279,12 @@ public class BookingService : IBookingService
                 TotalPrice = totalPrice,
                 DaysCount = daysCount,
                 Status = BookingStatus.Confirmed,
-                CreatedAt = DateTime.UtcNow,
-                ConfirmedAt = DateTime.UtcNow
+                CreatedAt = now,
+                ConfirmedAt = now,
+                TermsAccepted = termsAccepted,
+                TermsAcceptedAt = termsAccepted ? now : null,
+                WithdrawalRightAcknowledged = withdrawalRightAcknowledged,
+                WithdrawalRightAcknowledgedAt = withdrawalRightAcknowledged ? now : null
             };
 
             Console.WriteLine($"Saving booking to repository...");

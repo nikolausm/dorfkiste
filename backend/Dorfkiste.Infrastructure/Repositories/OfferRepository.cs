@@ -24,6 +24,16 @@ public class OfferRepository : IOfferRepository
             .FirstOrDefaultAsync(o => o.Id == id);
     }
 
+    public async Task<Offer?> GetBySlugAsync(string slug)
+    {
+        return await _context.Offers
+            .Include(o => o.User)
+                .ThenInclude(u => u.ContactInfo)
+            .Include(o => o.Category)
+            .Include(o => o.Pictures)
+            .FirstOrDefaultAsync(o => o.Slug == slug);
+    }
+
     public async Task<IEnumerable<Offer>> GetAllAsync()
     {
         return await _context.Offers

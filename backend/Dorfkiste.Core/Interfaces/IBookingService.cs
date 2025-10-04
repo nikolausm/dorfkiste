@@ -8,7 +8,7 @@ public interface IBookingService
     Task<IEnumerable<Booking>> GetProviderBookingsAsync(int providerId);
     Task<Booking?> GetBookingByIdAsync(int bookingId);
     Task<AvailabilityResult> CheckAvailabilityAsync(int offerId, DateOnly startDate, DateOnly endDate);
-    Task<BookingResult> CreateBookingAsync(int offerId, int customerId, DateOnly startDate, DateOnly endDate);
+    Task<BookingResult> CreateBookingAsync(int offerId, int customerId, DateOnly startDate, DateOnly endDate, bool termsAccepted, bool withdrawalRightAcknowledged);
     Task<IEnumerable<DateOnly>> GetBookedDatesAsync(int offerId);
     Task<decimal> CalculatePriceAsync(int offerId, DateOnly startDate, DateOnly endDate);
     Task BlockDatesAsync(int offerId, int providerId, DateOnly startDate, DateOnly endDate, string? reason);

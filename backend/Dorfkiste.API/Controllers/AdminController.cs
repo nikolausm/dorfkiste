@@ -12,11 +12,19 @@ namespace Dorfkiste.API.Controllers;
 public class AdminController : ControllerBase
 {
     private readonly IReportService _reportService;
+    private readonly IUserRepository _userRepository;
+    private readonly IOfferRepository _offerRepository;
     private readonly ILogger<AdminController> _logger;
 
-    public AdminController(IReportService reportService, ILogger<AdminController> logger)
+    public AdminController(
+        IReportService reportService,
+        IUserRepository userRepository,
+        IOfferRepository offerRepository,
+        ILogger<AdminController> logger)
     {
         _reportService = reportService;
+        _userRepository = userRepository;
+        _offerRepository = offerRepository;
         _logger = logger;
     }
 
@@ -126,6 +134,88 @@ public class AdminController : ControllerBase
         }
     }
 
+    [HttpGet("users")]
+    public async Task<ActionResult<IEnumerable<AdminUserDto>>> GetAllUsers()
+    {
+        if (!IsAdmin())
+        {
+            return Forbid("Only administrators can view all users.");
+        }
+
+        var users = await _userRepository.GetAllAsync();
+
+        var userDtos = users.Select(u => new AdminUserDto
+        {
+            Id = u.Id,
+            Email = u.Email,
+            FirstName = u.FirstName,
+            LastName = u.LastName,
+            IsActive = u.IsActive,
+            IsAdmin = u.IsAdmin,
+            EmailVerified = u.EmailVerified,
+            CreatedAt = u.CreatedAt,
+            LastLoginAt = u.LastLoginAt,
+            ContactInfo = u.ContactInfo != null ? new AdminContactInfoDto
+            {
+                PhoneNumber = u.ContactInfo.PhoneNumber,
+                MobileNumber = u.ContactInfo.MobileNumber,
+                Street = u.ContactInfo.Street,
+                City = u.ContactInfo.City,
+                PostalCode = u.ContactInfo.PostalCode,
+                State = u.ContactInfo.State,
+                Country = u.ContactInfo.Country
+            } : null
+        });
+
+        return Ok(userDtos);
+    }
+
+    [HttpPost("offers/{offerId}/toggle-active")]
+    public async Task<ActionResult> ToggleOfferActive(int offerId)
+    {
+        if (!IsAdmin())
+        {
+            return Forbid("Only administrators can toggle offer status.");
+        }
+
+        var offer = await _offerRepository.GetByIdAsync(offerId);
+        if (offer == null)
+        {
+            return NotFound(new { message = "Angebot nicht gefunden." });
+        }
+
+        offer.IsActive = !offer.IsActive;
+        await _offerRepository.UpdateAsync(offer);
+
+        _logger.LogInformation("Admin {AdminId} toggled offer {OfferId} active status to {IsActive}",
+            GetCurrentUserId(), offerId, offer.IsActive);
+
+        return Ok(new { message = offer.IsActive ? "Angebot aktiviert." : "Angebot deaktiviert.", isActive = offer.IsActive });
+    }
+
+    [HttpPost("users/{userId}/toggle-admin")]
+    public async Task<ActionResult> ToggleUserAdminStatus(int userId)
+    {
+        if (!IsAdmin())
+        {
+            return Forbid("Only administrators can modify admin status.");
+        }
+
+        var user = await _userRepository.GetByIdAsync(userId);
+        if (user == null)
+        {
+            return NotFound(new { message = "Benutzer nicht gefunden." });
+        }
+
+        user.IsAdmin = !user.IsAdmin;
+        await _userRepository.UpdateAsync(user);
+
+        _logger.LogInformation("Admin {AdminId} toggled user {UserId} admin status to {IsAdmin}",
+            GetCurrentUserId(), userId, user.IsAdmin);
+
+        return Ok(new { message = user.IsAdmin ? "Benutzer ist jetzt Admin." : "Admin-Rechte entfernt.", isAdmin = user.IsAdmin });
+    }
+
     private int GetCurrentUserId()
     {
         var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -190,4 +280,29 @@ public class ReviewReportRequest
 public class SuspendUserRequest
 {
     public DateTime? SuspensionEndDate { get; set; }
+}
+
+public class AdminUserDto
+{
+    public int Id { get; set; }
+    public string Email { get; set; } = string.Empty;
+    public string FirstName { get; set; } = string.Empty;
+    public string LastName { get; set; } = string.Empty;
+    public bool IsActive { get; set; }
+    public bool IsAdmin { get; set; }
+    public bool EmailVerified { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime? LastLoginAt { get; set; }
+    public AdminContactInfoDto? ContactInfo { get; set; }
+}
+
+public class AdminContactInfoDto
+{
+    public string? PhoneNumber { get; set; }
+    public string? MobileNumber { get; set; }
+    public string? Street { get; set; }
+    public string? City { get; set; }
+    public string? PostalCode { get; set; }
+    public string? State { get; set; }
+    public string? Country { get; set; }
 }

@@ -57,8 +57,17 @@ export default function BookingCalendar({
 
   // Check if date is today or in the past
   const isPastDate = (date: Date): boolean => {
+    const now = new Date();
     const today = new Date();
     today.setHours(0, 0, 0, 0);
+    const currentHour = now.getHours();
+
+    // Same-day bookings only allowed before 18:00
+    const isToday = date.getTime() === today.getTime();
+    if (isToday && currentHour >= 18) {
+      return true;
+    }
+
     return date < today;
   };
 

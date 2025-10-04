@@ -8,7 +8,7 @@ import { apiClient, Category, OfferPicture, AnalyzeImageResponse } from '@/lib/a
 import { useAuth } from '@/contexts/AuthContext';
 
 export default function CreateOfferPage() {
-  const [step, setStep] = useState<'upload' | 'mode' | 'analyze' | 'edit'>('upload');
+  const [step, setStep] = useState<'upload' | 'analyze' | 'edit'>('upload');
   const [offerMode, setOfferMode] = useState<'rent' | 'sale' | null>(null);
 
   const [formData, setFormData] = useState({
@@ -72,7 +72,6 @@ export default function CreateOfferPage() {
   const analyzeImage = async (mode: 'rent' | 'sale') => {
     if (!selectedFile) return;
 
-    setIsAnalyzing(true);
     setErrors([]);
 
     try {
@@ -85,12 +84,12 @@ export default function CreateOfferPage() {
         description: result.description,
         pricePerDay: mode === 'rent' ? (result.suggestedPricePerDay?.toString() || '') : '',
         pricePerHour: mode === 'rent' ? (result.suggestedPricePerHour?.toString() || '') : '',
-        salePrice: mode === 'sale' ? '' : '',
+        salePrice: mode === 'sale' ? (result.suggestedSalePrice?.toString() || '') : '',
         isService: result.isService,
         categoryId: result.suggestedCategoryId?.toString() || '',
-        deliveryAvailable: false,
-        deliveryCost: '',
-        deposit: '',
+        deliveryAvailable: result.suggestedDeliveryAvailable || false,
+        deliveryCost: result.suggestedDeliveryCost?.toString() || '',
+        deposit: result.suggestedDeposit?.toString() || '',
       });
 
       setStep('edit');
@@ -271,37 +270,30 @@ export default function CreateOfferPage() {
             Neues Angebot erstellen
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
-            Laden Sie ein Bild hoch und lassen Sie die KI Ihr Angebot erstellen.
+            Laden Sie ein Bild hoch und lassen Sie sich Ihr Angebot erstellen.
           </p>
         </div>
 
         {/* Progress Steps */}
         <div className="mb-8">
           <div className="flex items-center space-x-2">
-            <div className={`flex items-center ${step === 'upload' ? 'text-primary-600 dark:text-primary-400' : (step === 'mode' || step === 'analyze' || step === 'edit') ? 'text-green-600 dark:text-green-400' : 'text-gray-400 dark:text-gray-500'}`}>
-              <div className={`rounded-full w-8 h-8 flex items-center justify-center text-sm font-medium ${step === 'upload' ? 'bg-primary-100 dark:bg-primary-900/30' : (step === 'mode' || step === 'analyze' || step === 'edit') ? 'bg-green-100 dark:bg-green-900/30' : 'bg-gray-100 dark:bg-gray-700'}`}>
-                {step === 'mode' || step === 'analyze' || step === 'edit' ? '✓' : '1'}
+            <div className={`flex items-center ${step === 'upload' && !isAnalyzing ? 'text-primary-600 dark:text-primary-400' : (isAnalyzing || step === 'edit') ? 'text-green-600 dark:text-green-400' : 'text-gray-400 dark:text-gray-500'}`}>
+              <div className={`rounded-full w-8 h-8 flex items-center justify-center text-sm font-medium ${step === 'upload' && !isAnalyzing ? 'bg-primary-100 dark:bg-primary-900/30' : (isAnalyzing || step === 'edit') ? 'bg-green-100 dark:bg-green-900/30' : 'bg-gray-100 dark:bg-gray-700'}`}>
+                {isAnalyzing || step === 'edit' ? '✓' : '1'}
               </div>
-              <span className="ml-2 font-medium text-sm">Bild hochladen</span>
+              <span className="ml-2 font-medium text-sm">Bild & Modus wählen</span>
             </div>
-            <div className={`h-0.5 flex-1 ${step === 'mode' || step === 'analyze' || step === 'edit' ? 'bg-green-200 dark:bg-green-800' : 'bg-gray-200 dark:bg-gray-700'}`}></div>
-            <div className={`flex items-center ${step === 'mode' ? 'text-primary-600 dark:text-primary-400' : (step === 'analyze' || step === 'edit') ? 'text-green-600 dark:text-green-400' : 'text-gray-400 dark:text-gray-500'}`}>
-              <div className={`rounded-full w-8 h-8 flex items-center justify-center text-sm font-medium ${step === 'mode' ? 'bg-primary-100 dark:bg-primary-900/30' : (step === 'analyze' || step === 'edit') ? 'bg-green-100 dark:bg-green-900/30' : 'bg-gray-100 dark:bg-gray-700'}`}>
-                {step === 'analyze' || step === 'edit' ? '✓' : '2'}
+            <div className={`h-0.5 flex-1 ${isAnalyzing || step === 'edit' ? 'bg-green-200 dark:bg-green-800' : 'bg-gray-200 dark:bg-gray-700'}`}></div>
+            <div className={`flex items-center ${isAnalyzing ? 'text-primary-600 dark:text-primary-400' : step === 'edit' ? 'text-green-600 dark:text-green-400' : 'text-gray-400 dark:text-gray-500'}`}>
+              <div className={`rounded-full w-8 h-8 flex items-center justify-center text-sm font-medium ${isAnalyzing ? 'bg-primary-100 dark:bg-primary-900/30' : step === 'edit' ? 'bg-green-100 dark:bg-green-900/30' : 'bg-gray-100 dark:bg-gray-700'}`}>
+                {step === 'edit' ? '✓' : '2'}
               </div>
-              <span className="ml-2 font-medium text-sm">Vermieten/Verkaufen</span>
-            </div>
-            <div className={`h-0.5 flex-1 ${step === 'analyze' || step === 'edit' ? 'bg-green-200 dark:bg-green-800' : 'bg-gray-200 dark:bg-gray-700'}`}></div>
-            <div className={`flex items-center ${step === 'analyze' ? 'text-primary-600 dark:text-primary-400' : step === 'edit' ? 'text-green-600 dark:text-green-400' : 'text-gray-400 dark:text-gray-500'}`}>
-              <div className={`rounded-full w-8 h-8 flex items-center justify-center text-sm font-medium ${step === 'analyze' ? 'bg-primary-100 dark:bg-primary-900/30' : step === 'edit' ? 'bg-green-100 dark:bg-green-900/30' : 'bg-gray-100 dark:bg-gray-700'}`}>
-                {step === 'edit' ? '✓' : '3'}
-              </div>
-              <span className="ml-2 font-medium text-sm">KI-Analyse</span>
+              <span className="ml-2 font-medium text-sm">Analyse</span>
             </div>
             <div className={`h-0.5 flex-1 ${step === 'edit' ? 'bg-green-200 dark:bg-green-800' : 'bg-gray-200 dark:bg-gray-700'}`}></div>
             <div className={`flex items-center ${step === 'edit' ? 'text-primary-600 dark:text-primary-400' : 'text-gray-400 dark:text-gray-500'}`}>
               <div className={`rounded-full w-8 h-8 flex items-center justify-center text-sm font-medium ${step === 'edit' ? 'bg-primary-100 dark:bg-primary-900/30' : 'bg-gray-100 dark:bg-gray-700'}`}>
-                4
+                3
               </div>
               <span className="ml-2 font-medium text-sm">Bearbeiten</span>
             </div>
@@ -336,7 +328,7 @@ export default function CreateOfferPage() {
                   Bild hochladen *
                 </label>
                 <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-                  Laden Sie ein Bild Ihres Gegenstands oder Ihrer Dienstleistung hoch. Die KI wird automatisch einen Titel, eine Beschreibung und passende Kategorie vorschlagen.
+                  Laden Sie ein Bild Ihres Gegenstands oder Ihrer Dienstleistung hoch. Es werden automatisch ein Titel, eine Beschreibung und passende Kategorie vorgeschlagen.
                 </p>
 
                 <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center hover:border-primary-400 dark:hover:border-primary-500 transition-colors bg-white dark:bg-gray-800">
@@ -379,107 +371,110 @@ export default function CreateOfferPage() {
               </div>
 
               {selectedFile && (
-                <div className="mt-4">
-                  <button
-                    onClick={() => setStep('mode')}
-                    className="w-full btn-primary"
-                  >
-                    Weiter
-                  </button>
+                <div className="mt-6">
+                  {!isAnalyzing && (
+                    <>
+                      <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">
+                        Möchten Sie vermieten oder verkaufen?
+                      </h2>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                        Wählen Sie, ob Sie Ihren Gegenstand vermieten oder verkaufen möchten. Es wird dann ein passender Text für Sie erstellt.
+                      </p>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {/* Rent Button */}
+                        <button
+                          onClick={() => {
+                            setOfferMode('rent');
+                            setIsAnalyzing(true);
+                            analyzeImage('rent');
+                          }}
+                          disabled={isAnalyzing}
+                          className={`group relative bg-white dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600 rounded-xl p-6 hover:border-primary-500 dark:hover:border-primary-400 hover:shadow-lg transition-all text-left ${isAnalyzing ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                        >
+                          <div className="flex flex-col items-center text-center space-y-3">
+                            <div className="w-16 h-16 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                              <span className="text-3xl">🔄</span>
+                            </div>
+                            <div>
+                              <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+                                Vermieten
+                              </h3>
+                              <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                                Gegenstand zum Verleih anbieten
+                              </p>
+                            </div>
+                          </div>
+                        </button>
+
+                        {/* Sale Button */}
+                        <button
+                          onClick={() => {
+                            setOfferMode('sale');
+                            setIsAnalyzing(true);
+                            analyzeImage('sale');
+                          }}
+                          disabled={isAnalyzing}
+                          className={`group relative bg-white dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600 rounded-xl p-6 hover:border-green-500 dark:hover:border-green-400 hover:shadow-lg transition-all text-left ${isAnalyzing ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                        >
+                          <div className="flex flex-col items-center text-center space-y-3">
+                            <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                              <span className="text-3xl">💰</span>
+                            </div>
+                            <div>
+                              <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+                                Verkaufen
+                              </h3>
+                              <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                                Gegenstand zum Verkauf anbieten
+                              </p>
+                            </div>
+                          </div>
+                        </button>
+                      </div>
+                    </>
+                  )}
+
+                  {isAnalyzing && (
+                    <div className="bg-gradient-to-r from-primary-50 to-blue-50 dark:from-primary-900/20 dark:to-blue-900/20 border border-primary-200 dark:border-primary-700 rounded-xl p-8">
+                      <div className="text-center space-y-6">
+                        {/* Animated Icon */}
+                        <div className="relative inline-flex items-center justify-center">
+                          <div className="absolute w-24 h-24 bg-primary-400/20 dark:bg-primary-400/10 rounded-full animate-ping"></div>
+                          <div className="absolute w-20 h-20 bg-primary-400/30 dark:bg-primary-400/20 rounded-full animate-pulse"></div>
+                          <div className="relative w-16 h-16 bg-primary-100 dark:bg-primary-900/50 rounded-full flex items-center justify-center">
+                            <svg className="w-8 h-8 text-primary-600 dark:text-primary-400 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                          </div>
+                        </div>
+
+                        {/* Text */}
+                        <div className="space-y-2">
+                          <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+                            Das Angebot wird erstellt...
+                          </h3>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">
+                            Es wird gerade ein passender Titel, eine Beschreibung erstellt und die beste Kategorie für Ihr Angebot ausgewählt.
+                          </p>
+                        </div>
+
+                        {/* Progress Indicators */}
+                        <div className="flex justify-center space-x-2">
+                          <div className="w-2 h-2 bg-primary-600 dark:bg-primary-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                          <div className="w-2 h-2 bg-primary-600 dark:bg-primary-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                          <div className="w-2 h-2 bg-primary-600 dark:bg-primary-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
           )}
 
-          {/* Step 2: Choose Mode */}
-          {step === 'mode' && (
-            <div className="space-y-6">
-              <div>
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">
-                  Möchten Sie vermieten oder verkaufen?
-                </h2>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
-                  Wählen Sie, ob Sie Ihren Gegenstand vermieten oder verkaufen möchten. Die KI wird dann einen passenden Text für Sie erstellen.
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Rent Button */}
-                <button
-                  onClick={() => {
-                    setOfferMode('rent');
-                    setStep('analyze');
-                    analyzeImage('rent');
-                  }}
-                  disabled={isAnalyzing}
-                  className={`group relative bg-white dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600 rounded-xl p-8 hover:border-primary-500 dark:hover:border-primary-400 hover:shadow-lg transition-all text-left ${isAnalyzing ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
-                >
-                  <div className="flex flex-col items-center text-center space-y-4">
-                    <div className="w-20 h-20 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <span className="text-4xl">🔄</span>
-                    </div>
-                    <div>
-                      <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                        Vermieten
-                      </h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
-                        Gegenstand zum Verleih anbieten
-                      </p>
-                    </div>
-                  </div>
-                </button>
-
-                {/* Sale Button */}
-                <button
-                  onClick={() => {
-                    setOfferMode('sale');
-                    setStep('analyze');
-                    analyzeImage('sale');
-                  }}
-                  disabled={isAnalyzing}
-                  className={`group relative bg-white dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600 rounded-xl p-8 hover:border-green-500 dark:hover:border-green-400 hover:shadow-lg transition-all text-left ${isAnalyzing ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
-                >
-                  <div className="flex flex-col items-center text-center space-y-4">
-                    <div className="w-20 h-20 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <span className="text-4xl">💰</span>
-                    </div>
-                    <div>
-                      <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                        Verkaufen
-                      </h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
-                        Gegenstand zum Verkauf anbieten
-                      </p>
-                    </div>
-                  </div>
-                </button>
-              </div>
-
-              {isAnalyzing && (
-                <div className="text-center py-4">
-                  <div className="inline-flex items-center space-x-2">
-                    <svg className="animate-spin h-5 w-5 text-primary-600 dark:text-primary-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    <span className="text-gray-700 dark:text-gray-300">Bild wird analysiert...</span>
-                  </div>
-                </div>
-              )}
-
-              <div className="flex space-x-4">
-                <button
-                  onClick={() => setStep('upload')}
-                  className="flex-1 btn-secondary"
-                  disabled={isAnalyzing}
-                >
-                  Zurück
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* Step 3: Edit Form */}
+          {/* Step 2: Edit Form */}
           {step === 'edit' && (
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Show AI Analysis Result */}
@@ -488,10 +483,10 @@ export default function CreateOfferPage() {
                   <div className="flex">
                     <div className="ml-3">
                       <h3 className="text-sm font-medium text-green-800 dark:text-green-200">
-                        ✨ KI-Analyse abgeschlossen!
+                        ✨ Analyse abgeschlossen!
                       </h3>
                       <div className="mt-2 text-sm text-green-700 dark:text-green-300">
-                        <p>Die KI hat Ihr Bild analysiert und folgende Daten vorgeschlagen:</p>
+                        <p>Folgende Daten wurden für Sie vorgeschlagen:</p>
                         <ul className="list-disc list-inside mt-2 space-y-1">
                           <li>Titel: {analysisResult.title}</li>
                           <li>Kategorie: {analysisResult.suggestedCategoryName}</li>
@@ -763,7 +758,7 @@ export default function CreateOfferPage() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setStep('mode')}
+                  onClick={() => setStep('upload')}
                   className="flex-1 btn-secondary"
                   disabled={isLoading}
                 >

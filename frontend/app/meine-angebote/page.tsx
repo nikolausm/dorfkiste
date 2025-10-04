@@ -6,11 +6,14 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useAuth } from '@/contexts/AuthContext';
 import { apiClient, Offer } from '@/lib/api';
+import ConfirmDeleteModal from '@/components/ConfirmDeleteModal';
 
 export default function MyOffersPage() {
   const [offers, setOffers] = useState<Offer[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [offerToDelete, setOfferToDelete] = useState<{ id: number; title: string } | null>(null);
   const { user, isLoggedIn } = useAuth();
   const router = useRouter();
 
@@ -38,8 +41,8 @@ export default function MyOffersPage() {
   const toggleOfferActive = async (offerId: number) => {
     try {
       const updatedOffer = await apiClient.toggleOfferActive(offerId);
-      setOffers(prevOffers => 
-        prevOffers.map(offer => 
+      setOffers(prevOffers =>
+        prevOffers.map(offer =>
           offer.id === offerId ? { ...offer, isActive: updatedOffer.isActive } : offer
         )
       );
@@ -48,8 +51,27 @@ export default function MyOffersPage() {
     }
   };
 
+  const deleteOffer = async (offerId: number, offerTitle: string) => {
+    setOfferToDelete({ id: offerId, title: offerTitle });
+    setDeleteModalOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!offerToDelete) return;
+
+    try {
+      await apiClient.deleteOffer(offerToDelete.id);
+      setOffers(prevOffers => prevOffers.filter(offer => offer.id !== offerToDelete.id));
+      setOfferToDelete(null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Fehler beim Löschen des Angebots');
+    }
+  };
+
   const formatPrice = (offer: Offer) => {
-    if (offer.isService) {
+    if (offer.isForSale) {
+      return offer.salePrice ? `${offer.salePrice.toFixed(2)}€` : 'Preis auf Anfrage';
+    } else if (offer.isService) {
       return offer.pricePerHour ? `${offer.pricePerHour.toFixed(2)}€/Std` : 'Preis auf Anfrage';
     } else {
       return offer.pricePerDay ? `${offer.pricePerDay.toFixed(2)}€/Tag` : 'Preis auf Anfrage';
@@ -265,12 +287,18 @@ export default function MyOffersPage() {
                         </Link>
                       </div>
                     </div>
-                    <div className="flex justify-end">
+                    <div className="flex justify-between items-center">
+                      <button
+                        onClick={() => deleteOffer(offer.id, offer.title)}
+                        className="text-sm px-3 py-1 rounded-md text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 border border-dashed border-red-300 dark:border-red-700 hover:border-red-500 dark:hover:border-red-500 transition-colors"
+                      >
+                        🗑️ Löschen
+                      </button>
                       <button
                         onClick={() => toggleOfferActive(offer.id)}
                         className={`text-sm px-3 py-1 rounded-md transition-colors ${
                           offer.isActive
-                            ? 'text-red-600 hover:text-red-700 hover:bg-red-50'
+                            ? 'text-orange-600 hover:text-orange-700 hover:bg-orange-50'
                             : 'text-green-600 hover:text-green-700 hover:bg-green-50'
                         }`}
                       >
@@ -284,6 +312,18 @@ export default function MyOffersPage() {
           </div>
         </>
       )}
+
+      {/* Delete Confirmation Modal */}
+      <ConfirmDeleteModal
+        isOpen={deleteModalOpen}
+        onClose={() => {
+          setDeleteModalOpen(false);
+          setOfferToDelete(null);
+        }}
+        onConfirm={confirmDelete}
+        title="Angebot löschen"
+        message={offerToDelete ? `Möchten Sie das Angebot "${offerToDelete.title}" wirklich löschen?` : ''}
+      />
     </div>
   );
 }

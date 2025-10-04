@@ -52,8 +52,18 @@ export default function Footer() {
           <div>
             <h3 className="text-white font-semibold text-lg mb-4">Kontakt</h3>
             <ul className="space-y-2 text-sm">
-              <li>E-Mail: support@dorfkiste.org</li>
-              <li>Telefon: +49 151 27600607</li>
+              <li>
+                E-Mail:{' '}
+                <a href="mailto:support@dorfkiste.org" className="hover:text-white transition-colors">
+                  support@dorfkiste.org
+                </a>
+              </li>
+              <li>
+                Telefon:{' '}
+                <a href="tel:+4915127600607" className="hover:text-white transition-colors">
+                  +49 151 27600607
+                </a>
+              </li>
             </ul>
           </div>
         </div>

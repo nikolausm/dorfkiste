@@ -3,6 +3,7 @@ using System;
 using Dorfkiste.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dorfkiste.Infrastructure.Migrations
 {
     [DbContext(typeof(DorfkisteDbContext))]
-    partial class DorfkisteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251004182716_AddSaleAndDeliveryFields")]
+    partial class AddSaleAndDeliveryFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.9");
@@ -84,20 +87,8 @@ namespace Dorfkiste.Infrastructure.Migrations
                         .HasColumnType("INTEGER")
                         .HasDefaultValue(0);
 
-                    b.Property<bool>("TermsAccepted")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime?>("TermsAcceptedAt")
-                        .HasColumnType("TEXT");
-
                     b.Property<decimal>("TotalPrice")
                         .HasPrecision(10, 2)
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("WithdrawalRightAcknowledged")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime?>("WithdrawalRightAcknowledgedAt")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -287,10 +278,6 @@ namespace Dorfkiste.Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<decimal?>("SalePrice")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Slug")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
@@ -628,18 +615,6 @@ namespace Dorfkiste.Infrastructure.Migrations
 
                     b.Property<DateTime?>("ProfileVisibilityConsentDate")
                         .HasColumnType("TEXT");
-
-                    b.Property<bool>("ShowCity")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("ShowMobileNumber")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("ShowPhoneNumber")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("ShowStreet")
-                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("TEXT");

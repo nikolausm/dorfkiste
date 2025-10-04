@@ -13,7 +13,8 @@ function OffersContent() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
-  
+  const [currentSearch, setCurrentSearch] = useState<string>('');
+
   const searchParams = useSearchParams();
   const initialCategoryId = searchParams.get('categoryId');
   const initialSearch = searchParams.get('search');
@@ -21,6 +22,7 @@ function OffersContent() {
   useEffect(() => {
     const categoryId = initialCategoryId ? parseInt(initialCategoryId) : null;
     setSelectedCategoryId(categoryId);
+    setCurrentSearch(initialSearch || '');
     loadData(categoryId, initialSearch || undefined);
     loadCategories();
   }, [initialCategoryId, initialSearch]);
@@ -49,8 +51,8 @@ function OffersContent() {
 
   const handleCategoryChange = (categoryId: number | null) => {
     setSelectedCategoryId(categoryId);
-    loadData(categoryId, initialSearch || undefined);
-    
+    loadData(categoryId, currentSearch || undefined);
+
     // Update URL without full page refresh
     const url = new URL(window.location.href);
     if (categoryId) {
@@ -58,12 +60,17 @@ function OffersContent() {
     } else {
       url.searchParams.delete('categoryId');
     }
+    // Preserve search parameter
+    if (currentSearch) {
+      url.searchParams.set('search', currentSearch);
+    }
     window.history.pushState({}, '', url);
   };
 
   const handleSearch = (query: string) => {
+    setCurrentSearch(query);
     loadData(selectedCategoryId, query);
-    
+
     // Update URL
     const url = new URL(window.location.href);
     if (query) {
@@ -71,11 +78,17 @@ function OffersContent() {
     } else {
       url.searchParams.delete('search');
     }
+    // Preserve category parameter
+    if (selectedCategoryId) {
+      url.searchParams.set('categoryId', selectedCategoryId.toString());
+    }
     window.history.pushState({}, '', url);
   };
 
   const formatPrice = (offer: Offer) => {
-    if (offer.isService) {
+    if (offer.isForSale) {
+      return offer.salePrice ? `${offer.salePrice.toFixed(2)}€` : 'Preis auf Anfrage';
+    } else if (offer.isService) {
       return offer.pricePerHour ? `${offer.pricePerHour.toFixed(2)}€/Std` : 'Preis auf Anfrage';
     } else {
       return offer.pricePerDay ? `${offer.pricePerDay.toFixed(2)}€/Tag` : 'Preis auf Anfrage';
@@ -116,7 +129,7 @@ function OffersContent() {
         <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">
           Angebote durchsuchen
         </h1>
-        <SearchBar initialQuery={initialSearch || ''} onSearch={handleSearch} />
+        <SearchBar initialQuery={currentSearch} onSearch={handleSearch} />
       </div>
 
       <div className="flex flex-col lg:flex-row gap-8">
@@ -124,11 +137,21 @@ function OffersContent() {
         <div className="lg:w-64 flex-shrink-0">
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
             <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Kategorien</h3>
+            {currentSearch && (
+              <div className="mb-3 p-2 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700 rounded-md">
+                <p className="text-xs text-yellow-700 dark:text-yellow-300">
+                  Kategoriefilter ist während der Suche deaktiviert
+                </p>
+              </div>
+            )}
             <div className="space-y-2">
               <button
                 onClick={() => handleCategoryChange(null)}
+                disabled={!!currentSearch}
                 className={`w-full text-left px-3 py-2 rounded-md text-sm ${
-                  selectedCategoryId === null
+                  currentSearch
+                    ? 'opacity-50 cursor-not-allowed bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500'
+                    : selectedCategoryId === null
                     ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300'
                     : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
                 }`}
@@ -139,8 +162,11 @@ function OffersContent() {
                 <button
                   key={category.id}
                   onClick={() => handleCategoryChange(category.id)}
+                  disabled={!!currentSearch}
                   className={`w-full text-left px-3 py-2 rounded-md text-sm ${
-                    selectedCategoryId === category.id
+                    currentSearch
+                      ? 'opacity-50 cursor-not-allowed bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500'
+                      : selectedCategoryId === category.id
                       ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300'
                       : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
                   }`}
@@ -187,7 +213,7 @@ function OffersContent() {
                 {offers.map((offer) => (
                   <Link
                     key={offer.id}
-                    href={`/angebote/${offer.id}`}
+                    href={`/angebote/${offer.slug || offer.id}`}
                     className="card hover:shadow-lg transition-shadow overflow-hidden"
                   >
                     {/* Picture */}

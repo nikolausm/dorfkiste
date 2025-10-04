@@ -5,8 +5,10 @@ import Link from 'next/link';
 import SearchBar from '@/components/SearchBar';
 import OfferThumbnail from '@/components/OfferThumbnail';
 import { apiClient, BookingResponse } from '@/lib/api';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function Home() {
+  const { user } = useAuth();
   const [recentBookings, setRecentBookings] = useState<BookingResponse[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -48,9 +50,11 @@ export default function Home() {
               <Link href="/angebote" className="btn-primary text-lg px-8 py-4">
                 Angebote durchsuchen
               </Link>
-              <Link href="/registrieren" className="btn-secondary text-lg px-8 py-4">
-                Kostenlos registrieren
-              </Link>
+              {!user && (
+                <Link href="/registrieren" className="btn-secondary text-lg px-8 py-4">
+                  Kostenlos registrieren
+                </Link>
+              )}
             </div>
           </div>
         </div>

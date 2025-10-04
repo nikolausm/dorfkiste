@@ -81,19 +81,11 @@ public static class DbSeeder
                 },
                 new()
                 {
-                    Name = "Handwerksdienste",
-                    Description = "Reparaturen, Renovierungen, handwerkliche Arbeiten",
-                    IconName = "services",
-                    IsActive = true,
-                    SortOrder = 7
-                },
-                new()
-                {
                     Name = "Garten- & Landschaftsarbeit",
                     Description = "Rasenpflege, Heckenschnitt, Gartengestaltung",
                     IconName = "landscaping",
                     IsActive = true,
-                    SortOrder = 8
+                    SortOrder = 7
                 },
                 new()
                 {
@@ -101,7 +93,7 @@ public static class DbSeeder
                     Description = "Hausreinigung, Fensterputzen, Bügelservice",
                     IconName = "cleaning",
                     IsActive = true,
-                    SortOrder = 9
+                    SortOrder = 8
                 },
                 new()
                 {
@@ -109,7 +101,7 @@ public static class DbSeeder
                     Description = "Alles andere, was sich nicht in die anderen Kategorien einordnen lässt",
                     IconName = "other",
                     IsActive = true,
-                    SortOrder = 10
+                    SortOrder = 9
                 }
             };
 
@@ -122,6 +114,25 @@ public static class DbSeeder
         {
             var testUsers = new List<User>
             {
+                new()
+                {
+                    Email = "admin@dorfkiste.de",
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin123!", BCrypt.Net.BCrypt.GenerateSalt(12)),
+                    FirstName = "Admin",
+                    LastName = "Dorfkiste",
+                    CreatedAt = DateTime.UtcNow,
+                    IsActive = true,
+                    IsAdmin = true,
+                    ContactInfo = new ContactInfo
+                    {
+                        PhoneNumber = "0800 123456",
+                        MobileNumber = "0170 1234567",
+                        Street = "Hauptstraße 1",
+                        City = "München",
+                        PostalCode = "80331",
+                        Country = "Deutschland"
+                    }
+                },
                 new()
                 {
                     Email = "max.mustermann@test.de",
@@ -211,18 +222,6 @@ public static class DbSeeder
                 },
                 new()
                 {
-                    Title = "Handwerkerservice - Renovierungsarbeiten",
-                    Description = "Erfahrener Handwerker bietet Renovierungsarbeiten aller Art: Malern, Tapezieren, Fliesen legen, kleine Reparaturen. Fair und zuverlässig.",
-                    PricePerHour = 35.00m,
-                    IsService = true,
-                    UserId = users[2].Id,
-                    CategoryId = categories.First(c => c.Name == "Handwerksdienste").Id,
-                    CreatedAt = DateTime.UtcNow.AddDays(-1),
-                    UpdatedAt = DateTime.UtcNow.AddDays(-1),
-                    IsActive = true
-                },
-                new()
-                {
                     Title = "Küchenmaschine KitchenAid",
                     Description = "Vielseitige Küchenmaschine mit vielen Aufsätzen. Perfect für Backen und Kochen. Inkl. Rührschüssel und verschiedener Knethaken.",
                     PricePerDay = 12.00m,
@@ -276,7 +275,6 @@ public static class DbSeeder
             {
                 ("Bohrmaschine Makita HP2050H", new List<string> { "Bohrmaschine_Makita.jpg", "Bohrmaschine_Zubehoer.jpg", "Bohrmaschine_Action.jpg" }),
                 ("Rasenmäher Benzin - Honda HRG 536", new List<string> { "Rasenmäher_Honda.jpg", "Rasenmäher_Action.jpg" }),
-                ("Handwerkerservice - Renovierungsarbeiten", new List<string> { "Handwerker_Tools.jpg" }),
                 ("Küchenmaschine KitchenAid", new List<string> { "KitchenAid_Maschine.jpg" }),
                 ("Gartenservice - Rasenpflege", new List<string> { "Garten_Service.jpg" }),
                 ("Beamer Epson EH-TW7000", new List<string> { "Epson_Beamer.jpg", "Heimkino_Setup.jpg" })

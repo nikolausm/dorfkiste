@@ -186,6 +186,32 @@ export default function Header() {
                             )}
                           </div>
                         </Link>
+                        <Link
+                          href="/einstellungen"
+                          className="block px-4 py-2 text-sm text-neutral-700 dark:text-gray-200 hover:bg-white/20 dark:hover:bg-gray-700/30 rounded-lg mx-2 transition-colors duration-200"
+                          onClick={() => setIsUserMenuOpen(false)}
+                        >
+                          Einstellungen
+                        </Link>
+                        {user?.isAdmin && (
+                          <>
+                            <div className="border-t border-white/20 dark:border-gray-700/30 my-2 mx-2"></div>
+                            <Link
+                              href="/admin/benutzer"
+                              className="block px-4 py-2 text-sm text-purple-600 dark:text-purple-400 hover:bg-purple-50/20 dark:hover:bg-purple-900/20 rounded-lg mx-2 transition-colors duration-200 font-medium"
+                              onClick={() => setIsUserMenuOpen(false)}
+                            >
+                              Benutzerverwaltung
+                            </Link>
+                            <Link
+                              href="/admin/meldungen"
+                              className="block px-4 py-2 text-sm text-purple-600 dark:text-purple-400 hover:bg-purple-50/20 dark:hover:bg-purple-900/20 rounded-lg mx-2 transition-colors duration-200 font-medium"
+                              onClick={() => setIsUserMenuOpen(false)}
+                            >
+                              Meldungen
+                            </Link>
+                          </>
+                        )}
                         <div className="border-t border-white/20 dark:border-gray-700/30 my-2 mx-2"></div>
                         <button
                           onClick={handleLogout}
@@ -203,7 +229,8 @@ export default function Header() {
                 <Link href="/anmelden" className="nav-link">
                   Anmelden
                 </Link>
-                <Link href="/registrieren" className="btn-primary"> 
+                <Link href="/registrieren" className="btn-primary">
+                  Registrieren
                 </Link>
               </div>
             )}</div>
@@ -289,6 +316,20 @@ export default function Header() {
                       )}
                     </div>
                   </Link>
+                  <Link href="/einstellungen" className="nav-link block">
+                    Einstellungen
+                  </Link>
+                  {user?.isAdmin && (
+                    <>
+                      <div className="border-t border-gray-200 dark:border-gray-700 mt-3 pt-3"></div>
+                      <Link href="/admin/benutzer" className="nav-link block text-purple-600 dark:text-purple-400 font-medium">
+                        👥 Benutzerverwaltung
+                      </Link>
+                      <Link href="/admin/meldungen" className="nav-link block text-purple-600 dark:text-purple-400 font-medium">
+                        🚨 Meldungen verwalten
+                      </Link>
+                    </>
+                  )}
                   <button
                     onClick={handleLogout}
                     className="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 block w-full text-left nav-link"

@@ -9,6 +9,9 @@ import { useAuth } from '@/contexts/AuthContext';
 import MessageModal from '@/components/MessageModal';
 import BookingModal from '@/components/BookingModal';
 import OfferBookingCalendar from '@/components/OfferBookingCalendar';
+import ConfirmDeleteModal from '@/components/ConfirmDeleteModal';
+import ShareButton from '@/components/ShareButton';
+import ReportOfferModal from '@/components/ReportOfferModal';
 
 export default function OfferDetailPage() {
   const params = useParams();
@@ -21,6 +24,8 @@ export default function OfferDetailPage() {
   const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const [preselectedDates, setPreselectedDates] = useState<{startDate: string, endDate: string} | null>(null);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
 
   const handleNextImage = () => {
     if (offer?.pictures && offer.pictures.length > 1) {
@@ -75,7 +80,9 @@ export default function OfferDetailPage() {
   };
 
   const formatPrice = (offer: OfferDetail) => {
-    if (offer.isService) {
+    if (offer.isForSale) {
+      return offer.salePrice ? `${offer.salePrice.toFixed(2)}€` : 'Preis auf Anfrage';
+    } else if (offer.isService) {
       return offer.pricePerHour ? `${offer.pricePerHour.toFixed(2)}€ pro Stunde` : 'Preis auf Anfrage';
     } else {
       return offer.pricePerDay ? `${offer.pricePerDay.toFixed(2)}€ pro Tag` : 'Preis auf Anfrage';
@@ -146,6 +153,21 @@ export default function OfferDetailPage() {
     router.push('/meine-buchungen');
   };
 
+  const handleDeleteOffer = () => {
+    setDeleteModalOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!offer) return;
+
+    try {
+      await apiClient.deleteOffer(offer.id);
+      router.push('/meine-angebote');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Fehler beim Löschen des Angebots');
+    }
+  };
+
   const isOwnOffer = offer && user && offer.user?.id === user.id;
 
   if (isLoading) {
@@ -202,7 +224,7 @@ export default function OfferDetailPage() {
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 mb-6">
             {/* Header */}
             <div className="flex items-start justify-between mb-6">
-              <div>
+              <div className="flex-1">
                 <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
                   {offer.title}
                 </h1>
@@ -213,11 +235,14 @@ export default function OfferDetailPage() {
                   </div>
                 )}
               </div>
-              {offer.isService && (
-                <span className="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-3 py-1 rounded-full text-sm font-medium">
-                  Service
-                </span>
-              )}
+              <div className="flex items-center gap-3 ml-4">
+                {offer.isService && (
+                  <span className="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-3 py-1 rounded-full text-sm font-medium">
+                    Service
+                  </span>
+                )}
+                <ShareButton title={offer.title} />
+              </div>
             </div>
 
             {/* Price */}
@@ -356,20 +381,22 @@ export default function OfferDetailPage() {
 
         {/* Sidebar */}
         <div className="lg:col-span-1 order-1 lg:order-2">
-          {/* Booking Calendar */}
-          <div className="mb-6">
-            <OfferBookingCalendar
-              offerId={offer.id}
-              offerPrice={{
-                pricePerDay: offer.pricePerDay || undefined,
-                pricePerHour: offer.pricePerHour || undefined,
-              }}
-              isService={offer.isService}
-              onBookingRequest={isOwnOffer ? undefined : handleBookNow}
-              className="lg:block"
-              compact={true}
-            />
-          </div>
+          {/* Booking Calendar - only for rental/service offers */}
+          {!offer.isForSale && (
+            <div className="mb-6">
+              <OfferBookingCalendar
+                offerId={offer.id}
+                offerPrice={{
+                  pricePerDay: offer.pricePerDay || undefined,
+                  pricePerHour: offer.pricePerHour || undefined,
+                }}
+                isService={offer.isService}
+                onBookingRequest={isOwnOffer ? undefined : handleBookNow}
+                className="lg:block"
+                compact={true}
+              />
+            </div>
+          )}
 
           {/* Contact Card */}
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 mb-6">
@@ -453,22 +480,40 @@ export default function OfferDetailPage() {
                     >
                       Buchungen verwalten
                     </Link>
+                    <button
+                      onClick={handleDeleteOffer}
+                      className="w-full btn-outline border-dashed !border-red-300 dark:!border-red-700 !text-red-600 dark:!text-red-400 hover:!border-red-500 dark:hover:!border-red-500 hover:!bg-red-50 dark:hover:!bg-red-900/20 text-center py-3 px-4"
+                    >
+                      🗑️ Angebot löschen
+                    </button>
                   </div>
                 </div>
               ) : (
                 <div className="flex flex-col gap-4">
-                  <button
-                    onClick={() => handleBookNow()}
-                    className="w-full btn-primary py-3 px-4"
-                  >
-                    {isLoggedIn ? 'Jetzt buchen' : 'Anmelden & Buchen'}
-                  </button>
+                  {/* For sale offers: only message button */}
+                  {/* For rental/service offers: booking + message button */}
+                  {!offer.isForSale && (
+                    <button
+                      onClick={() => handleBookNow()}
+                      className="w-full btn-primary py-3 px-4"
+                    >
+                      {isLoggedIn ? 'Jetzt buchen' : 'Anmelden & Buchen'}
+                    </button>
+                  )}
                   <button
                     onClick={handleSendMessage}
-                    className="w-full btn-secondary py-3 px-4"
+                    className={`w-full py-3 px-4 ${offer.isForSale ? 'btn-primary' : 'btn-secondary'}`}
                   >
                     {isLoggedIn ? 'Nachricht senden' : 'Anmelden & Nachricht senden'}
                   </button>
+                  {isLoggedIn && (
+                    <button
+                      onClick={() => setIsReportModalOpen(true)}
+                      className="w-full py-2 px-4 text-sm text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-800 transition-colors"
+                    >
+                      🚨 Angebot melden
+                    </button>
+                  )}
                 </div>
               )}
             </div>
@@ -519,6 +564,27 @@ export default function OfferDetailPage() {
           isService={offer.isService}
           onBookingSuccess={handleBookingSuccess}
           preselectedDates={preselectedDates || undefined}
+        />
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {offer && (
+        <ConfirmDeleteModal
+          isOpen={deleteModalOpen}
+          onClose={() => setDeleteModalOpen(false)}
+          onConfirm={confirmDelete}
+          title="Angebot löschen"
+          message={`Möchten Sie das Angebot "${offer.title}" wirklich löschen?`}
+        />
+      )}
+
+      {/* Report Offer Modal */}
+      {offer && !isOwnOffer && (
+        <ReportOfferModal
+          isOpen={isReportModalOpen}
+          onClose={() => setIsReportModalOpen(false)}
+          offerId={offer.id}
+          offerTitle={offer.title}
         />
       )}
     </div>

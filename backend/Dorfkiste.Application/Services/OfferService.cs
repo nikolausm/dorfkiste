@@ -4,6 +4,8 @@ using Microsoft.Extensions.Configuration;
 using OpenAI;
 using OpenAI.Chat;
 using System.Text.Json;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Dorfkiste.Application.Services;
 
@@ -26,6 +28,31 @@ public class OfferService : IOfferService
         _openAIClient = new OpenAIClient(_configuration["OpenAI:ApiKey"]);
     }
 
+    private string GenerateSlug(string title, int id)
+    {
+        // Remove special characters and convert to lowercase
+        var slug = title.ToLowerInvariant();
+
+        // Replace German umlauts
+        slug = slug.Replace("ä", "ae").Replace("ö", "oe").Replace("ü", "ue").Replace("ß", "ss");
+
+        // Remove all non-alphanumeric characters except spaces and hyphens
+        slug = Regex.Replace(slug, @"[^a-z0-9\s-]", "");
+
+        // Replace multiple spaces or hyphens with single hyphen
+        slug = Regex.Replace(slug, @"[\s-]+", "-");
+
+        // Remove leading and trailing hyphens
+        slug = slug.Trim('-');
+
+        // Limit length to 50 characters
+        if (slug.Length > 50)
+            slug = slug.Substring(0, 50).TrimEnd('-');
+
+        // Append ID to ensure uniqueness
+        return $"{slug}-{id}";
+    }
+
     public async Task<IEnumerable<Offer>> GetAllOffersAsync()
     {
         return await _offerRepository.GetActiveAsync();
@@ -46,6 +73,11 @@ public class OfferService : IOfferService
         return await _offerRepository.GetByIdAsync(id);
     }
 
+    public async Task<Offer?> GetOfferBySlugAsync(string slug)
+    {
+        return await _offerRepository.GetBySlugAsync(slug);
+    }
+
     public async Task<Offer> CreateOfferAsync(Offer offer, int userId)
     {
         // GDPR: Check if user's email is verified
@@ -61,13 +93,20 @@ public class OfferService : IOfferService
         offer.UpdatedAt = DateTime.UtcNow;
         offer.IsActive = true;
 
-        return await _offerRepository.CreateAsync(offer);
+        // Create offer first to get ID
+        var createdOffer = await _offerRepository.CreateAsync(offer);
+
+        // Generate and update slug
+        createdOffer.Slug = GenerateSlug(createdOffer.Title, createdOffer.Id);
+        await _offerRepository.UpdateAsync(createdOffer);
+
+        return createdOffer;
     }
 
     public async Task<Offer> UpdateOfferAsync(Offer offer, int userId)
     {
         var existingOffer = await _offerRepository.GetByIdAsync(offer.Id);
-        
+
         if (existingOffer == null)
             throw new InvalidOperationException("Angebot wurde nicht gefunden.");
 
@@ -76,6 +115,12 @@ public class OfferService : IOfferService
 
         offer.UserId = userId;
         offer.UpdatedAt = DateTime.UtcNow;
+
+        // Regenerate slug if title changed
+        if (offer.Title != existingOffer.Title)
+        {
+            offer.Slug = GenerateSlug(offer.Title, offer.Id);
+        }
 
         return await _offerRepository.UpdateAsync(offer);
     }
@@ -161,7 +206,11 @@ Falls das Bild nicht analysiert werden kann (zu unscharf, kein erkennbarer Gegen
   ""isService"": false,
   ""suggestedCategoryName"": ""Sonstiges"",
   ""suggestedPricePerDay"": {(mode == "rent" ? "10.00" : "null")},
-  ""suggestedPricePerHour"": null
+  ""suggestedPricePerHour"": null,
+  ""suggestedSalePrice"": {(mode == "sale" ? "50.00" : "null")},
+  ""suggestedDeliveryAvailable"": false,
+  ""suggestedDeliveryCost"": null,
+  ""suggestedDeposit"": null
 }}
 
 Andernfalls, falls das Bild erfolgreich analysiert werden kann:
@@ -171,7 +220,11 @@ Andernfalls, falls das Bild erfolgreich analysiert werden kann:
   ""isService"": false,
   ""suggestedCategoryName"": ""Name der passendsten Kategorie"",
   ""suggestedPricePerDay"": {(mode == "rent" ? "15.00" : "null")},
-  ""suggestedPricePerHour"": null
+  ""suggestedPricePerHour"": null,
+  ""suggestedSalePrice"": {(mode == "sale" ? "150.00" : "null")},
+  ""suggestedDeliveryAvailable"": true,
+  ""suggestedDeliveryCost"": 5.00,
+  ""suggestedDeposit"": {(mode == "rent" ? "50.00" : "null")}
 }}
 
 Regeln:
@@ -181,6 +234,10 @@ Regeln:
 - Kategorie: Wähle die passendste aus der Liste
 - Preise: {priceGuidance}
 - Verwende nur einen Preis (pricePerDay oder pricePerHour für Vermietung, null für beide bei Verkauf)
+- suggestedSalePrice: {(mode == "sale" ? "Realistische Verkaufspreise (€10-5000)" : "null bei Vermietung")}
+- suggestedDeliveryAvailable: true wenn Lieferung sinnvoll ist (z.B. bei größeren Gegenständen, nicht bei Services)
+- suggestedDeliveryCost: Realistische Lieferkosten (€5-25 je nach Größe/Gewicht), null wenn keine Lieferung
+- suggestedDeposit: {(mode == "rent" ? "Kaution bei wertvollen Gegenständen >200€ (10-30% des Wertes)" : "null bei Verkauf")}
 
 ANTWORT NUR DAS JSON-OBJEKT!";
 
@@ -223,6 +280,26 @@ ANTWORT NUR DAS JSON-OBJEKT!";
                 if (root.TryGetProperty("suggestedPricePerHour", out var pricePerHour) && pricePerHour.ValueKind != JsonValueKind.Null)
                 {
                     response.SuggestedPricePerHour = pricePerHour.GetDecimal();
+                }
+
+                if (root.TryGetProperty("suggestedSalePrice", out var salePrice) && salePrice.ValueKind != JsonValueKind.Null)
+                {
+                    response.SuggestedSalePrice = salePrice.GetDecimal();
+                }
+
+                if (root.TryGetProperty("suggestedDeliveryAvailable", out var deliveryAvailable))
+                {
+                    response.SuggestedDeliveryAvailable = deliveryAvailable.GetBoolean();
+                }
+
+                if (root.TryGetProperty("suggestedDeliveryCost", out var deliveryCost) && deliveryCost.ValueKind != JsonValueKind.Null)
+                {
+                    response.SuggestedDeliveryCost = deliveryCost.GetDecimal();
+                }
+
+                if (root.TryGetProperty("suggestedDeposit", out var deposit) && deposit.ValueKind != JsonValueKind.Null)
+                {
+                    response.SuggestedDeposit = deposit.GetDecimal();
                 }
 
                 var matchingCategory = categories.FirstOrDefault(c =>

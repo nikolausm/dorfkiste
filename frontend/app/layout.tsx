@@ -21,7 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="de">
-      <body className={`${inter.className} min-h-screen flex flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors`}>
+      <body suppressHydrationWarning className={`${inter.className} min-h-screen flex flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors`}>
         <ThemeProvider>
           <AuthProvider>
             <Header />

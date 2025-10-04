@@ -8,12 +8,13 @@ public interface IOfferService
     Task<IEnumerable<Offer>> GetOffersByCategoryAsync(int categoryId);
     Task<IEnumerable<Offer>> SearchOffersAsync(string searchTerm);
     Task<Offer?> GetOfferByIdAsync(int id);
+    Task<Offer?> GetOfferBySlugAsync(string slug);
     Task<Offer> CreateOfferAsync(Offer offer, int userId);
     Task<Offer> UpdateOfferAsync(Offer offer, int userId);
     Task DeleteOfferAsync(int id, int userId);
     Task<string?> GenerateDescriptionFromImageAsync(byte[] imageData);
     Task<AnalyzeImageResponse?> AnalyzeImageAndSuggestOfferDataAsync(byte[] imageData, string mode = "rent");
-    
+
     Task<OfferPicture> AddPictureAsync(OfferPicture picture);
     Task<OfferPicture?> GetPictureAsync(int pictureId);
     Task<IEnumerable<OfferPicture>> GetOfferPicturesAsync(int offerId);
@@ -30,4 +31,8 @@ public class AnalyzeImageResponse
     public int? SuggestedCategoryId { get; set; }
     public decimal? SuggestedPricePerDay { get; set; }
     public decimal? SuggestedPricePerHour { get; set; }
+    public decimal? SuggestedSalePrice { get; set; }
+    public bool SuggestedDeliveryAvailable { get; set; }
+    public decimal? SuggestedDeliveryCost { get; set; }
+    public decimal? SuggestedDeposit { get; set; }
 }

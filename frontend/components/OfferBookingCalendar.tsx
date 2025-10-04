@@ -104,20 +104,26 @@ export default function OfferBookingCalendar({
     endDate.setDate(endDate.getDate() + (6 - lastDayOfMonth.getDay()));
 
     const days: CalendarDay[] = [];
+    const now = new Date();
     const today = new Date();
     today.setHours(0, 0, 0, 0);
+    const currentHour = now.getHours();
 
     for (let date = new Date(startDate); date <= endDate; date.setDate(date.getDate() + 1)) {
       const dateString = date.toISOString().split('T')[0];
       const dayDate = new Date(date);
+      const isToday = dayDate.getTime() === today.getTime();
+
+      // Same-day bookings only allowed before 18:00
+      const isTodayAfter18 = isToday && currentHour >= 18;
 
       days.push({
         date: dayDate,
         dateString,
         isCurrentMonth: dayDate.getMonth() === month,
         isBooked: bookedDates.has(dateString),
-        isPast: dayDate < today,
-        isToday: dayDate.getTime() === today.getTime()
+        isPast: dayDate < today || isTodayAfter18,
+        isToday
       });
     }
 

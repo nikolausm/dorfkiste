@@ -5,6 +5,7 @@ namespace Dorfkiste.Core.Interfaces;
 public interface IOfferRepository
 {
     Task<Offer?> GetByIdAsync(int id);
+    Task<Offer?> GetBySlugAsync(string slug);
     Task<IEnumerable<Offer>> GetAllAsync();
     Task<IEnumerable<Offer>> GetByCategoryAsync(int categoryId);
     Task<IEnumerable<Offer>> GetByUserAsync(int userId);

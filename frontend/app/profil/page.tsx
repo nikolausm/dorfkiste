@@ -414,7 +414,7 @@ export default function ProfilePage() {
           <h4 className="font-medium text-blue-800 dark:text-blue-300 mb-2">💡 Hinweis zur Datensicherheit</h4>
           <p className="text-sm text-blue-700 dark:text-blue-400">
             Ihre Kontaktdaten werden nur registrierten Nutzern angezeigt, wenn diese Interesse an Ihren Angeboten haben.
-            Sie können jederzeit entscheiden, welche Informationen Sie preisgeben möchten.
+            In den Einstellungen können Sie festlegen, welche Kontaktdaten sichtbar sein sollen.
           </p>
         </div>
       </div>

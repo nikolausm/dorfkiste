@@ -337,7 +337,11 @@ public class UsersController : ControllerBase
             MarketingEmailsConsent = user.PrivacySettings.MarketingEmailsConsent,
             DataProcessingConsent = user.PrivacySettings.DataProcessingConsent,
             ProfileVisibilityConsent = user.PrivacySettings.ProfileVisibilityConsent,
-            DataSharingConsent = user.PrivacySettings.DataSharingConsent
+            DataSharingConsent = user.PrivacySettings.DataSharingConsent,
+            ShowPhoneNumber = user.PrivacySettings.ShowPhoneNumber,
+            ShowMobileNumber = user.PrivacySettings.ShowMobileNumber,
+            ShowStreet = user.PrivacySettings.ShowStreet,
+            ShowCity = user.PrivacySettings.ShowCity
         });
     }
 
@@ -387,6 +391,27 @@ public class UsersController : ControllerBase
             user.PrivacySettings.DataSharingConsentDate = now;
         }
 
+        // Contact information visibility settings
+        if (request.ShowPhoneNumber.HasValue)
+        {
+            user.PrivacySettings.ShowPhoneNumber = request.ShowPhoneNumber.Value;
+        }
+
+        if (request.ShowMobileNumber.HasValue)
+        {
+            user.PrivacySettings.ShowMobileNumber = request.ShowMobileNumber.Value;
+        }
+
+        if (request.ShowStreet.HasValue)
+        {
+            user.PrivacySettings.ShowStreet = request.ShowStreet.Value;
+        }
+
+        if (request.ShowCity.HasValue)
+        {
+            user.PrivacySettings.ShowCity = request.ShowCity.Value;
+        }
+
         user.PrivacySettings.UpdatedAt = now;
         await _userRepository.UpdateAsync(user);
 
@@ -395,7 +420,11 @@ public class UsersController : ControllerBase
             MarketingEmailsConsent = user.PrivacySettings.MarketingEmailsConsent,
             DataProcessingConsent = user.PrivacySettings.DataProcessingConsent,
             ProfileVisibilityConsent = user.PrivacySettings.ProfileVisibilityConsent,
-            DataSharingConsent = user.PrivacySettings.DataSharingConsent
+            DataSharingConsent = user.PrivacySettings.DataSharingConsent,
+            ShowPhoneNumber = user.PrivacySettings.ShowPhoneNumber,
+            ShowMobileNumber = user.PrivacySettings.ShowMobileNumber,
+            ShowStreet = user.PrivacySettings.ShowStreet,
+            ShowCity = user.PrivacySettings.ShowCity
         });
     }
 
@@ -417,6 +446,10 @@ public class PrivacySettingsDto
     public bool DataProcessingConsent { get; set; }
     public bool ProfileVisibilityConsent { get; set; }
     public bool DataSharingConsent { get; set; }
+    public bool ShowPhoneNumber { get; set; }
+    public bool ShowMobileNumber { get; set; }
+    public bool ShowStreet { get; set; }
+    public bool ShowCity { get; set; }
 }
 
 public class UpdatePrivacySettingsRequest
@@ -425,6 +458,10 @@ public class UpdatePrivacySettingsRequest
     public bool? DataProcessingConsent { get; set; }
     public bool? ProfileVisibilityConsent { get; set; }
     public bool? DataSharingConsent { get; set; }
+    public bool? ShowPhoneNumber { get; set; }
+    public bool? ShowMobileNumber { get; set; }
+    public bool? ShowStreet { get; set; }
+    public bool? ShowCity { get; set; }
 }
 
 public class UserProfileDto

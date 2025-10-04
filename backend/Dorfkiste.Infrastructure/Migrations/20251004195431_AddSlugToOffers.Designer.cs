@@ -3,6 +3,7 @@ using System;
 using Dorfkiste.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dorfkiste.Infrastructure.Migrations
 {
     [DbContext(typeof(DorfkisteDbContext))]
-    partial class DorfkisteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251004195431_AddSlugToOffers")]
+    partial class AddSlugToOffers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.9");
@@ -628,18 +631,6 @@ namespace Dorfkiste.Infrastructure.Migrations
 
                     b.Property<DateTime?>("ProfileVisibilityConsentDate")
                         .HasColumnType("TEXT");
-
-                    b.Property<bool>("ShowCity")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("ShowMobileNumber")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("ShowPhoneNumber")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("ShowStreet")
-                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("TEXT");

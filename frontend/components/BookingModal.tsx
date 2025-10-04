@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { apiClient, BookingAvailability, PriceCalculation, BookingResponse } from '@/lib/api';
 // Using simple SVG icons instead of heroicons
 import BookingCalendar from './BookingCalendar';
+import LegalAcceptanceCheckbox from './LegalAcceptanceCheckbox';
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -44,6 +45,8 @@ export default function BookingModal({
   const [booking, setBooking] = useState<BookingResponse | null>(null);
   const [contract, setContract] = useState<any | null>(null);
   const [isGeneratingContract, setIsGeneratingContract] = useState(false);
+  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [withdrawalRightAcknowledged, setWithdrawalRightAcknowledged] = useState(false);
 
   // Reset state when modal opens/closes
   useEffect(() => {
@@ -121,6 +124,17 @@ export default function BookingModal({
   const createBooking = async () => {
     if (!selectedStartDate || !selectedEndDate) return;
 
+    // Validate legal acceptance
+    if (!termsAccepted) {
+      setError('Bitte akzeptieren Sie die AGB.');
+      return;
+    }
+
+    if (!withdrawalRightAcknowledged) {
+      setError('Bitte nehmen Sie die Widerrufsbelehrung zur Kenntnis.');
+      return;
+    }
+
     try {
       setIsLoading(true);
       setError(null);
@@ -128,6 +142,8 @@ export default function BookingModal({
       const bookingData = await apiClient.createBooking(offerId, {
         startDate: selectedStartDate,
         endDate: selectedEndDate,
+        termsAccepted,
+        withdrawalRightAcknowledged,
       });
 
       setBooking(bookingData);
@@ -308,6 +324,14 @@ export default function BookingModal({
                   Die Bezahlung erfolgt später direkt mit dem Anbieter.
                 </p>
               </div>
+
+              {/* Legal Acceptance Checkboxes */}
+              <LegalAcceptanceCheckbox
+                termsAccepted={termsAccepted}
+                withdrawalRightAcknowledged={withdrawalRightAcknowledged}
+                onTermsChange={setTermsAccepted}
+                onWithdrawalChange={setWithdrawalRightAcknowledged}
+              />
 
               {error && (
                 <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-lg">

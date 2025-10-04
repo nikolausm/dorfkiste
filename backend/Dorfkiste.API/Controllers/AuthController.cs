@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Dorfkiste.Core.Interfaces;
+using System.Security.Claims;
 
 namespace Dorfkiste.API.Controllers;
 
@@ -8,10 +10,12 @@ namespace Dorfkiste.API.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;
+    private readonly IUserRepository _userRepository;
 
-    public AuthController(IAuthService authService)
+    public AuthController(IAuthService authService, IUserRepository userRepository)
     {
         _authService = authService;
+        _userRepository = userRepository;
     }
 
     [HttpPost("register")]
@@ -36,7 +40,8 @@ public class AuthController : ControllerBase
                     Id = user.Id,
                     Email = user.Email,
                     FirstName = user.FirstName,
-                    LastName = user.LastName
+                    LastName = user.LastName,
+                    IsAdmin = user.IsAdmin
                 }
             });
         }
@@ -67,7 +72,8 @@ public class AuthController : ControllerBase
                 Email = user.Email,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                EmailVerified = user.EmailVerified
+                EmailVerified = user.EmailVerified,
+                IsAdmin = user.IsAdmin
             }
         });
     }
@@ -96,6 +102,43 @@ public class AuthController : ControllerBase
         }
 
         return Ok(new { message = "Verifizierungs-E-Mail wurde erneut gesendet." });
+    }
+
+    [Authorize]
+    [HttpPost("change-password")]
+    public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest request)
+    {
+        // Get user ID from JWT token
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+        if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out int userId))
+        {
+            return Unauthorized(new { message = "Ungültiger Benutzer." });
+        }
+
+        // Get user from database
+        var user = await _userRepository.GetByIdAsync(userId);
+        if (user == null)
+        {
+            return NotFound(new { message = "Benutzer nicht gefunden." });
+        }
+
+        // Verify old password
+        if (!BCrypt.Net.BCrypt.Verify(request.OldPassword, user.PasswordHash))
+        {
+            return BadRequest(new { message = "Das alte Passwort ist falsch." });
+        }
+
+        // Validate new password
+        if (string.IsNullOrWhiteSpace(request.NewPassword) || request.NewPassword.Length < 6)
+        {
+            return BadRequest(new { message = "Das neue Passwort muss mindestens 6 Zeichen lang sein." });
+        }
+
+        // Update password
+        user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.NewPassword, BCrypt.Net.BCrypt.GenerateSalt(12));
+        await _userRepository.UpdateAsync(user);
+
+        return Ok(new { message = "Passwort erfolgreich geändert." });
     }
 }
 
@@ -126,6 +169,7 @@ public class UserDto
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
     public bool EmailVerified { get; set; }
+    public bool IsAdmin { get; set; }
 }
 
 public class VerifyEmailRequest
@@ -136,4 +180,10 @@ public class VerifyEmailRequest
 public class ResendVerificationRequest
 {
     public string Email { get; set; } = string.Empty;
+}
+
+public class ChangePasswordRequest
+{
+    public string OldPassword { get; set; } = string.Empty;
+    public string NewPassword { get; set; } = string.Empty;
 }

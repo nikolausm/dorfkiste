@@ -17,6 +17,12 @@ public class UserPrivacySettings
     public DateTime? ProfileVisibilityConsentDate { get; set; }
     public DateTime? DataSharingConsentDate { get; set; }
 
+    // Contact Information Visibility Settings
+    public bool ShowPhoneNumber { get; set; } = true;
+    public bool ShowMobileNumber { get; set; } = true;
+    public bool ShowStreet { get; set; } = true;
+    public bool ShowCity { get; set; } = true;
+
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
 

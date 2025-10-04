@@ -11,6 +11,12 @@ public class Booking
     public DateTime CreatedAt { get; set; }
     public DateTime? ConfirmedAt { get; set; }
 
+    // Legal compliance
+    public bool TermsAccepted { get; set; }
+    public DateTime? TermsAcceptedAt { get; set; }
+    public bool WithdrawalRightAcknowledged { get; set; }
+    public DateTime? WithdrawalRightAcknowledgedAt { get; set; }
+
     // Foreign Keys
     public int OfferId { get; set; }
     public Offer Offer { get; set; } = null!;

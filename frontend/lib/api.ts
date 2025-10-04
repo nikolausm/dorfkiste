@@ -12,6 +12,8 @@ export interface BookingAvailability {
 export interface BookingRequest {
   startDate: string;
   endDate: string;
+  termsAccepted: boolean;
+  withdrawalRightAcknowledged: boolean;
 }
 
 export interface BookingResponse {
@@ -115,6 +117,7 @@ export interface User {
   email: string;
   firstName: string;
   lastName: string;
+  isAdmin: boolean;
 }
 
 export interface PublicUser {
@@ -140,6 +143,28 @@ export interface UserDetail {
   contactInfo?: ContactInfo;
 }
 
+export interface PrivacySettings {
+  marketingEmailsConsent: boolean;
+  dataProcessingConsent: boolean;
+  profileVisibilityConsent: boolean;
+  dataSharingConsent: boolean;
+  showPhoneNumber: boolean;
+  showMobileNumber: boolean;
+  showStreet: boolean;
+  showCity: boolean;
+}
+
+export interface UpdatePrivacySettingsRequest {
+  marketingEmailsConsent?: boolean;
+  dataProcessingConsent?: boolean;
+  profileVisibilityConsent?: boolean;
+  dataSharingConsent?: boolean;
+  showPhoneNumber?: boolean;
+  showMobileNumber?: boolean;
+  showStreet?: boolean;
+  showCity?: boolean;
+}
+
 export interface OfferPicture {
   id: number;
   fileName: string;
@@ -151,6 +176,7 @@ export interface OfferPicture {
 
 export interface Offer {
   id: number;
+  slug: string;
   title: string;
   description: string;
   pricePerDay?: number;
@@ -216,6 +242,64 @@ export interface SendMessageRequest {
   content: string;
 }
 
+export interface AdminUser {
+  id: number;
+  email: string;
+  firstName: string;
+  lastName: string;
+  isActive: boolean;
+  isAdmin: boolean;
+  emailVerified: boolean;
+  createdAt: string;
+  lastLoginAt?: string;
+  contactInfo?: {
+    phoneNumber?: string;
+    mobileNumber?: string;
+    street?: string;
+    city?: string;
+    postalCode?: string;
+    state?: string;
+    country?: string;
+  };
+}
+
+export interface ReportType {
+  IllegalContent: 0;
+  Copyright: 1;
+  Spam: 2;
+  Fraud: 3;
+  Harassment: 4;
+  FakeProfile: 5;
+  Other: 6;
+}
+
+export interface AdminReport {
+  id: number;
+  reportType: string;
+  description: string;
+  status: string;
+  createdAt: string;
+  reviewedAt?: string;
+  resolutionNotes?: string;
+  reporter: {
+    id: number;
+    firstName: string;
+    lastName: string;
+    email: string;
+  };
+  reportedOffer?: {
+    id: number;
+    title: string;
+    isActive: boolean;
+  };
+  reviewedBy?: {
+    id: number;
+    firstName: string;
+    lastName: string;
+    email: string;
+  };
+}
+
 export interface AnalyzeImageResponse {
   title: string;
   description: string;
@@ -224,6 +308,10 @@ export interface AnalyzeImageResponse {
   suggestedCategoryId?: number;
   suggestedPricePerDay?: number;
   suggestedPricePerHour?: number;
+  suggestedSalePrice?: number;
+  suggestedDeliveryAvailable?: boolean;
+  suggestedDeliveryCost?: number;
+  suggestedDeposit?: number;
 }
 
 class ApiClient {
@@ -341,6 +429,25 @@ class ApiClient {
     });
   }
 
+  async changePassword(oldPassword: string, newPassword: string): Promise<{ message: string }> {
+    return this.request('/auth/change-password', {
+      method: 'POST',
+      body: JSON.stringify({ oldPassword, newPassword }),
+    });
+  }
+
+  // User Privacy Settings
+  async getPrivacySettings(): Promise<PrivacySettings> {
+    return this.request('/user/privacy-settings');
+  }
+
+  async updatePrivacySettings(settings: UpdatePrivacySettingsRequest): Promise<PrivacySettings> {
+    return this.request('/user/privacy-settings', {
+      method: 'PUT',
+      body: JSON.stringify(settings),
+    });
+  }
+
   // Categories endpoints
   async getCategories(): Promise<Category[]> {
     return this.request('/categories');
@@ -406,6 +513,12 @@ class ApiClient {
   async toggleOfferActive(id: number): Promise<Offer> {
     return this.request(`/offers/${id}/toggle-active`, {
       method: 'PATCH',
+    });
+  }
+
+  async deleteOffer(id: number): Promise<void> {
+    await this.request(`/offers/${id}`, {
+      method: 'DELETE',
     });
   }
 
@@ -538,7 +651,9 @@ class ApiClient {
     // Transform camelCase to PascalCase for backend compatibility
     const requestData = {
       StartDate: data.startDate,
-      EndDate: data.endDate
+      EndDate: data.endDate,
+      TermsAccepted: data.termsAccepted,
+      WithdrawalRightAcknowledged: data.withdrawalRightAcknowledged
     };
 
     return this.request(`/bookings/offers/${offerId}`, {
@@ -759,6 +874,36 @@ class ApiClient {
     return this.request(`/admin/offers/${offerId}/remove`, {
       method: 'DELETE',
       body: JSON.stringify({ reason }),
+    });
+  }
+
+  async getAllUsers(): Promise<AdminUser[]> {
+    return this.request('/admin/users');
+  }
+
+  async toggleOfferActive(offerId: number): Promise<{ message: string; isActive: boolean }> {
+    return this.request(`/admin/offers/${offerId}/toggle-active`, {
+      method: 'POST',
+    });
+  }
+
+  async toggleUserAdmin(userId: number): Promise<{ message: string; isAdmin: boolean }> {
+    return this.request(`/admin/users/${userId}/toggle-admin`, {
+      method: 'POST',
+    });
+  }
+
+  async reviewReport(reportId: number, status: number, resolutionNotes?: string): Promise<void> {
+    return this.request(`/admin/reports/${reportId}/review`, {
+      method: 'PUT',
+      body: JSON.stringify({ status, resolutionNotes }),
+    });
+  }
+
+  async reportOffer(offerId: number, reportType: number, description: string): Promise<{ message: string }> {
+    return this.request(`/offers/${offerId}/report`, {
+      method: 'POST',
+      body: JSON.stringify({ reportType, description }),
     });
   }
 }

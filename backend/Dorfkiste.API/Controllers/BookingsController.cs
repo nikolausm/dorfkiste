@@ -85,7 +85,13 @@ public class BookingsController : ControllerBase
             var userId = GetCurrentUserId();
             Console.WriteLine($"Current user ID: {userId}");
 
-            var result = await _bookingService.CreateBookingAsync(offerId, userId, start, end);
+            var result = await _bookingService.CreateBookingAsync(
+                offerId,
+                userId,
+                start,
+                end,
+                request.TermsAccepted,
+                request.WithdrawalRightAcknowledged);
             Console.WriteLine($"Booking service result: Success={result.Success}, Error={result.ErrorMessage}");
 
             if (!result.Success)
@@ -320,6 +326,8 @@ public class CreateBookingRequest
 {
     public string StartDate { get; set; } = string.Empty;
     public string EndDate { get; set; } = string.Empty;
+    public bool TermsAccepted { get; set; }
+    public bool WithdrawalRightAcknowledged { get; set; }
 }
 
 
