@@ -360,8 +360,8 @@ export default function EditOfferPage() {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="text-center">
-          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
-          <p className="mt-2 text-gray-600">Angebot wird geladen...</p>
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600 dark:border-primary-400"></div>
+          <p className="mt-2 text-gray-600 dark:text-gray-400">Angebot wird geladen...</p>
         </div>
       </div>
     );
@@ -371,7 +371,7 @@ export default function EditOfferPage() {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="text-center">
-          <p className="text-red-600 text-lg">{errors[0]}</p>
+          <p className="text-red-600 dark:text-red-400 text-lg">{errors[0]}</p>
           <div className="mt-4 space-x-4">
             <Link href="/meine-angebote" className="btn-primary">
               Zu meinen Angeboten
@@ -390,18 +390,18 @@ export default function EditOfferPage() {
       <div className="max-w-4xl mx-auto">
         <div className="mb-8">
           <nav className="mb-4">
-            <ol className="flex items-center space-x-2 text-sm text-gray-500">
-              <li><Link href="/" className="hover:text-primary-600">Startseite</Link></li>
+            <ol className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
+              <li><Link href="/" className="hover:text-primary-600 dark:hover:text-primary-400">Startseite</Link></li>
               <li>›</li>
-              <li><Link href="/meine-angebote" className="hover:text-primary-600">Meine Angebote</Link></li>
+              <li><Link href="/meine-angebote" className="hover:text-primary-600 dark:hover:text-primary-400">Meine Angebote</Link></li>
               <li>›</li>
-              <li className="text-gray-900">Bearbeiten</li>
+              <li className="text-gray-900 dark:text-gray-100">Bearbeiten</li>
             </ol>
           </nav>
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">
             Angebot bearbeiten
           </h1>
-          <p className="text-gray-600">
+          <p className="text-gray-600 dark:text-gray-400">
             Aktualisieren Sie Ihr Angebot und verwalten Sie die Bilder.
           </p>
         </div>
@@ -409,15 +409,15 @@ export default function EditOfferPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main form */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-lg shadow-sm p-6">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
               {errors.length > 0 && (
-                <div className="bg-red-50 border border-red-200 rounded-md p-4 mb-6">
+                <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md p-4 mb-6">
                   <div className="flex">
                     <div className="ml-3">
-                      <h3 className="text-sm font-medium text-red-800">
+                      <h3 className="text-sm font-medium text-red-800 dark:text-red-200">
                         Bitte korrigieren Sie die folgenden Fehler:
                       </h3>
-                      <div className="mt-2 text-sm text-red-700">
+                      <div className="mt-2 text-sm text-red-700 dark:text-red-300">
                         <ul className="list-disc list-inside space-y-1">
                           {errors.map((error, index) => (
                             <li key={index}>{error}</li>
@@ -432,11 +432,11 @@ export default function EditOfferPage() {
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Service or Item */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-3">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                     Was bieten Sie an?
                   </label>
                   <div className="flex space-x-4">
-                    <label className="flex items-center">
+                    <label className="flex items-center text-gray-700 dark:text-gray-300">
                       <input
                         type="radio"
                         name="isService"
@@ -446,7 +446,7 @@ export default function EditOfferPage() {
                       />
                       <span>Gegenstand verleihen</span>
                     </label>
-                    <label className="flex items-center">
+                    <label className="flex items-center text-gray-700 dark:text-gray-300">
                       <input
                         type="radio"
                         name="isService"
@@ -461,7 +461,7 @@ export default function EditOfferPage() {
 
                 {/* Title */}
                 <div>
-                  <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="title" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Titel *
                   </label>
                   <input
@@ -478,7 +478,7 @@ export default function EditOfferPage() {
 
                 {/* Category */}
                 <div>
-                  <label htmlFor="categoryId" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="categoryId" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Kategorie *
                   </label>
                   <select
@@ -500,7 +500,7 @@ export default function EditOfferPage() {
 
                 {/* Description */}
                 <div>
-                  <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Beschreibung *
                   </label>
                   <textarea
@@ -511,8 +511,8 @@ export default function EditOfferPage() {
                     value={formData.description}
                     onChange={handleChange}
                     className="input-field mt-1"
-                    placeholder={formData.isService 
-                      ? "Beschreiben Sie Ihre Dienstleistung detailliert..." 
+                    placeholder={formData.isService
+                      ? "Beschreiben Sie Ihre Dienstleistung detailliert..."
                       : "Beschreiben Sie den Gegenstand, seinen Zustand und besondere Eigenschaften..."
                     }
                   />
@@ -520,12 +520,12 @@ export default function EditOfferPage() {
 
                 {/* Pricing */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-3">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                     Preise (mindestens ein Preis erforderlich)
                   </label>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="pricePerDay" className="block text-sm text-gray-600">
+                      <label htmlFor="pricePerDay" className="block text-sm text-gray-600 dark:text-gray-400">
                         {formData.isService ? 'Preis pro Tag' : 'Preis pro Tag'}
                       </label>
                       <div className="mt-1 relative">
@@ -541,13 +541,13 @@ export default function EditOfferPage() {
                           placeholder="0.00"
                         />
                         <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                          <span className="text-gray-500 sm:text-sm">€</span>
+                          <span className="text-gray-500 dark:text-gray-400 sm:text-sm">€</span>
                         </div>
                       </div>
                     </div>
-                    
+
                     <div>
-                      <label htmlFor="pricePerHour" className="block text-sm text-gray-600">
+                      <label htmlFor="pricePerHour" className="block text-sm text-gray-600 dark:text-gray-400">
                         Preis pro Stunde
                       </label>
                       <div className="mt-1 relative">
@@ -563,7 +563,7 @@ export default function EditOfferPage() {
                           placeholder="0.00"
                         />
                         <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                          <span className="text-gray-500 sm:text-sm">€</span>
+                          <span className="text-gray-500 dark:text-gray-400 sm:text-sm">€</span>
                         </div>
                       </div>
                     </div>
@@ -580,7 +580,7 @@ export default function EditOfferPage() {
                       onChange={handleChange}
                       className="mr-2"
                     />
-                    <span className="text-sm text-gray-700">Angebot ist aktiv und für andere sichtbar</span>
+                    <span className="text-sm text-gray-700 dark:text-gray-300">Angebot ist aktiv und für andere sichtbar</span>
                   </label>
                 </div>
 
@@ -613,13 +613,13 @@ export default function EditOfferPage() {
 
           {/* Picture management sidebar */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg shadow-sm p-6">
-              <h3 className="text-lg font-semibold mb-4">Bilderverwaltung</h3>
-              
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Bilderverwaltung</h3>
+
               {/* Existing pictures */}
               {pictures.length > 0 && (
                 <div className="mb-6">
-                  <h4 className="text-sm font-medium text-gray-700 mb-3">
+                  <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                     Vorhandene Bilder (zum Neu ordnen ziehen)
                   </h4>
                   <div className="space-y-3">
@@ -634,12 +634,12 @@ export default function EditOfferPage() {
                         onDragEnter={handleDragEnter}
                         onDrop={(e) => handleDrop(e, index)}
                         className={`relative group cursor-move border rounded-lg overflow-hidden transition-colors ${
-                          draggedIndex === index 
-                            ? 'border-primary-500 opacity-50' 
-                            : 'border-gray-200 hover:border-primary-300'
+                          draggedIndex === index
+                            ? 'border-primary-500 dark:border-primary-400 opacity-50'
+                            : 'border-gray-200 dark:border-gray-700 hover:border-primary-300 dark:hover:border-primary-500'
                         }`}
                       >
-                        <div className="aspect-video bg-gray-100 relative">
+                        <div className="aspect-video bg-gray-100 dark:bg-gray-700 relative">
                           <Image
                             src={apiClient.getPictureUrl(picture.id)}
                             alt={`Bild ${index + 1}`}
@@ -665,13 +665,13 @@ export default function EditOfferPage() {
 
               {/* Add new pictures */}
               <div>
-                <h4 className="text-sm font-medium text-gray-700 mb-3">
+                <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                   Neue Bilder hinzufügen
                 </h4>
-                <p className="text-xs text-gray-500 mb-4">
+                <p className="text-xs text-gray-500 dark:text-gray-400 mb-4">
                   Max. {5 - pictures.length} weitere Bilder (2MB pro Bild)
                 </p>
-                
+
                 {/* File Input */}
                 <div className="mb-4">
                   <input
@@ -680,27 +680,27 @@ export default function EditOfferPage() {
                     multiple
                     onChange={handleFileSelect}
                     disabled={pictures.length >= 5 || uploadingPictures}
-                    className="block w-full text-sm text-gray-500
+                    className="block w-full text-sm text-gray-500 dark:text-gray-400
                       file:mr-4 file:py-2 file:px-4
                       file:rounded-md file:border-0
                       file:text-sm file:font-semibold
-                      file:bg-primary-50 file:text-primary-700
-                      hover:file:bg-primary-100
+                      file:bg-primary-50 dark:file:bg-primary-900/30 file:text-primary-700 dark:file:text-primary-400
+                      hover:file:bg-primary-100 dark:hover:file:bg-primary-900/50
                       disabled:file:opacity-50 disabled:file:cursor-not-allowed"
                   />
                 </div>
 
                 {uploadingPictures && (
-                  <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-md">
+                  <div className="mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-md">
                     <div className="flex items-center">
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600 mr-2"></div>
-                      <span className="text-sm text-blue-700">Bilder werden hochgeladen...</span>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600 dark:border-blue-400 mr-2"></div>
+                      <span className="text-sm text-blue-700 dark:text-blue-300">Bilder werden hochgeladen...</span>
                     </div>
                   </div>
                 )}
 
                 {pictures.length >= 5 && (
-                  <p className="text-xs text-yellow-600 mt-2">
+                  <p className="text-xs text-yellow-600 dark:text-yellow-400 mt-2">
                     Maximale Anzahl von 5 Bildern erreicht.
                   </p>
                 )}

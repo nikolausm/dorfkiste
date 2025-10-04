@@ -103,22 +103,22 @@ export default function OfferAvailabilityCalendar({ offerId, className = '', com
     const baseClasses = `${sizeClasses} rounded-lg font-medium flex items-center justify-center transition-colors`;
 
     if (!day.isCurrentMonth) {
-      return `${baseClasses} text-gray-300`;
+      return `${baseClasses} text-gray-300 dark:text-gray-600`;
     }
 
     if (day.isPast) {
-      return `${baseClasses} text-gray-400 bg-gray-50`;
+      return `${baseClasses} text-gray-400 dark:text-gray-500 bg-gray-50 dark:bg-gray-700`;
     }
 
     if (day.isBooked) {
-      return `${baseClasses} bg-red-100 text-red-800 font-semibold`;
+      return `${baseClasses} bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 font-semibold`;
     }
 
     if (day.isToday) {
-      return `${baseClasses} bg-primary-100 text-primary-800 font-semibold border-2 border-primary-300`;
+      return `${baseClasses} bg-primary-100 dark:bg-primary-900/30 text-primary-800 dark:text-primary-300 font-semibold border-2 border-primary-300 dark:border-primary-600`;
     }
 
-    return `${baseClasses} text-gray-700 hover:bg-green-50 hover:text-green-700 bg-green-50 text-green-700`;
+    return `${baseClasses} text-gray-700 dark:text-gray-200 hover:bg-green-50 dark:hover:bg-green-900/30 hover:text-green-700 dark:hover:text-green-300 bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300`;
   };
 
   const days = generateCalendarDays();
@@ -127,12 +127,12 @@ export default function OfferAvailabilityCalendar({ offerId, className = '', com
     const skeletonHeight = compact ? 'h-8' : 'h-10';
     const gridGap = compact ? 'gap-1' : 'gap-2';
     return (
-      <div className={`bg-white rounded-lg border border-gray-200 ${compact ? 'p-4' : 'p-6'} ${className}`}>
+      <div className={`bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 ${compact ? 'p-4' : 'p-6'} ${className}`}>
         <div className="animate-pulse">
-          <div className="h-6 bg-gray-200 rounded w-48 mb-4"></div>
+          <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-48 mb-4"></div>
           <div className={`grid grid-cols-7 ${gridGap}`}>
             {Array.from({ length: 42 }).map((_, i) => (
-              <div key={i} className={`${skeletonHeight} bg-gray-200 rounded`}></div>
+              <div key={i} className={`${skeletonHeight} bg-gray-200 dark:bg-gray-700 rounded`}></div>
             ))}
           </div>
         </div>
@@ -142,12 +142,12 @@ export default function OfferAvailabilityCalendar({ offerId, className = '', com
 
   if (error) {
     return (
-      <div className={`bg-white rounded-lg border border-gray-200 ${compact ? 'p-4' : 'p-6'} ${className}`}>
-        <div className="text-center text-red-600">
+      <div className={`bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 ${compact ? 'p-4' : 'p-6'} ${className}`}>
+        <div className="text-center text-red-600 dark:text-red-400">
           <p>{error}</p>
           <button
             onClick={loadBookedDates}
-            className="mt-2 text-sm text-primary-600 hover:text-primary-700"
+            className="mt-2 text-sm text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300"
           >
             Erneut versuchen
           </button>
@@ -157,27 +157,27 @@ export default function OfferAvailabilityCalendar({ offerId, className = '', com
   }
 
   return (
-    <div className={`bg-white rounded-lg border border-gray-200 ${compact ? 'p-4' : 'p-6'} ${className}`}>
+    <div className={`bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 ${compact ? 'p-4' : 'p-6'} ${className}`}>
       <div className="mb-6">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-gray-900">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
             Verfügbarkeit
           </h3>
           <div className="flex items-center gap-2">
             <button
               onClick={() => navigateMonth('prev')}
-              className="p-2 rounded-lg hover:bg-gray-100 text-gray-500 hover:text-gray-700"
+              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
-            <h4 className="font-medium text-gray-900 min-w-[120px] text-center">
+            <h4 className="font-medium text-gray-900 dark:text-gray-100 min-w-[120px] text-center">
               {MONTHS[currentDate.getMonth()]} {currentDate.getFullYear()}
             </h4>
             <button
               onClick={() => navigateMonth('next')}
-              className="p-2 rounded-lg hover:bg-gray-100 text-gray-500 hover:text-gray-700"
+              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -189,16 +189,16 @@ export default function OfferAvailabilityCalendar({ offerId, className = '', com
         {/* Legend */}
         <div className="flex flex-wrap items-center gap-4 text-sm mb-4">
           <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded bg-green-50 border border-green-200"></div>
-            <span className="text-gray-600">Verfügbar</span>
+            <div className="w-4 h-4 rounded bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-700"></div>
+            <span className="text-gray-600 dark:text-gray-400">Verfügbar</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded bg-red-100"></div>
-            <span className="text-gray-600">Gebucht</span>
+            <div className="w-4 h-4 rounded bg-red-100 dark:bg-red-900/30"></div>
+            <span className="text-gray-600 dark:text-gray-400">Gebucht</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded bg-gray-50"></div>
-            <span className="text-gray-600">Vergangen</span>
+            <div className="w-4 h-4 rounded bg-gray-50 dark:bg-gray-700"></div>
+            <span className="text-gray-600 dark:text-gray-400">Vergangen</span>
           </div>
         </div>
       </div>
@@ -207,7 +207,7 @@ export default function OfferAvailabilityCalendar({ offerId, className = '', com
       <div className={`grid grid-cols-7 ${compact ? 'gap-1' : 'gap-1'}`}>
         {/* Weekday headers */}
         {WEEKDAYS.map(day => (
-          <div key={day} className={`${compact ? 'h-8' : 'h-10'} flex items-center justify-center ${compact ? 'text-xs' : 'text-sm'} font-medium text-gray-500`}>
+          <div key={day} className={`${compact ? 'h-8' : 'h-10'} flex items-center justify-center ${compact ? 'text-xs' : 'text-sm'} font-medium text-gray-500 dark:text-gray-400`}>
             {day}
           </div>
         ))}
@@ -231,19 +231,19 @@ export default function OfferAvailabilityCalendar({ offerId, className = '', com
       </div>
 
       {/* Stats */}
-      <div className={`mt-6 pt-6 border-t border-gray-100 ${compact ? 'mt-4 pt-4' : ''}`}>
+      <div className={`mt-6 pt-6 border-t border-gray-100 dark:border-gray-700 ${compact ? 'mt-4 pt-4' : ''}`}>
         <div className={`grid grid-cols-2 gap-4 text-center ${compact ? 'gap-2' : ''}`}>
           <div>
-            <div className={`${compact ? 'text-xl' : 'text-2xl'} font-bold text-green-600`}>
+            <div className={`${compact ? 'text-xl' : 'text-2xl'} font-bold text-green-600 dark:text-green-400`}>
               {days.filter(d => d.isCurrentMonth && !d.isPast && !d.isBooked).length}
             </div>
-            <div className={`${compact ? 'text-xs' : 'text-sm'} text-gray-500`}>Verfügbare Tage</div>
+            <div className={`${compact ? 'text-xs' : 'text-sm'} text-gray-500 dark:text-gray-400`}>Verfügbare Tage</div>
           </div>
           <div>
-            <div className={`${compact ? 'text-xl' : 'text-2xl'} font-bold text-red-600`}>
+            <div className={`${compact ? 'text-xl' : 'text-2xl'} font-bold text-red-600 dark:text-red-400`}>
               {days.filter(d => d.isCurrentMonth && d.isBooked).length}
             </div>
-            <div className={`${compact ? 'text-xs' : 'text-sm'} text-gray-500`}>Gebuchte Tage</div>
+            <div className={`${compact ? 'text-xs' : 'text-sm'} text-gray-500 dark:text-gray-400`}>Gebuchte Tage</div>
           </div>
         </div>
       </div>

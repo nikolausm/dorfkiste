@@ -186,22 +186,22 @@ export default function ConversationModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-2xl h-[80vh] flex flex-col animate-scale-in">
+    <div className="fixed inset-0 bg-black/50 dark:bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl w-full max-w-2xl h-[80vh] flex flex-col animate-scale-in">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200 flex-shrink-0">
+        <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
           <div>
-            <h3 className="text-xl font-bold text-gray-900">Unterhaltung</h3>
-            <p className="text-sm text-gray-600 mt-1">
+            <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100">Unterhaltung</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
               Mit {recipientName} bezüglich &ldquo;{offerTitle}&rdquo;
             </p>
           </div>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
             disabled={isSending}
           >
-            <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
@@ -211,14 +211,14 @@ export default function ConversationModal({
         <div className="flex-1 overflow-y-auto p-6 space-y-4">
           {isLoading ? (
             <div className="text-center py-8">
-              <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
-              <p className="mt-2 text-gray-600">
+              <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600 dark:border-primary-400"></div>
+              <p className="mt-2 text-gray-600 dark:text-gray-400">
                 {authLoading ? 'Anmeldung wird geprüft...' : 'Unterhaltung wird geladen...'}
               </p>
             </div>
           ) : messages.length === 0 ? (
             <div className="text-center py-8">
-              <p className="text-gray-500">Noch keine Nachrichten in dieser Unterhaltung.</p>
+              <p className="text-gray-500 dark:text-gray-400">Noch keine Nachrichten in dieser Unterhaltung.</p>
             </div>
           ) : (
             <>
@@ -239,10 +239,10 @@ export default function ConversationModal({
                     <div
                       className={`max-w-[70%] rounded-2xl px-4 py-3 relative group ${
                         isOwnMessage
-                          ? 'bg-primary-500 text-white'
+                          ? 'bg-primary-500 dark:bg-primary-600 text-white'
                           : isUnread
-                          ? 'bg-blue-50 border-2 border-blue-200'
-                          : 'bg-gray-100 text-gray-900'
+                          ? 'bg-blue-50 dark:bg-blue-900/30 border-2 border-blue-200 dark:border-blue-700'
+                          : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100'
                       }`}
                     >
                       <div className="flex items-start justify-between gap-2">
@@ -250,7 +250,7 @@ export default function ConversationModal({
                         <button
                           onClick={() => handleDeleteMessage(message.id)}
                           className={`opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 p-1 rounded hover:bg-black/10 ${
-                            isOwnMessage ? 'text-white/70 hover:text-white' : 'text-gray-400 hover:text-red-500'
+                            isOwnMessage ? 'text-white/70 hover:text-white' : 'text-gray-400 dark:text-gray-500 hover:text-red-500 dark:hover:text-red-400'
                           }`}
                           title="Nachricht löschen"
                         >
@@ -259,10 +259,10 @@ export default function ConversationModal({
                           </svg>
                         </button>
                       </div>
-                      <p className={`text-xs mt-2 ${isOwnMessage ? 'text-white/70' : 'text-gray-500'}`}>
+                      <p className={`text-xs mt-2 ${isOwnMessage ? 'text-white/70' : 'text-gray-500 dark:text-gray-400'}`}>
                         {formatDate(message.sentAt)}
                         {isUnread && (
-                          <span className="ml-2 text-xs bg-blue-500 text-white px-2 py-0.5 rounded-full">
+                          <span className="ml-2 text-xs bg-blue-500 dark:bg-blue-600 text-white px-2 py-0.5 rounded-full">
                             Neu
                           </span>
                         )}
@@ -278,13 +278,13 @@ export default function ConversationModal({
 
         {/* Error Message */}
         {error && (
-          <div className="mx-6 p-3 bg-red-50 border border-red-200 rounded-lg">
-            <p className="text-sm text-red-600">{error}</p>
+          <div className="mx-6 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-lg">
+            <p className="text-sm text-red-600 dark:text-red-300">{error}</p>
           </div>
         )}
 
         {/* Message Input */}
-        <form onSubmit={handleSendMessage} className="p-6 border-t border-gray-200 flex-shrink-0">
+        <form onSubmit={handleSendMessage} className="p-6 border-t border-gray-200 dark:border-gray-700 flex-shrink-0">
           <div className="flex gap-3">
             <div className="flex-1">
               <textarea
@@ -299,10 +299,10 @@ export default function ConversationModal({
                 rows={1}
               />
               <div className="flex justify-between items-center mt-2">
-                <div className="text-xs text-gray-500">
+                <div className="text-xs text-gray-500 dark:text-gray-400">
                   {newMessage.length}/2000 Zeichen
                 </div>
-                <div className="text-xs text-gray-500">
+                <div className="text-xs text-gray-500 dark:text-gray-400">
                   Strg+Enter zum Senden
                 </div>
               </div>

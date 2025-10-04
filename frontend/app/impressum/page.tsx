@@ -3,24 +3,23 @@ import React from 'react';
 export default function ImpressumPage() {
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <h1 className="text-3xl font-bold mb-6">Impressum</h1>
+      <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">Impressum</h1>
 
-      <div className="space-y-6 text-gray-700">
+      <div className="space-y-6 text-gray-700 dark:text-gray-300">
         <section>
-          <p className="mb-4 text-sm text-gray-600">
+          <p className="mb-4 text-sm text-gray-600 dark:text-gray-400">
             Dorfkiste ist eine Marke der Minicon eG
           </p>
-          <h2 className="text-2xl font-semibold mb-3">Angaben gemäß § 5 TMG</h2>
+          <h2 className="text-2xl font-semibold mb-3 text-gray-900 dark:text-gray-100">Angaben gemäß § 5 DDG (Digitale-Dienste-Gesetz)</h2>
           <p>
             Minicon eG<br/>
-            Eingetragene Genossenschaft<br/>
             Danziger Str. 4<br/>
             66994 Dahn
           </p>
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-3">Vertreten durch</h2>
+          <h2 className="text-2xl font-semibold mb-3 text-gray-900 dark:text-gray-100">Vertreten durch</h2>
           <p>
             Verantwortlicher: Michael Nikolaus<br/>
             Vertretung: Tamma von Rüden
@@ -28,16 +27,16 @@ export default function ImpressumPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-3">Kontakt</h2>
+          <h2 className="text-2xl font-semibold mb-3 text-gray-900 dark:text-gray-100">Kontakt</h2>
           <p>
-            Telefon: 015127600607<br/>
-            E-Mail: info@minicon.eu<br/>
-            Website: dorfkiste.org
+            Telefon: +49 151 27600607<br/>
+            E-Mail: info@dorfkiste.org<br/>
+            Website: <a href="https://www.minicon.eu" className="text-blue-600 dark:text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">www.minicon.eu</a>
           </p>
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-3">Registereintrag</h2>
+          <h2 className="text-2xl font-semibold mb-3 text-gray-900 dark:text-gray-100">Registereintrag</h2>
           <p>
             Eintragung im Genossenschaftsregister<br/>
             Registergericht: Amtsgericht Saarbrücken<br/>
@@ -46,15 +45,15 @@ export default function ImpressumPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-3">Umsatzsteuer-ID</h2>
+          <h2 className="text-2xl font-semibold mb-3 text-gray-900 dark:text-gray-100">Umsatzsteuer-ID</h2>
           <p>
             Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz:<br/>
-            [PLATZHALTER: DE XXXXXXXXX]
+            DE333784378
           </p>
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-3">Aufsichtsbehörde</h2>
+          <h2 className="text-2xl font-semibold mb-3 text-gray-900 dark:text-gray-100">Aufsichtsbehörde</h2>
           <p>
             Genossenschaftsverband e.V.<br/>
             Überörtliche Prüfung gemäß § 53 GenG
@@ -62,7 +61,7 @@ export default function ImpressumPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-3">Redaktionell verantwortlich</h2>
+          <h2 className="text-2xl font-semibold mb-3 text-gray-900 dark:text-gray-100">Redaktionell verantwortlich</h2>
           <p>
             Minicon eG<br/>
             Danziger Str. 4<br/>
@@ -71,12 +70,12 @@ export default function ImpressumPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-3">EU-Streitschlichtung</h2>
+          <h2 className="text-2xl font-semibold mb-3 text-gray-900 dark:text-gray-100">EU-Streitschlichtung</h2>
           <p className="mb-3">
             Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:
             <a
               href="https://ec.europa.eu/consumers/odr"
-              className="text-blue-600 hover:underline ml-1"
+              className="text-blue-600 dark:text-blue-400 hover:underline ml-1"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -89,7 +88,7 @@ export default function ImpressumPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-3">Verbraucherstreitbeilegung / Universalschlichtungsstelle</h2>
+          <h2 className="text-2xl font-semibold mb-3 text-gray-900 dark:text-gray-100">Verbraucherstreitbeilegung / Universalschlichtungsstelle</h2>
           <p>
             Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer
             Verbraucherschlichtungsstelle teilzunehmen.
@@ -97,10 +96,10 @@ export default function ImpressumPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-3">Haftung für Inhalte</h2>
+          <h2 className="text-2xl font-semibold mb-3 text-gray-900 dark:text-gray-100">Haftung für Inhalte</h2>
           <p className="mb-3">
-            Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den
-            allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht
+            Als Diensteanbieter sind wir gemäß § 7 DDG für eigene Inhalte auf diesen Seiten nach den
+            allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 DDG sind wir als Diensteanbieter jedoch nicht
             verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen
             zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.
           </p>
@@ -113,7 +112,7 @@ export default function ImpressumPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-3">Haftung für Links</h2>
+          <h2 className="text-2xl font-semibold mb-3 text-gray-900 dark:text-gray-100">Haftung für Links</h2>
           <p className="mb-3">
             Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben.
             Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der
@@ -129,7 +128,7 @@ export default function ImpressumPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-3">Urheberrecht</h2>
+          <h2 className="text-2xl font-semibold mb-3 text-gray-900 dark:text-gray-100">Urheberrecht</h2>
           <p className="mb-3">
             Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem
             deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung
@@ -145,8 +144,8 @@ export default function ImpressumPage() {
           </p>
         </section>
 
-        <section className="pt-4 border-t border-gray-300">
-          <p className="text-sm text-gray-600">
+        <section className="pt-4 border-t border-gray-300 dark:border-gray-600">
+          <p className="text-sm text-gray-600 dark:text-gray-400">
             Quelle: eRecht24
           </p>
         </section>

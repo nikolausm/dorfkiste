@@ -3,11 +3,11 @@ import React from 'react';
 export default function AGBPage() {
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <h1 className="text-3xl font-bold mb-6">Allgemeine Geschäftsbedingungen (AGB)</h1>
+      <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">Allgemeine Geschäftsbedingungen (AGB)</h1>
 
-      <div className="space-y-6 text-gray-700">
+      <div className="space-y-6 text-gray-700 dark:text-gray-300">
         <section>
-          <h2 className="text-2xl font-semibold mb-3">§ 1 Geltungsbereich</h2>
+          <h2 className="text-2xl font-semibold mb-3 text-gray-900 dark:text-gray-100">§ 1 Geltungsbereich</h2>
           <p className="mb-2">
             Diese Allgemeinen Geschäftsbedingungen (nachfolgend „AGB") regeln die Nutzung der Plattform Dorfkiste
             (nachfolgend „Plattform") durch registrierte Nutzer (nachfolgend „Nutzer").
@@ -19,7 +19,7 @@ export default function AGBPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-3">§ 2 Beschreibung der Leistung</h2>
+          <h2 className="text-2xl font-semibold mb-3 text-gray-900 dark:text-gray-100">§ 2 Beschreibung der Leistung</h2>
           <p className="mb-2">
             2.1 Die Plattform dient ausschließlich als Vermittler zwischen Nutzern, die Gegenstände oder
             Dienstleistungen anbieten (nachfolgend „Anbieter") und Nutzern, die diese mieten bzw. in Anspruch
@@ -36,7 +36,7 @@ export default function AGBPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-3">§ 3 Registrierung und Nutzerkonto</h2>
+          <h2 className="text-2xl font-semibold mb-3 text-gray-900 dark:text-gray-100">§ 3 Registrierung und Nutzerkonto</h2>
           <p className="mb-2">
             3.1 Zur Nutzung der Plattform ist eine Registrierung erforderlich. Der Nutzer verpflichtet sich,
             bei der Registrierung wahrheitsgemäße und vollständige Angaben zu machen.
@@ -52,7 +52,7 @@ export default function AGBPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-3">§ 4 Pflichten der Anbieter</h2>
+          <h2 className="text-2xl font-semibold mb-3 text-gray-900 dark:text-gray-100">§ 4 Pflichten der Anbieter</h2>
           <p className="mb-2">
             4.1 Anbieter dürfen ausschließlich eigene Gegenstände oder selbst erbrachte Dienstleistungen auf
             der Plattform anbieten.
@@ -71,7 +71,7 @@ export default function AGBPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-3">§ 5 Pflichten der Mieter</h2>
+          <h2 className="text-2xl font-semibold mb-3 text-gray-900 dark:text-gray-100">§ 5 Pflichten der Mieter</h2>
           <p className="mb-2">
             5.1 Mieter verpflichten sich, gemietete Gegenstände pfleglich zu behandeln und nur
             bestimmungsgemäß zu verwenden.
@@ -86,7 +86,7 @@ export default function AGBPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-3">§ 6 Vertragsschluss und Zahlung</h2>
+          <h2 className="text-2xl font-semibold mb-3 text-gray-900 dark:text-gray-100">§ 6 Vertragsschluss und Zahlung</h2>
           <p className="mb-2">
             6.1 Der Vertrag über die Miete oder Dienstleistung kommt direkt zwischen Anbieter und Mieter zustande.
             Der Betreiber ist nicht Vertragspartei.
@@ -102,7 +102,7 @@ export default function AGBPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-3">§ 7 Haftung</h2>
+          <h2 className="text-2xl font-semibold mb-3 text-gray-900 dark:text-gray-100">§ 7 Haftung</h2>
           <p className="mb-2">
             7.1 Der Betreiber haftet nicht für Schäden, die durch die Nutzung gemieteter Gegenstände oder in
             Anspruch genommener Dienstleistungen entstehen.
@@ -123,7 +123,7 @@ export default function AGBPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-3">§ 8 Verbotene Inhalte</h2>
+          <h2 className="text-2xl font-semibold mb-3 text-gray-900 dark:text-gray-100">§ 8 Verbotene Inhalte</h2>
           <p className="mb-2">
             8.1 Es ist untersagt, illegale, sittenwidrige oder gegen gesetzliche Vorschriften verstoßende
             Inhalte auf der Plattform einzustellen.
@@ -145,7 +145,7 @@ export default function AGBPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-3">§ 9 Sperrung und Kündigung</h2>
+          <h2 className="text-2xl font-semibold mb-3 text-gray-900 dark:text-gray-100">§ 9 Sperrung und Kündigung</h2>
           <p className="mb-2">
             9.1 Der Betreiber kann Nutzer bei Verstößen gegen diese AGB oder geltendes Recht vorübergehend
             oder dauerhaft sperren.
@@ -160,17 +160,17 @@ export default function AGBPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-3">§ 10 Streitbeilegung</h2>
+          <h2 className="text-2xl font-semibold mb-3 text-gray-900 dark:text-gray-100">§ 10 Streitbeilegung</h2>
           <p>
             Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit, die Sie
-            unter <a href="https://ec.europa.eu/consumers/odr" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">
+            unter <a href="https://ec.europa.eu/consumers/odr" className="text-blue-600 dark:text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">
             https://ec.europa.eu/consumers/odr</a> finden. Zur Teilnahme an einem Streitbeilegungsverfahren
             vor einer Verbraucherschlichtungsstelle sind wir nicht verpflichtet und nicht bereit.
           </p>
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-3">§ 11 Änderung der AGB</h2>
+          <h2 className="text-2xl font-semibold mb-3 text-gray-900 dark:text-gray-100">§ 11 Änderung der AGB</h2>
           <p className="mb-2">
             11.1 Der Betreiber behält sich das Recht vor, diese AGB jederzeit zu ändern.
           </p>
@@ -182,7 +182,7 @@ export default function AGBPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-3">§ 12 Schlussbestimmungen</h2>
+          <h2 className="text-2xl font-semibold mb-3 text-gray-900 dark:text-gray-100">§ 12 Schlussbestimmungen</h2>
           <p className="mb-2">
             12.1 Es gilt das Recht der Bundesrepublik Deutschland unter Ausschluss des UN-Kaufrechts.
           </p>
@@ -196,8 +196,8 @@ export default function AGBPage() {
           </p>
         </section>
 
-        <section className="pt-4 border-t border-gray-300">
-          <p className="text-sm text-gray-600">
+        <section className="pt-4 border-t border-gray-300 dark:border-gray-600">
+          <p className="text-sm text-gray-600 dark:text-gray-400">
             Stand: 3. Oktober 2025<br/>
             Dorfkiste - Minicon eG
           </p>

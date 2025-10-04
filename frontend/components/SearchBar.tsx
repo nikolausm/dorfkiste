@@ -33,7 +33,7 @@ export default function SearchBar({ initialQuery = '', onSearch }: SearchBarProp
         />
         <button
           type="submit"
-          className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 text-neutral-400 hover:text-primary-600 bg-primary-500 hover:bg-primary-600 text-white rounded-lg transition-all duration-200 hover:scale-105"
+          className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 bg-primary-500 dark:bg-primary-600 hover:bg-primary-600 dark:hover:bg-primary-700 text-white rounded-lg transition-all duration-200 hover:scale-105"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
