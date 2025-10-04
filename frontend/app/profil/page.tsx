@@ -173,16 +173,16 @@ export default function ProfilePage() {
       <div className="max-w-2xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">
             Mein Profil
           </h1>
-          <p className="text-gray-600">
+          <p className="text-gray-600 dark:text-gray-400">
             Verwalten Sie Ihre persönlichen Daten und Kontaktinformationen.
           </p>
         </div>
 
         {/* Profile Form */}
-        <div className="bg-white rounded-lg shadow-sm p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
           {/* Messages */}
           {errors.length > 0 && (
             <div className="bg-red-50 border border-red-200 rounded-md p-4 mb-6">
@@ -218,7 +218,7 @@ export default function ProfilePage() {
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Account Information */}
             <div>
-              <h3 className="text-lg font-medium text-gray-900 mb-4">Kontoinformationen</h3>
+              <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Kontoinformationen</h3>
               
               <div className="space-y-4">
                 {/* Email (read-only) */}
@@ -276,8 +276,8 @@ export default function ProfilePage() {
             </div>
 
             {/* Contact Information */}
-            <div className="border-t border-gray-200 pt-6">
-              <h3 className="text-lg font-medium text-gray-900 mb-4">Kontaktdaten</h3>
+            <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
+              <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Kontaktdaten</h3>
               
               <div className="space-y-4">
                 {/* Phone Numbers */}
@@ -395,7 +395,7 @@ export default function ProfilePage() {
             </div>
 
             {/* Submit Button */}
-            <div className="border-t border-gray-200 pt-6">
+            <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
               <button
                 type="submit"
                 disabled={isSaving}
@@ -410,9 +410,9 @@ export default function ProfilePage() {
         </div>
 
         {/* Info Box */}
-        <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
-          <h4 className="font-medium text-blue-800 mb-2">💡 Hinweis zur Datensicherheit</h4>
-          <p className="text-sm text-blue-700">
+        <div className="mt-6 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+          <h4 className="font-medium text-blue-800 dark:text-blue-300 mb-2">💡 Hinweis zur Datensicherheit</h4>
+          <p className="text-sm text-blue-700 dark:text-blue-400">
             Ihre Kontaktdaten werden nur registrierten Nutzern angezeigt, wenn diese Interesse an Ihren Angeboten haben.
             Sie können jederzeit entscheiden, welche Informationen Sie preisgeben möchten.
           </p>
