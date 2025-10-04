@@ -14,9 +14,20 @@ services:
       - traefik-network
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.dorfkiste.rule=Host(`dorfkiste.org`) || Host(`www.dorfkiste.org`) || Host(`dev.dorfkiste.org`)"
+      # HTTP Router - redirects to HTTPS
+      - "traefik.http.routers.dorfkiste.rule=Host(`dorfkiste.org`) || Host(`www.dorfkiste.org`)"
       - "traefik.http.routers.dorfkiste.entrypoints=web"
+      - "traefik.http.routers.dorfkiste.middlewares=https-redirect"
+      # HTTPS Router
+      - "traefik.http.routers.dorfkiste-secure.rule=Host(`dorfkiste.org`) || Host(`www.dorfkiste.org`)"
+      - "traefik.http.routers.dorfkiste-secure.entrypoints=websecure"
+      - "traefik.http.routers.dorfkiste-secure.tls=true"
+      - "traefik.http.routers.dorfkiste-secure.tls.certresolver=letsencrypt"
+      # Service
       - "traefik.http.services.dorfkiste.loadbalancer.server.port=80"
+      # Middleware - HTTP to HTTPS redirect
+      - "traefik.http.middlewares.https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.https-redirect.redirectscheme.permanent=true"
       - "traefik.docker.network=traefik-network"
     restart: unless-stopped
 

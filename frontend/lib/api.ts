@@ -155,7 +155,12 @@ export interface Offer {
   description: string;
   pricePerDay?: number;
   pricePerHour?: number;
+  salePrice?: number;
   isService: boolean;
+  isForSale: boolean;
+  deliveryAvailable: boolean;
+  deliveryCost?: number;
+  deposit?: number;
   imagePath?: string;
   isActive: boolean;
   createdAt: string;
@@ -364,7 +369,12 @@ class ApiClient {
     description: string;
     pricePerDay?: number;
     pricePerHour?: number;
+    salePrice?: number;
     isService: boolean;
+    isForSale: boolean;
+    deliveryAvailable: boolean;
+    deliveryCost?: number;
+    deposit?: number;
     categoryId: number;
   }): Promise<Offer> {
     return this.request('/offers', {
@@ -378,7 +388,12 @@ class ApiClient {
     description: string;
     pricePerDay?: number;
     pricePerHour?: number;
+    salePrice?: number;
     isService: boolean;
+    isForSale: boolean;
+    deliveryAvailable: boolean;
+    deliveryCost?: number;
+    deposit?: number;
     categoryId: number;
     isActive: boolean;
   }): Promise<Offer> {

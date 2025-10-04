@@ -67,7 +67,12 @@ public class OffersController : ControllerBase
             Description = request.Description,
             PricePerDay = request.PricePerDay,
             PricePerHour = request.PricePerHour,
+            SalePrice = request.SalePrice,
             IsService = request.IsService,
+            IsForSale = request.IsForSale,
+            DeliveryAvailable = request.DeliveryAvailable,
+            DeliveryCost = request.DeliveryCost,
+            Deposit = request.Deposit,
             CategoryId = request.CategoryId,
             UserId = userId,
             IsActive = true
@@ -100,7 +105,12 @@ public class OffersController : ControllerBase
         offer.Description = request.Description;
         offer.PricePerDay = request.PricePerDay;
         offer.PricePerHour = request.PricePerHour;
+        offer.SalePrice = request.SalePrice;
         offer.IsService = request.IsService;
+        offer.IsForSale = request.IsForSale;
+        offer.DeliveryAvailable = request.DeliveryAvailable;
+        offer.DeliveryCost = request.DeliveryCost;
+        offer.Deposit = request.Deposit;
         offer.CategoryId = request.CategoryId;
         offer.IsActive = request.IsActive;
 
@@ -465,7 +475,12 @@ public class OffersController : ControllerBase
             Description = offer.Description,
             PricePerDay = offer.PricePerDay,
             PricePerHour = offer.PricePerHour,
+            SalePrice = offer.SalePrice,
             IsService = offer.IsService,
+            IsForSale = offer.IsForSale,
+            DeliveryAvailable = offer.DeliveryAvailable,
+            DeliveryCost = offer.DeliveryCost,
+            Deposit = offer.Deposit,
             ImagePath = offer.ImagePath,
             IsActive = offer.IsActive,
             CreatedAt = offer.CreatedAt,
@@ -504,7 +519,12 @@ public class OffersController : ControllerBase
             Description = offer.Description,
             PricePerDay = offer.PricePerDay,
             PricePerHour = offer.PricePerHour,
+            SalePrice = offer.SalePrice,
             IsService = offer.IsService,
+            IsForSale = offer.IsForSale,
+            DeliveryAvailable = offer.DeliveryAvailable,
+            DeliveryCost = offer.DeliveryCost,
+            Deposit = offer.Deposit,
             ImagePath = offer.ImagePath,
             IsActive = offer.IsActive,
             CreatedAt = offer.CreatedAt,
@@ -548,7 +568,12 @@ public class CreateOfferRequest
     public string Description { get; set; } = string.Empty;
     public decimal? PricePerDay { get; set; }
     public decimal? PricePerHour { get; set; }
+    public decimal? SalePrice { get; set; }
     public bool IsService { get; set; }
+    public bool IsForSale { get; set; }
+    public bool DeliveryAvailable { get; set; }
+    public decimal? DeliveryCost { get; set; }
+    public decimal? Deposit { get; set; }
     public int CategoryId { get; set; }
 }
 
@@ -558,7 +583,12 @@ public class UpdateOfferRequest
     public string Description { get; set; } = string.Empty;
     public decimal? PricePerDay { get; set; }
     public decimal? PricePerHour { get; set; }
+    public decimal? SalePrice { get; set; }
     public bool IsService { get; set; }
+    public bool IsForSale { get; set; }
+    public bool DeliveryAvailable { get; set; }
+    public decimal? DeliveryCost { get; set; }
+    public decimal? Deposit { get; set; }
     public int CategoryId { get; set; }
     public bool IsActive { get; set; } = true;
 }
@@ -570,7 +600,12 @@ public class OfferDto
     public string Description { get; set; } = string.Empty;
     public decimal? PricePerDay { get; set; }
     public decimal? PricePerHour { get; set; }
+    public decimal? SalePrice { get; set; }
     public bool IsService { get; set; }
+    public bool IsForSale { get; set; }
+    public bool DeliveryAvailable { get; set; }
+    public decimal? DeliveryCost { get; set; }
+    public decimal? Deposit { get; set; }
     public string? ImagePath { get; set; }
     public bool IsActive { get; set; }
     public DateTime CreatedAt { get; set; }
@@ -586,7 +621,12 @@ public class OfferDetailDto
     public string Description { get; set; } = string.Empty;
     public decimal? PricePerDay { get; set; }
     public decimal? PricePerHour { get; set; }
+    public decimal? SalePrice { get; set; }
     public bool IsService { get; set; }
+    public bool IsForSale { get; set; }
+    public bool DeliveryAvailable { get; set; }
+    public decimal? DeliveryCost { get; set; }
+    public decimal? Deposit { get; set; }
     public string? ImagePath { get; set; }
     public bool IsActive { get; set; }
     public DateTime CreatedAt { get; set; }

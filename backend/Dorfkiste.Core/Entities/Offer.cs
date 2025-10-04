@@ -7,7 +7,12 @@ public class Offer
     public string Description { get; set; } = string.Empty;
     public decimal? PricePerDay { get; set; }
     public decimal? PricePerHour { get; set; }
+    public decimal? SalePrice { get; set; }  // For selling items
     public bool IsService { get; set; }
+    public bool IsForSale { get; set; }  // True for selling, false for renting
+    public bool DeliveryAvailable { get; set; }  // Delivery option
+    public decimal? DeliveryCost { get; set; }  // Shipping cost
+    public decimal? Deposit { get; set; }  // Deposit for expensive items
     public string? ImagePath { get; set; }
     public bool IsActive { get; set; } = true;
     public DateTime CreatedAt { get; set; }
