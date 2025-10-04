@@ -150,7 +150,7 @@ export default function Header() {
                       {/* Backdrop overlay with blur */}
                       <div className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40" onClick={() => setIsUserMenuOpen(false)}></div>
 
-                      <div className="absolute right-0 mt-2 w-48 bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-xl shadow-medium border border-white/20 dark:border-gray-700/50 py-2 z-50 animate-scale-in">
+                      <div className="absolute right-0 top-full -mt-2 w-48 bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-xl shadow-medium border border-white/20 dark:border-gray-700/50 py-2 z-50 animate-scale-in">
                         <Link
                           href="/profil"
                           className="block px-4 py-2 text-sm text-neutral-700 dark:text-gray-200 hover:bg-white/20 dark:hover:bg-gray-700/30 rounded-lg mx-2 transition-colors duration-200"
@@ -186,10 +186,10 @@ export default function Header() {
                             )}
                           </div>
                         </Link>
-                        <div className="border-t border-white/20 dark:border-gray-700/30 my-2"></div>
+                        <div className="border-t border-white/20 dark:border-gray-700/30 my-2 mx-2"></div>
                         <button
                           onClick={handleLogout}
-                          className="block w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50/20 dark:hover:bg-red-900/20 rounded-lg mx-2 transition-colors duration-200"
+                          className="block w-auto text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50/20 dark:hover:bg-red-900/20 rounded-lg mx-2 transition-colors duration-200"
                         >
                           Abmelden
                         </button>

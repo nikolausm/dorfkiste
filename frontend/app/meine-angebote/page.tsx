@@ -93,10 +93,10 @@ export default function MyOffersPage() {
       <div className="mb-8">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-4">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">
               Meine Angebote
             </h1>
-            <p className="text-gray-600">
+            <p className="text-gray-600 dark:text-gray-400">
               Verwalten Sie Ihre veröffentlichten Angebote und Dienstleistungen.
             </p>
           </div>
@@ -136,21 +136,21 @@ export default function MyOffersPage() {
       ) : (
         <>
           {/* Stats */}
-          <div className="mb-6 p-4 bg-primary-50 rounded-lg">
+          <div className="mb-6 p-4 bg-primary-50 dark:bg-gray-800 rounded-lg">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-primary-600">Gesamt</p>
-                <p className="text-2xl font-bold text-primary-700">{offers.length}</p>
+                <p className="text-sm text-primary-600 dark:text-primary-400">Gesamt</p>
+                <p className="text-2xl font-bold text-primary-700 dark:text-primary-300">{offers.length}</p>
               </div>
               <div>
-                <p className="text-sm text-primary-600">Aktive Angebote</p>
-                <p className="text-2xl font-bold text-primary-700">
+                <p className="text-sm text-primary-600 dark:text-primary-400">Aktive Angebote</p>
+                <p className="text-2xl font-bold text-primary-700 dark:text-primary-300">
                   {offers.filter(offer => offer.isActive).length}
                 </p>
               </div>
               <div>
-                <p className="text-sm text-primary-600">Dienstleistungen</p>
-                <p className="text-2xl font-bold text-primary-700">
+                <p className="text-sm text-primary-600 dark:text-primary-400">Dienstleistungen</p>
+                <p className="text-2xl font-bold text-primary-700 dark:text-primary-300">
                   {offers.filter(offer => offer.isService).length}
                 </p>
               </div>

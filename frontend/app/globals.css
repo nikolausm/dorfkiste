@@ -108,12 +108,22 @@
   }
 
   .hero-gradient {
-    background: linear-gradient(135deg, 
-      theme('colors.primary.50') 0%, 
+    background: linear-gradient(135deg,
+      theme('colors.primary.50') 0%,
       theme('colors.secondary.50') 25%,
       theme('colors.accent.50') 50%,
       theme('colors.primary.100') 75%,
       theme('colors.secondary.100') 100%
+    );
+  }
+
+  .dark .hero-gradient {
+    background: linear-gradient(135deg,
+      rgba(59, 130, 246, 0.1) 0%,
+      rgba(139, 92, 246, 0.1) 25%,
+      rgba(234, 179, 8, 0.05) 50%,
+      rgba(59, 130, 246, 0.15) 75%,
+      rgba(139, 92, 246, 0.15) 100%
     );
   }
 
@@ -122,13 +132,15 @@
   }
 
   .category-card::before {
-    @apply absolute inset-0 bg-gradient-to-br from-transparent to-primary-50/30 
+    @apply absolute inset-0 bg-gradient-to-br from-transparent to-primary-50/30
+           dark:to-primary-900/20
            opacity-0 group-hover:opacity-100 transition-opacity duration-300;
     content: '';
   }
 
   .feature-section {
-    @apply py-20 px-4 bg-gradient-to-br from-white via-primary-50/30 to-secondary-50/20;
+    @apply py-20 px-4 bg-gradient-to-br from-white via-primary-50/30 to-secondary-50/20
+           dark:from-gray-900 dark:via-gray-800 dark:to-gray-900;
   }
 
   .line-clamp-2 {

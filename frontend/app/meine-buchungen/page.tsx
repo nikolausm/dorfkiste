@@ -152,29 +152,29 @@ function BookingsContent() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
           Meine Buchungen
         </h1>
-        <p className="text-gray-600">
+        <p className="text-gray-600 dark:text-gray-400">
           Verwalten Sie Ihre Buchungen und Buchungsanfragen
         </p>
       </div>
 
       {/* Tab Navigation */}
       <div className="mb-8">
-        <div className="border-b border-gray-200">
+        <div className="border-b border-gray-200 dark:border-gray-700">
           <nav className="-mb-px flex space-x-8">
             <button
               onClick={() => setActiveTab('customer')}
               className={`py-2 px-1 border-b-2 font-medium text-sm ${
                 activeTab === 'customer'
-                  ? 'border-primary-500 text-primary-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  ? 'border-primary-500 text-primary-600 dark:text-primary-400'
+                  : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
               }`}
             >
               Meine Buchungen
               {customerBookings.length > 0 && (
-                <span className="ml-2 bg-gray-100 text-gray-900 py-0.5 px-2.5 rounded-full text-xs">
+                <span className="ml-2 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 py-0.5 px-2.5 rounded-full text-xs">
                   {customerBookings.length}
                 </span>
               )}
@@ -183,13 +183,13 @@ function BookingsContent() {
               onClick={() => setActiveTab('provider')}
               className={`py-2 px-1 border-b-2 font-medium text-sm ${
                 activeTab === 'provider'
-                  ? 'border-primary-500 text-primary-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  ? 'border-primary-500 text-primary-600 dark:text-primary-400'
+                  : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
               }`}
             >
               Erhaltene Buchungen
               {providerBookings.length > 0 && (
-                <span className="ml-2 bg-gray-100 text-gray-900 py-0.5 px-2.5 rounded-full text-xs">
+                <span className="ml-2 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 py-0.5 px-2.5 rounded-full text-xs">
                   {providerBookings.length}
                 </span>
               )}
@@ -236,7 +236,7 @@ function BookingsContent() {
       ) : (
         <div className="space-y-6">
           {currentBookings.map((booking) => (
-            <div key={booking.id} className="bg-white rounded-lg border border-gray-200 p-6">
+            <div key={booking.id} className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
               <div className="flex items-start gap-4 mb-4">
                 {/* Thumbnail Image */}
                 <div className="flex-shrink-0">
@@ -254,29 +254,29 @@ function BookingsContent() {
 
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
-                    <h3 className="text-lg font-semibold text-gray-900">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
                       {booking.offer.title}
                     </h3>
                     <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(booking.status)}`}>
                       {getStatusText(booking.status)}
                     </span>
                   </div>
-                  <p className="text-gray-600 text-sm mb-2">
+                  <p className="text-gray-600 dark:text-gray-300 text-sm mb-2">
                     {activeTab === 'customer'
                       ? `Anbieter: ${booking.offer.provider.firstName} ${booking.offer.provider.lastName}`
                       : `Kunde: ${booking.customer.firstName} ${booking.customer.lastName}`
                     }
                   </p>
-                  <div className="text-sm text-gray-500">
+                  <div className="text-sm text-gray-500 dark:text-gray-400">
                     Buchungs-ID: #{booking.id}
                   </div>
                 </div>
 
                 <div className="flex-shrink-0 text-right">
-                  <div className="text-lg font-semibold text-gray-900">
+                  <div className="text-lg font-semibold text-gray-900 dark:text-gray-100">
                     {booking.totalPrice.toFixed(2)}€
                   </div>
-                  <div className="text-sm text-gray-500">
+                  <div className="text-sm text-gray-500 dark:text-gray-400">
                     {booking.daysCount} Tag(e)
                   </div>
                 </div>
@@ -284,45 +284,45 @@ function BookingsContent() {
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                 <div>
-                  <div className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">
+                  <div className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">
                     Zeitraum
                   </div>
-                  <div className="text-sm text-gray-900">
+                  <div className="text-sm text-gray-900 dark:text-gray-100">
                     {formatDate(booking.startDate)} - {formatDate(booking.endDate)}
                   </div>
                 </div>
                 <div>
-                  <div className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">
+                  <div className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">
                     Erstellt
                   </div>
-                  <div className="text-sm text-gray-900">
+                  <div className="text-sm text-gray-900 dark:text-gray-100">
                     {formatDateTime(booking.createdAt)}
                   </div>
                 </div>
                 {booking.confirmedAt && (
                   <div>
-                    <div className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">
+                    <div className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">
                       Bestätigt
                     </div>
-                    <div className="text-sm text-gray-900">
+                    <div className="text-sm text-gray-900 dark:text-gray-100">
                       {formatDateTime(booking.confirmedAt)}
                     </div>
                   </div>
                 )}
               </div>
 
-              <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+              <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-700">
                 <div className="flex items-center gap-2">
                   <Link
                     href={`/angebote/${booking.offer.id}`}
-                    className="text-primary-600 hover:text-primary-700 text-sm font-medium"
+                    className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 text-sm font-medium"
                   >
                     Angebot ansehen
                   </Link>
                   {activeTab === 'customer' && (
                     <Link
                       href={`/nachrichten/${booking.offer.provider.id}/${booking.offer.id}`}
-                      className="text-gray-600 hover:text-gray-700 text-sm"
+                      className="text-gray-600 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-200 text-sm"
                     >
                       Nachricht senden
                     </Link>
@@ -330,7 +330,7 @@ function BookingsContent() {
                   {activeTab === 'provider' && (
                     <Link
                       href={`/nachrichten/${booking.customer.id}/${booking.offer.id}`}
-                      className="text-gray-600 hover:text-gray-700 text-sm"
+                      className="text-gray-600 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-200 text-sm"
                     >
                       Nachricht senden
                     </Link>
