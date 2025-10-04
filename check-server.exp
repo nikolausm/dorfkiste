@@ -1,0 +1,6 @@
+#!/usr/bin/expect -f
+set timeout 30
+spawn ssh -o StrictHostKeyChecking=accept-new root@194.164.199.151 "cat /etc/os-release && echo '=== System Info ===' && df -h / && echo '=== Memory ===' && free -h && echo '=== Docker installed? ===' && which docker || echo 'Docker not found' && echo '=== Docker Compose installed? ===' && which docker-compose || echo 'Docker Compose not found'"
+expect "password:"
+send "F6EpKT8a\r"
+expect eof

@@ -728,7 +728,7 @@ export default function CreateOfferPage() {
                 (offerMode === 'sale' && parseFloat(formData.salePrice) > 200)) && (
                 <div>
                   <label htmlFor="deposit" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Kaution (optional für Gegenstände > 200 EUR)
+                    Kaution (optional für Gegenstände {'>'}200 EUR)
                   </label>
                   <div className="mt-1 relative">
                     <input

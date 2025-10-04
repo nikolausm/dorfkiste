@@ -139,7 +139,12 @@ export default function EditOfferPage() {
         description: formData.description,
         pricePerDay: formData.pricePerDay ? parseFloat(formData.pricePerDay) : undefined,
         pricePerHour: formData.pricePerHour ? parseFloat(formData.pricePerHour) : undefined,
+        salePrice: undefined, // Not supported in edit mode yet
         isService: formData.isService,
+        isForSale: false, // Not supported in edit mode yet
+        deliveryAvailable: false, // Not supported in edit mode yet
+        deliveryCost: undefined, // Not supported in edit mode yet
+        deposit: undefined, // Not supported in edit mode yet
         categoryId: parseInt(formData.categoryId),
         isActive: formData.isActive,
       };
