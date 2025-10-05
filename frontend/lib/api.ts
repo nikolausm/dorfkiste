@@ -935,12 +935,7 @@ class ApiClient {
     });
   }
 
-  async reportOffer(offerId: number, reportType: number, description: string): Promise<{ message: string }> {
-    return this.request(`/offers/${offerId}/report`, {
-      method: 'POST',
-      body: JSON.stringify({ reportType, description }),
-    });
-  }
+  // reportOffer method defined earlier in "Report Methods" section
 }
 
 export const apiClient = new ApiClient();
