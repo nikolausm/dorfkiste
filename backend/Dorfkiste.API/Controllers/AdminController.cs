@@ -14,6 +14,8 @@ public class AdminController : ControllerBase
     private readonly IReportService _reportService;
     private readonly IUserRepository _userRepository;
     private readonly IOfferRepository _offerRepository;
+    private readonly IBookingRepository _bookingRepository;
+    private readonly IMessageService _messageService;
     private readonly ILogger<AdminController> _logger;
 
     private readonly IAuthService _authService;
@@ -22,12 +24,16 @@ public class AdminController : ControllerBase
         IReportService reportService,
         IUserRepository userRepository,
         IOfferRepository offerRepository,
+        IBookingRepository bookingRepository,
+        IMessageService messageService,
         IAuthService authService,
         ILogger<AdminController> logger)
     {
         _reportService = reportService;
         _userRepository = userRepository;
         _offerRepository = offerRepository;
+        _bookingRepository = bookingRepository;
+        _messageService = messageService;
         _authService = authService;
         _logger = logger;
     }
@@ -233,6 +239,91 @@ public class AdminController : ControllerBase
             GetCurrentUserId(), userId, user.IsAdmin);
 
         return Ok(new { message = user.IsAdmin ? "Benutzer ist jetzt Admin." : "Admin-Rechte entfernt.", isAdmin = user.IsAdmin });
+    }
+
+    [HttpPost("users/{userId}/toggle-active")]
+    public async Task<ActionResult> ToggleUserActiveStatus(int userId)
+    {
+        if (!IsAdmin())
+        {
+            return Forbid("Only administrators can modify user active status.");
+        }
+
+        var user = await _userRepository.GetByIdAsync(userId);
+        if (user == null)
+        {
+            return NotFound(new { message = "Benutzer nicht gefunden." });
+        }
+
+        // If deactivating user
+        if (user.IsActive)
+        {
+            user.IsActive = false;
+            await _userRepository.UpdateAsync(user);
+
+            // Deactivate all offers from this user
+            var userOffers = await _offerRepository.GetByUserIdAsync(userId);
+            foreach (var offer in userOffers)
+            {
+                if (offer.IsActive)
+                {
+                    offer.IsActive = false;
+                    await _offerRepository.UpdateAsync(offer);
+                }
+            }
+
+            // Cancel future bookings for all user's offers
+            var now = DateOnly.FromDateTime(DateTime.UtcNow);
+            foreach (var offer in userOffers)
+            {
+                var futureBookings = await _bookingRepository.GetByOfferIdAsync(offer.Id);
+                foreach (var booking in futureBookings)
+                {
+                    // Only cancel bookings that haven't started yet
+                    if (booking.StartDate > now && booking.Status == BookingStatus.Confirmed)
+                    {
+                        booking.Status = BookingStatus.Cancelled;
+                        await _bookingRepository.UpdateAsync(booking);
+
+                        // Send notification to customer
+                        try
+                        {
+                            await _messageService.SendMessageAsync(
+                                userId, // System sender (the deactivated user)
+                                booking.CustomerId,
+                                offer.Id,
+                                $"Ihre Buchung vom {booking.StartDate:dd.MM.yyyy} bis {booking.EndDate:dd.MM.yyyy} wurde storniert, da der Anbieter deaktiviert wurde.");
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.LogError(ex, "Failed to send cancellation message for booking {BookingId}", booking.Id);
+                        }
+                    }
+                }
+            }
+
+            _logger.LogInformation(
+                "Admin {AdminId} deactivated user {UserId}, deactivated {OfferCount} offers and cancelled future bookings",
+                GetCurrentUserId(), userId, userOffers.Count());
+
+            return Ok(new {
+                message = "Benutzer wurde deaktiviert. Alle Angebote wurden deaktiviert und zukünftige Buchungen wurden storniert.",
+                isActive = false
+            });
+        }
+        else
+        {
+            // Reactivate user (offers remain inactive, user must reactivate manually)
+            user.IsActive = true;
+            await _userRepository.UpdateAsync(user);
+
+            _logger.LogInformation("Admin {AdminId} activated user {UserId}", GetCurrentUserId(), userId);
+
+            return Ok(new {
+                message = "Benutzer wurde aktiviert.",
+                isActive = true
+            });
+        }
     }
 
     [HttpPost("users/{userId}/send-verification-email")]

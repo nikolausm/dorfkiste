@@ -62,6 +62,29 @@ export default function AdminUsersPage() {
     }
   };
 
+  const handleToggleActive = async (userId: number, currentIsActive: boolean) => {
+    const confirmMessage = currentIsActive
+      ? 'Möchten Sie diesen Benutzer wirklich deaktivieren? Alle Angebote werden deaktiviert und zukünftige Buchungen werden storniert.'
+      : 'Möchten Sie diesen Benutzer wieder aktivieren?';
+
+    if (!confirm(confirmMessage)) {
+      return;
+    }
+
+    try {
+      const result = await apiClient.toggleUserActive(userId);
+      setUsers(users.map(u =>
+        u.id === userId ? { ...u, isActive: result.isActive } : u
+      ));
+      setSuccessMessage(result.message);
+      setTimeout(() => setSuccessMessage(''), 5000);
+      setError('');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Fehler beim Ändern des Aktiv-Status');
+      console.error(err);
+    }
+  };
+
   const handleSendVerificationEmail = async (userId: number) => {
     try {
       setSendingVerificationEmail(userId);
@@ -276,6 +299,16 @@ export default function AdminUsersPage() {
                             Bearbeiten
                           </button>
                           <button
+                            onClick={() => handleToggleActive(u.id, u.isActive)}
+                            className={`text-sm ${
+                              u.isActive
+                                ? 'text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300'
+                                : 'text-green-600 dark:text-green-400 hover:text-green-900 dark:hover:text-green-300'
+                            }`}
+                          >
+                            {u.isActive ? 'Deaktivieren' : 'Aktivieren'}
+                          </button>
+                          <button
                             onClick={() => handleToggleAdmin(u.id, u.isAdmin)}
                             className={`text-sm ${
                               u.isAdmin
@@ -357,6 +390,16 @@ export default function AdminUsersPage() {
                     className="px-3 py-2 text-sm bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 rounded-md hover:bg-green-100 dark:hover:bg-green-900/30"
                   >
                     Bearbeiten
+                  </button>
+                  <button
+                    onClick={() => handleToggleActive(u.id, u.isActive)}
+                    className={`px-3 py-2 text-sm rounded-md ${
+                      u.isActive
+                        ? 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/30'
+                        : 'bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-900/30'
+                    }`}
+                  >
+                    {u.isActive ? 'Deaktivieren' : 'Aktivieren'}
                   </button>
                   <button
                     onClick={() => handleToggleAdmin(u.id, u.isAdmin)}

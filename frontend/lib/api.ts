@@ -903,6 +903,12 @@ class ApiClient {
     });
   }
 
+  async toggleUserActive(userId: number): Promise<{ message: string; isActive: boolean }> {
+    return this.request(`/admin/users/${userId}/toggle-active`, {
+      method: 'POST',
+    });
+  }
+
   async sendVerificationEmail(userId: number): Promise<{ message: string }> {
     return this.request(`/admin/users/${userId}/send-verification-email`, {
       method: 'POST',
