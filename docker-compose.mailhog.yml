@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: dorfkiste-mailhog
+    ports:
+      - "1025:1025"  # SMTP Server
+      - "8025:8025"  # Web UI
+    networks:
+      - dorfkiste-network
+
+networks:
+  dorfkiste-network:
+    driver: bridge

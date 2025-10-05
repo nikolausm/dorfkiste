@@ -88,9 +88,15 @@ public class AuthService : IAuthService
             ContactInfo = new ContactInfo(),
             PrivacySettings = new UserPrivacySettings
             {
+                DataProcessingConsent = true,
+                DataProcessingConsentDate = DateTime.UtcNow,
+                MarketingEmailsConsent = false,
+                ShowPhoneNumber = false,
+                ShowMobileNumber = false,
+                ShowStreet = false,
+                ShowCity = true,
                 CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow,
-                DataProcessingConsentDate = DateTime.UtcNow
+                UpdatedAt = DateTime.UtcNow
             }
         };
 

@@ -19,6 +19,16 @@ interface UserProfile {
     state?: string;
     country?: string;
   };
+  privacySettings?: {
+    marketingEmailsConsent: boolean;
+    dataProcessingConsent: boolean;
+    profileVisibilityConsent: boolean;
+    dataSharingConsent: boolean;
+    showPhoneNumber: boolean;
+    showMobileNumber: boolean;
+    showStreet: boolean;
+    showCity: boolean;
+  };
 }
 
 export default function ProfilePage() {
@@ -41,6 +51,15 @@ export default function ProfilePage() {
     state: '',
     country: '',
   });
+
+  const [marketingEmailsConsent, setMarketingEmailsConsent] = useState(false);
+  const [dataProcessingConsent, setDataProcessingConsent] = useState(true);
+  const [profileVisibilityConsent, setProfileVisibilityConsent] = useState(false);
+  const [dataSharingConsent, setDataSharingConsent] = useState(false);
+  const [showPhoneNumber, setShowPhoneNumber] = useState(false);
+  const [showMobileNumber, setShowMobileNumber] = useState(false);
+  const [showStreet, setShowStreet] = useState(false);
+  const [showCity, setShowCity] = useState(true);
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -68,6 +87,16 @@ export default function ProfilePage() {
         state: data.contactInfo?.state || '',
         country: data.contactInfo?.country || '',
       });
+
+      // Populate privacy settings
+      setMarketingEmailsConsent(data.privacySettings?.marketingEmailsConsent || false);
+      setDataProcessingConsent(data.privacySettings?.dataProcessingConsent ?? true);
+      setProfileVisibilityConsent(data.privacySettings?.profileVisibilityConsent ?? false);
+      setDataSharingConsent(data.privacySettings?.dataSharingConsent ?? false);
+      setShowPhoneNumber(data.privacySettings?.showPhoneNumber ?? false);
+      setShowMobileNumber(data.privacySettings?.showMobileNumber ?? false);
+      setShowStreet(data.privacySettings?.showStreet ?? false);
+      setShowCity(data.privacySettings?.showCity ?? true);
     } catch (error) {
       setErrors([error instanceof Error ? error.message : 'Fehler beim Laden des Profils']);
     } finally {
@@ -129,6 +158,16 @@ export default function ProfilePage() {
           postalCode: formData.postalCode || null,
           state: formData.state || null,
           country: formData.country || null,
+        },
+        privacySettings: {
+          marketingEmailsConsent,
+          dataProcessingConsent,
+          profileVisibilityConsent,
+          dataSharingConsent,
+          showPhoneNumber,
+          showMobileNumber,
+          showStreet,
+          showCity,
         }
       };
 
@@ -389,6 +428,188 @@ export default function ProfilePage() {
                       className="input-field mt-1"
                       placeholder="Deutschland"
                     />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Privacy Settings - Marketing */}
+            <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
+              <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Datenschutz-Einstellungen</h3>
+
+              <div className="space-y-4">
+                <div className="flex items-start">
+                  <div className="flex items-center h-5">
+                    <input
+                      id="marketingEmailsConsent"
+                      name="marketingEmailsConsent"
+                      type="checkbox"
+                      checked={marketingEmailsConsent}
+                      onChange={(e) => {
+                        setMarketingEmailsConsent(e.target.checked);
+                        if (errors.length > 0) setErrors([]);
+                        if (successMessage) setSuccessMessage('');
+                      }}
+                      className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+                    />
+                  </div>
+                  <div className="ml-3 text-sm">
+                    <label htmlFor="marketingEmailsConsent" className="font-medium text-gray-700 dark:text-gray-300">
+                      📧 Marketing-E-Mails erhalten
+                    </label>
+                    <p className="text-gray-500 dark:text-gray-400">
+                      Ich möchte Informationen über neue Funktionen, Angebote und Neuigkeiten per E-Mail erhalten.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start">
+                  <div className="flex items-center h-5">
+                    <input
+                      id="dataProcessingConsent"
+                      name="dataProcessingConsent"
+                      type="checkbox"
+                      checked={dataProcessingConsent}
+                      disabled
+                      className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded opacity-50 cursor-not-allowed"
+                    />
+                  </div>
+                  <div className="ml-3 text-sm">
+                    <label htmlFor="dataProcessingConsent" className="font-medium text-gray-700 dark:text-gray-300">
+                      ✅ Zustimmung Datenverarbeitung (erforderlich)
+                    </label>
+                    <p className="text-gray-500 dark:text-gray-400">
+                      Diese Einstellung ist erforderlich und kann nicht deaktiviert werden.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start">
+                  <div className="flex items-center h-5">
+                    <input
+                      id="profileVisibilityConsent"
+                      name="profileVisibilityConsent"
+                      type="checkbox"
+                      checked={profileVisibilityConsent}
+                      onChange={(e) => {
+                        setProfileVisibilityConsent(e.target.checked);
+                        if (errors.length > 0) setErrors([]);
+                        if (successMessage) setSuccessMessage('');
+                      }}
+                      className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+                    />
+                  </div>
+                  <div className="ml-3 text-sm">
+                    <label htmlFor="profileVisibilityConsent" className="font-medium text-gray-700 dark:text-gray-300">
+                      👁️ Profil-Sichtbarkeit (öffentlich sichtbar)
+                    </label>
+                    <p className="text-gray-500 dark:text-gray-400">
+                      Mein Profil kann öffentlich angezeigt werden.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start">
+                  <div className="flex items-center h-5">
+                    <input
+                      id="dataSharingConsent"
+                      name="dataSharingConsent"
+                      type="checkbox"
+                      checked={dataSharingConsent}
+                      onChange={(e) => {
+                        setDataSharingConsent(e.target.checked);
+                        if (errors.length > 0) setErrors([]);
+                        if (successMessage) setSuccessMessage('');
+                      }}
+                      className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+                    />
+                  </div>
+                  <div className="ml-3 text-sm">
+                    <label htmlFor="dataSharingConsent" className="font-medium text-gray-700 dark:text-gray-300">
+                      🔗 Daten-Sharing mit Dritten
+                    </label>
+                    <p className="text-gray-500 dark:text-gray-400">
+                      Meine Daten dürfen mit Drittanbietern geteilt werden.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+                  <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3">
+                    Sichtbarkeit der Kontaktinformationen
+                  </h4>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">
+                    Legen Sie fest, welche Kontaktinformationen andere Benutzer sehen können.
+                  </p>
+
+                  <div className="space-y-2">
+                    <div className="flex items-center">
+                      <input
+                        id="showPhoneNumber"
+                        type="checkbox"
+                        checked={showPhoneNumber}
+                        onChange={(e) => {
+                          setShowPhoneNumber(e.target.checked);
+                          if (errors.length > 0) setErrors([]);
+                          if (successMessage) setSuccessMessage('');
+                        }}
+                        className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 dark:border-gray-600 rounded"
+                      />
+                      <label htmlFor="showPhoneNumber" className="ml-2 text-sm text-gray-700 dark:text-gray-300">
+                        📞 Telefonnummer anzeigen
+                      </label>
+                    </div>
+
+                    <div className="flex items-center">
+                      <input
+                        id="showMobileNumber"
+                        type="checkbox"
+                        checked={showMobileNumber}
+                        onChange={(e) => {
+                          setShowMobileNumber(e.target.checked);
+                          if (errors.length > 0) setErrors([]);
+                          if (successMessage) setSuccessMessage('');
+                        }}
+                        className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 dark:border-gray-600 rounded"
+                      />
+                      <label htmlFor="showMobileNumber" className="ml-2 text-sm text-gray-700 dark:text-gray-300">
+                        📱 Mobilnummer anzeigen
+                      </label>
+                    </div>
+
+                    <div className="flex items-center">
+                      <input
+                        id="showStreet"
+                        type="checkbox"
+                        checked={showStreet}
+                        onChange={(e) => {
+                          setShowStreet(e.target.checked);
+                          if (errors.length > 0) setErrors([]);
+                          if (successMessage) setSuccessMessage('');
+                        }}
+                        className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 dark:border-gray-600 rounded"
+                      />
+                      <label htmlFor="showStreet" className="ml-2 text-sm text-gray-700 dark:text-gray-300">
+                        🏠 Straße und Hausnummer anzeigen
+                      </label>
+                    </div>
+
+                    <div className="flex items-center">
+                      <input
+                        id="showCity"
+                        type="checkbox"
+                        checked={showCity}
+                        onChange={(e) => {
+                          setShowCity(e.target.checked);
+                          if (errors.length > 0) setErrors([]);
+                          if (successMessage) setSuccessMessage('');
+                        }}
+                        className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 dark:border-gray-600 rounded"
+                      />
+                      <label htmlFor="showCity" className="ml-2 text-sm text-gray-700 dark:text-gray-300">
+                        🏙️ Stadt anzeigen
+                      </label>
+                    </div>
                   </div>
                 </div>
               </div>

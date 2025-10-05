@@ -61,7 +61,18 @@ public class UsersController : ControllerBase
                 PostalCode = user.ContactInfo.PostalCode,
                 State = user.ContactInfo.State,
                 Country = user.ContactInfo.Country,
-            } : new ContactInfoDto()
+            } : new ContactInfoDto(),
+            PrivacySettings = user.PrivacySettings != null ? new PrivacySettingsDto
+            {
+                MarketingEmailsConsent = user.PrivacySettings.MarketingEmailsConsent,
+                DataProcessingConsent = user.PrivacySettings.DataProcessingConsent,
+                ProfileVisibilityConsent = user.PrivacySettings.ProfileVisibilityConsent,
+                DataSharingConsent = user.PrivacySettings.DataSharingConsent,
+                ShowPhoneNumber = user.PrivacySettings.ShowPhoneNumber,
+                ShowMobileNumber = user.PrivacySettings.ShowMobileNumber,
+                ShowStreet = user.PrivacySettings.ShowStreet,
+                ShowCity = user.PrivacySettings.ShowCity
+            } : null
         });
     }
 
@@ -97,7 +108,7 @@ public class UsersController : ControllerBase
 
         user.FirstName = request.FirstName;
         user.LastName = request.LastName;
-        
+
         if (user.ContactInfo == null && request.ContactInfo != null)
         {
             user.ContactInfo = new ContactInfo
@@ -123,6 +134,27 @@ public class UsersController : ControllerBase
             user.ContactInfo.Country = request.ContactInfo?.Country;
         }
 
+        // Update privacy settings
+        if (request.PrivacySettings != null)
+        {
+            if (user.PrivacySettings == null)
+            {
+                user.PrivacySettings = new UserPrivacySettings { UserId = user.Id };
+            }
+
+            if (request.PrivacySettings.MarketingEmailsConsent.HasValue)
+                user.PrivacySettings.MarketingEmailsConsent = request.PrivacySettings.MarketingEmailsConsent.Value;
+            if (request.PrivacySettings.ShowPhoneNumber.HasValue)
+                user.PrivacySettings.ShowPhoneNumber = request.PrivacySettings.ShowPhoneNumber.Value;
+            if (request.PrivacySettings.ShowMobileNumber.HasValue)
+                user.PrivacySettings.ShowMobileNumber = request.PrivacySettings.ShowMobileNumber.Value;
+            if (request.PrivacySettings.ShowStreet.HasValue)
+                user.PrivacySettings.ShowStreet = request.PrivacySettings.ShowStreet.Value;
+            if (request.PrivacySettings.ShowCity.HasValue)
+                user.PrivacySettings.ShowCity = request.PrivacySettings.ShowCity.Value;
+            user.PrivacySettings.UpdatedAt = DateTime.UtcNow;
+        }
+
         await _userRepository.UpdateAsync(user);
 
         return Ok(new UserProfileDto
@@ -140,7 +172,18 @@ public class UsersController : ControllerBase
                 PostalCode = user.ContactInfo.PostalCode,
                 State = user.ContactInfo.State,
                 Country = user.ContactInfo.Country,
-            } : new ContactInfoDto()
+            } : new ContactInfoDto(),
+            PrivacySettings = user.PrivacySettings != null ? new PrivacySettingsDto
+            {
+                MarketingEmailsConsent = user.PrivacySettings.MarketingEmailsConsent,
+                DataProcessingConsent = user.PrivacySettings.DataProcessingConsent,
+                ProfileVisibilityConsent = user.PrivacySettings.ProfileVisibilityConsent,
+                DataSharingConsent = user.PrivacySettings.DataSharingConsent,
+                ShowPhoneNumber = user.PrivacySettings.ShowPhoneNumber,
+                ShowMobileNumber = user.PrivacySettings.ShowMobileNumber,
+                ShowStreet = user.PrivacySettings.ShowStreet,
+                ShowCity = user.PrivacySettings.ShowCity
+            } : null
         });
     }
 
@@ -442,14 +485,14 @@ public class DeleteAccountRequest
 
 public class PrivacySettingsDto
 {
-    public bool MarketingEmailsConsent { get; set; }
-    public bool DataProcessingConsent { get; set; }
-    public bool ProfileVisibilityConsent { get; set; }
-    public bool DataSharingConsent { get; set; }
-    public bool ShowPhoneNumber { get; set; }
-    public bool ShowMobileNumber { get; set; }
-    public bool ShowStreet { get; set; }
-    public bool ShowCity { get; set; }
+    public bool? MarketingEmailsConsent { get; set; }
+    public bool? DataProcessingConsent { get; set; }
+    public bool? ProfileVisibilityConsent { get; set; }
+    public bool? DataSharingConsent { get; set; }
+    public bool? ShowPhoneNumber { get; set; }
+    public bool? ShowMobileNumber { get; set; }
+    public bool? ShowStreet { get; set; }
+    public bool? ShowCity { get; set; }
 }
 
 public class UpdatePrivacySettingsRequest
@@ -471,6 +514,7 @@ public class UserProfileDto
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
     public ContactInfoDto ContactInfo { get; set; } = new();
+    public PrivacySettingsDto? PrivacySettings { get; set; }
 }
 
 public class PublicUserDto
@@ -485,4 +529,5 @@ public class UpdateProfileRequest
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
     public ContactInfoDto? ContactInfo { get; set; }
+    public PrivacySettingsDto? PrivacySettings { get; set; }
 }

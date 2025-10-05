@@ -261,6 +261,20 @@ export interface AdminUser {
     state?: string;
     country?: string;
   };
+  privacySettings?: {
+    marketingEmailsConsent: boolean;
+    dataProcessingConsent: boolean;
+    profileVisibilityConsent: boolean;
+    dataSharingConsent: boolean;
+    showPhoneNumber: boolean;
+    showMobileNumber: boolean;
+    showStreet: boolean;
+    showCity: boolean;
+    marketingEmailsConsentDate?: string;
+    dataProcessingConsentDate?: string;
+    profileVisibilityConsentDate?: string;
+    dataSharingConsentDate?: string;
+  };
 }
 
 export interface ReportType {
@@ -890,6 +904,31 @@ class ApiClient {
   async toggleUserAdmin(userId: number): Promise<{ message: string; isAdmin: boolean }> {
     return this.request(`/admin/users/${userId}/toggle-admin`, {
       method: 'POST',
+    });
+  }
+
+  async sendVerificationEmail(userId: number): Promise<{ message: string }> {
+    return this.request(`/admin/users/${userId}/send-verification-email`, {
+      method: 'POST',
+    });
+  }
+
+  async updateUserData(userId: number, data: {
+    firstName?: string;
+    lastName?: string;
+    contactInfo?: {
+      phoneNumber?: string;
+      mobileNumber?: string;
+      street?: string;
+      city?: string;
+      postalCode?: string;
+      state?: string;
+      country?: string;
+    };
+  }): Promise<{ message: string }> {
+    return this.request(`/admin/users/${userId}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
     });
   }
 

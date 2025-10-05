@@ -16,15 +16,19 @@ public class AdminController : ControllerBase
     private readonly IOfferRepository _offerRepository;
     private readonly ILogger<AdminController> _logger;
 
+    private readonly IAuthService _authService;
+
     public AdminController(
         IReportService reportService,
         IUserRepository userRepository,
         IOfferRepository offerRepository,
+        IAuthService authService,
         ILogger<AdminController> logger)
     {
         _reportService = reportService;
         _userRepository = userRepository;
         _offerRepository = offerRepository;
+        _authService = authService;
         _logger = logger;
     }
 
@@ -164,6 +168,21 @@ public class AdminController : ControllerBase
                 PostalCode = u.ContactInfo.PostalCode,
                 State = u.ContactInfo.State,
                 Country = u.ContactInfo.Country
+            } : null,
+            PrivacySettings = u.PrivacySettings != null ? new AdminPrivacySettingsDto
+            {
+                MarketingEmailsConsent = u.PrivacySettings.MarketingEmailsConsent,
+                DataProcessingConsent = u.PrivacySettings.DataProcessingConsent,
+                ProfileVisibilityConsent = u.PrivacySettings.ProfileVisibilityConsent,
+                DataSharingConsent = u.PrivacySettings.DataSharingConsent,
+                ShowPhoneNumber = u.PrivacySettings.ShowPhoneNumber,
+                ShowMobileNumber = u.PrivacySettings.ShowMobileNumber,
+                ShowStreet = u.PrivacySettings.ShowStreet,
+                ShowCity = u.PrivacySettings.ShowCity,
+                MarketingEmailsConsentDate = u.PrivacySettings.MarketingEmailsConsentDate,
+                DataProcessingConsentDate = u.PrivacySettings.DataProcessingConsentDate,
+                ProfileVisibilityConsentDate = u.PrivacySettings.ProfileVisibilityConsentDate,
+                DataSharingConsentDate = u.PrivacySettings.DataSharingConsentDate
             } : null
         });
 
@@ -214,6 +233,98 @@ public class AdminController : ControllerBase
             GetCurrentUserId(), userId, user.IsAdmin);
 
         return Ok(new { message = user.IsAdmin ? "Benutzer ist jetzt Admin." : "Admin-Rechte entfernt.", isAdmin = user.IsAdmin });
+    }
+
+    [HttpPost("users/{userId}/send-verification-email")]
+    public async Task<ActionResult> SendVerificationEmail(int userId)
+    {
+        if (!IsAdmin())
+        {
+            return Forbid("Only administrators can send verification emails.");
+        }
+
+        var user = await _userRepository.GetByIdAsync(userId);
+        if (user == null)
+        {
+            return NotFound(new { message = "Benutzer nicht gefunden." });
+        }
+
+        if (user.EmailVerified)
+        {
+            return BadRequest(new { message = "E-Mail-Adresse ist bereits verifiziert." });
+        }
+
+        var success = await _authService.ResendVerificationEmailAsync(user.Email);
+        if (!success)
+        {
+            return StatusCode(500, new { message = "Fehler beim Senden der Verifizierungs-E-Mail." });
+        }
+
+        _logger.LogInformation("Admin {AdminId} sent verification email to user {UserId}",
+            GetCurrentUserId(), userId);
+
+        return Ok(new { message = "Verifizierungs-E-Mail wurde erfolgreich gesendet." });
+    }
+
+    [HttpPut("users/{userId}")]
+    public async Task<ActionResult> UpdateUser(int userId, [FromBody] UpdateUserRequest request)
+    {
+        if (!IsAdmin())
+        {
+            return Forbid("Only administrators can update user data.");
+        }
+
+        var user = await _userRepository.GetByIdAsync(userId);
+        if (user == null)
+        {
+            return NotFound(new { message = "Benutzer nicht gefunden." });
+        }
+
+        // Update basic info
+        if (!string.IsNullOrWhiteSpace(request.FirstName))
+            user.FirstName = request.FirstName;
+
+        if (!string.IsNullOrWhiteSpace(request.LastName))
+            user.LastName = request.LastName;
+
+        // Update contact info
+        if (request.ContactInfo != null)
+        {
+            if (user.ContactInfo == null)
+                user.ContactInfo = new ContactInfo();
+
+            user.ContactInfo.PhoneNumber = request.ContactInfo.PhoneNumber;
+            user.ContactInfo.MobileNumber = request.ContactInfo.MobileNumber;
+            user.ContactInfo.Street = request.ContactInfo.Street;
+            user.ContactInfo.City = request.ContactInfo.City;
+            user.ContactInfo.PostalCode = request.ContactInfo.PostalCode;
+            user.ContactInfo.State = request.ContactInfo.State;
+            user.ContactInfo.Country = request.ContactInfo.Country;
+        }
+
+        // Update privacy settings
+        if (request.PrivacySettings != null)
+        {
+            if (user.PrivacySettings == null)
+                user.PrivacySettings = new UserPrivacySettings { UserId = userId };
+
+            user.PrivacySettings.MarketingEmailsConsent = request.PrivacySettings.MarketingEmailsConsent;
+            user.PrivacySettings.DataProcessingConsent = request.PrivacySettings.DataProcessingConsent;
+            user.PrivacySettings.ProfileVisibilityConsent = request.PrivacySettings.ProfileVisibilityConsent;
+            user.PrivacySettings.DataSharingConsent = request.PrivacySettings.DataSharingConsent;
+            user.PrivacySettings.ShowPhoneNumber = request.PrivacySettings.ShowPhoneNumber;
+            user.PrivacySettings.ShowMobileNumber = request.PrivacySettings.ShowMobileNumber;
+            user.PrivacySettings.ShowStreet = request.PrivacySettings.ShowStreet;
+            user.PrivacySettings.ShowCity = request.PrivacySettings.ShowCity;
+            user.PrivacySettings.UpdatedAt = DateTime.UtcNow;
+        }
+
+        await _userRepository.UpdateAsync(user);
+
+        _logger.LogInformation("Admin {AdminId} updated user {UserId} data",
+            GetCurrentUserId(), userId);
+
+        return Ok(new { message = "Benutzerdaten erfolgreich aktualisiert." });
     }
 
     private int GetCurrentUserId()
@@ -294,6 +405,7 @@ public class AdminUserDto
     public DateTime CreatedAt { get; set; }
     public DateTime? LastLoginAt { get; set; }
     public AdminContactInfoDto? ContactInfo { get; set; }
+    public AdminPrivacySettingsDto? PrivacySettings { get; set; }
 }
 
 public class AdminContactInfoDto
@@ -305,4 +417,28 @@ public class AdminContactInfoDto
     public string? PostalCode { get; set; }
     public string? State { get; set; }
     public string? Country { get; set; }
+}
+
+public class UpdateUserRequest
+{
+    public string? FirstName { get; set; }
+    public string? LastName { get; set; }
+    public AdminContactInfoDto? ContactInfo { get; set; }
+    public AdminPrivacySettingsDto? PrivacySettings { get; set; }
+}
+
+public class AdminPrivacySettingsDto
+{
+    public bool MarketingEmailsConsent { get; set; }
+    public bool DataProcessingConsent { get; set; }
+    public bool ProfileVisibilityConsent { get; set; }
+    public bool DataSharingConsent { get; set; }
+    public bool ShowPhoneNumber { get; set; }
+    public bool ShowMobileNumber { get; set; }
+    public bool ShowStreet { get; set; }
+    public bool ShowCity { get; set; }
+    public DateTime? MarketingEmailsConsentDate { get; set; }
+    public DateTime? DataProcessingConsentDate { get; set; }
+    public DateTime? ProfileVisibilityConsentDate { get; set; }
+    public DateTime? DataSharingConsentDate { get; set; }
 }

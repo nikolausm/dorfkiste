@@ -31,6 +31,7 @@ export default function InboxPage() {
   const [conversations, setConversations] = useState<ConversationPreview[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [filterType, setFilterType] = useState<'all' | 'unread' | 'active' | 'inactive'>('all');
 
   useEffect(() => {
     if (!authLoading) {
@@ -198,10 +199,31 @@ export default function InboxPage() {
     );
   }
 
+  // Filter conversations based on filter type
+  const filteredConversations = conversations.filter(conversation => {
+    switch (filterType) {
+      case 'unread':
+        return conversation.unreadCount > 0;
+      case 'active':
+        return conversation.offer?.isActive === true;
+      case 'inactive':
+        return conversation.offer?.isActive === false || conversation.offer === null;
+      default:
+        return true;
+    }
+  });
+
+  const filterCounts = {
+    all: conversations.length,
+    unread: conversations.filter(c => c.unreadCount > 0).length,
+    active: conversations.filter(c => c.offer?.isActive === true).length,
+    inactive: conversations.filter(c => c.offer?.isActive === false || c.offer === null).length
+  };
+
   return (
     <div className="container mx-auto px-4 py-6">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Nachrichten</h1>
           <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
@@ -210,7 +232,7 @@ export default function InboxPage() {
         </div>
         <button
           onClick={loadConversations}
-          className="btn-secondary text-sm px-3 py-1.5 flex items-center gap-1.5"
+          className="btn-secondary text-sm px-3 py-1.5 flex items-center gap-1.5 self-start sm:self-auto"
         >
           <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -219,8 +241,57 @@ export default function InboxPage() {
         </button>
       </div>
 
+      {/* Filter Tabs */}
+      {conversations.length > 0 && (
+        <div className="mb-6 overflow-x-auto">
+          <div className="flex gap-2 min-w-max">
+            <button
+              onClick={() => setFilterType('all')}
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                filterType === 'all'
+                  ? 'bg-primary-600 dark:bg-primary-500 text-white'
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+              }`}
+            >
+              Alle ({filterCounts.all})
+            </button>
+            <button
+              onClick={() => setFilterType('unread')}
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                filterType === 'unread'
+                  ? 'bg-primary-600 dark:bg-primary-500 text-white'
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+              }`}
+            >
+              Ungelesen ({filterCounts.unread})
+            </button>
+            <button
+              onClick={() => setFilterType('active')}
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                filterType === 'active'
+                  ? 'bg-primary-600 dark:bg-primary-500 text-white'
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+              }`}
+            >
+              Aktive Angebote ({filterCounts.active})
+            </button>
+            <button
+              onClick={() => setFilterType('inactive')}
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                filterType === 'inactive'
+                  ? 'bg-primary-600 dark:bg-primary-500 text-white'
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+              }`}
+            >
+              Inaktive Angebote ({filterCounts.inactive})
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Conversation List */}
-      {conversations.length === 0 ? (
+      {filteredConversations.length === 0 ? (
+        conversations.length === 0 ? (
         <div className="text-center py-16">
           <div className="w-20 h-20 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-6">
             <svg className="w-10 h-10 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -235,9 +306,25 @@ export default function InboxPage() {
             Erstes Angebot erstellen
           </Link>
         </div>
+        ) : (
+          <div className="text-center py-16">
+            <div className="w-20 h-20 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-6">
+              <svg className="w-10 h-10 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">Keine passenden Nachrichten</h3>
+            <p className="text-gray-600 dark:text-gray-400 mb-6">
+              Es wurden keine Nachrichten gefunden, die den aktuellen Filterkriterien entsprechen.
+            </p>
+            <button onClick={() => setFilterType('all')} className="btn-secondary">
+              Alle Nachrichten anzeigen
+            </button>
+          </div>
+        )
       ) : (
         <div className="space-y-3">
-          {conversations.map((conversation) => (
+          {filteredConversations.map((conversation) => (
             <div
               key={`${conversation.recipientId}-${conversation.offerId}`}
               onClick={() => openConversation(conversation)}
