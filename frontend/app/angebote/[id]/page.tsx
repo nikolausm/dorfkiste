@@ -25,6 +25,7 @@ export default function OfferDetailPage() {
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const [preselectedDates, setPreselectedDates] = useState<{startDate: string, endDate: string} | null>(null);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [adminDeleteModalOpen, setAdminDeleteModalOpen] = useState(false);
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
 
   const handleNextImage = () => {
@@ -163,6 +164,17 @@ export default function OfferDetailPage() {
     try {
       await apiClient.deleteOffer(offer.id);
       router.push('/meine-angebote');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Fehler beim Löschen des Angebots');
+    }
+  };
+
+  const confirmAdminDelete = async () => {
+    if (!offer) return;
+
+    try {
+      await apiClient.adminDeleteOffer(offer.id);
+      router.push('/admin/angebote');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Fehler beim Löschen des Angebots');
     }
@@ -495,23 +507,31 @@ export default function OfferDetailPage() {
                   {!offer.isForSale && (
                     <button
                       onClick={() => handleBookNow()}
-                      className="w-full btn-primary py-3 px-4"
+                      className="w-full btn-primary"
                     >
                       {isLoggedIn ? 'Jetzt buchen' : 'Anmelden & Buchen'}
                     </button>
                   )}
                   <button
                     onClick={handleSendMessage}
-                    className={`w-full py-3 px-4 ${offer.isForSale ? 'btn-primary' : 'btn-secondary'}`}
+                    className={`w-full ${offer.isForSale ? 'btn-primary' : 'btn-secondary'}`}
                   >
                     {isLoggedIn ? 'Nachricht senden' : 'Anmelden & Nachricht senden'}
                   </button>
                   {isLoggedIn && (
                     <button
                       onClick={() => setIsReportModalOpen(true)}
-                      className="w-full py-2 px-4 text-sm text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-800 transition-colors"
+                      className="w-full bg-white dark:bg-gray-800 hover:bg-red-50 dark:hover:bg-red-900/20 border border-red-200 dark:border-red-800 hover:border-red-300 dark:hover:border-red-700 text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 font-semibold py-3 px-6 rounded-xl shadow-soft transition-all duration-300 transform hover:scale-105 active:scale-95"
                     >
                       🚨 Angebot melden
+                    </button>
+                  )}
+                  {user?.isAdmin && (
+                    <button
+                      onClick={() => setAdminDeleteModalOpen(true)}
+                      className="w-full bg-white dark:bg-gray-800 hover:bg-red-50 dark:hover:bg-red-900/20 border border-red-200 dark:border-red-800 hover:border-red-300 dark:hover:border-red-700 text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 font-semibold py-3 px-6 rounded-xl shadow-soft transition-all duration-300 transform hover:scale-105 active:scale-95"
+                    >
+                      🗑️ Angebot löschen (Admin)
                     </button>
                   )}
                 </div>
@@ -575,6 +595,17 @@ export default function OfferDetailPage() {
           onConfirm={confirmDelete}
           title="Angebot löschen"
           message={`Möchten Sie das Angebot "${offer.title}" wirklich löschen?`}
+        />
+      )}
+
+      {/* Admin Delete Confirmation Modal */}
+      {offer && (
+        <ConfirmDeleteModal
+          isOpen={adminDeleteModalOpen}
+          onClose={() => setAdminDeleteModalOpen(false)}
+          onConfirm={confirmAdminDelete}
+          title="Angebot löschen (Admin)"
+          message={`Möchten Sie das Angebot "${offer.title}" als Administrator wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.`}
         />
       )}
 

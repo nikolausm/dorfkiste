@@ -182,6 +182,29 @@ public class OffersController : ControllerBase
         return NoContent();
     }
 
+    [HttpDelete("admin/{id}")]
+    [Authorize]
+    public async Task<IActionResult> AdminDeleteOffer(int id)
+    {
+        var userId = GetCurrentUserId();
+        var userRepository = HttpContext.RequestServices.GetRequiredService<IUserRepository>();
+        var user = await userRepository.GetByIdAsync(userId);
+
+        if (user == null || !user.IsAdmin)
+        {
+            return Forbid();
+        }
+
+        var offer = await _offerRepository.GetByIdAsync(id);
+        if (offer == null)
+        {
+            return NotFound();
+        }
+
+        await _offerRepository.DeleteAsync(id);
+        return NoContent();
+    }
+
     [HttpGet("user/{userId}")]
     public async Task<ActionResult<IEnumerable<OfferDto>>> GetUserOffers(int userId)
     {

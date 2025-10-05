@@ -891,6 +891,12 @@ class ApiClient {
     });
   }
 
+  async adminDeleteOffer(offerId: number): Promise<void> {
+    return this.request(`/offers/admin/${offerId}`, {
+      method: 'DELETE',
+    });
+  }
+
   async getAllUsers(): Promise<AdminUser[]> {
     return this.request('/admin/users');
   }
