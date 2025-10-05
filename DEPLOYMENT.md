@@ -3,7 +3,7 @@
 ## Voraussetzungen
 
 - IONOS VPS Linux L mit Debian 12
-- Domain dorfkiste.org zeigt auf Server-IP
+- Domain dorfkiste.com zeigt auf Server-IP
 - SSH-Zugang zum Server
 
 ## 1. Server vorbereiten
@@ -67,8 +67,8 @@ EMAIL_PASSWORD=your-password        # IONOS Email Passwort
 Bei deinem Domain-Provider (z.B. IONOS):
 
 ```
-A Record:  dorfkiste.org      → Server-IP
-A Record:  www.dorfkiste.org  → Server-IP
+A Record:  dorfkiste.com      → Server-IP
+A Record:  www.dorfkiste.com  → Server-IP
 ```
 
 Warte 5-10 Minuten bis DNS propagiert ist.
@@ -107,15 +107,15 @@ docker-compose ps
 
 ```bash
 # Health Check
-curl https://dorfkiste.org
+curl https://dorfkiste.com
 
 # SSL-Zertifikat prüfen
-curl -I https://dorfkiste.org
+curl -I https://dorfkiste.com
 ```
 
 Im Browser:
-- https://dorfkiste.org (Hauptseite)
-- https://www.dorfkiste.org (Weiterleitung)
+- https://dorfkiste.com (Hauptseite)
+- https://www.dorfkiste.com (Weiterleitung)
 - http://your-server-ip:8080 (Traefik Dashboard)
 
 ## 8. Sicherheit
@@ -216,7 +216,7 @@ docker-compose -f docker-compose.traefik.yml ps
 ### Problem: "Let's Encrypt failed"
 ```bash
 # DNS prüfen
-nslookup dorfkiste.org
+nslookup dorfkiste.com
 
 # Firewall prüfen
 sudo ufw status
@@ -254,7 +254,7 @@ docker-compose logs nginx
 - Kostenlos
 - Automatische Erneuerung
 
-**Domain dorfkiste.org:**
+**Domain dorfkiste.com:**
 - ~15€/Jahr (bei IONOS)
 
 **Gesamt: ~10-15€/Monat**

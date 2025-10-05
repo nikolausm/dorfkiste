@@ -56,7 +56,7 @@ docker compose logs backend --tail 50
 echo ""
 
 echo -e "${GREEN}✨ Production update complete!${NC}"
-echo -e "🌐 Visit: https://dorfkiste.org"
+echo -e "🌐 Visit: https://dorfkiste.com"
 echo ""
 echo "💡 Tips:"
 echo "  - Check logs: docker compose logs -f backend"

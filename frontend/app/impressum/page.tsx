@@ -30,7 +30,7 @@ export default function ImpressumPage() {
           <h2 className="text-2xl font-semibold mb-3 text-gray-900 dark:text-gray-100">Kontakt</h2>
           <p>
             Telefon: +49 151 27600607<br/>
-            E-Mail: info@dorfkiste.org<br/>
+            E-Mail: info@dorfkiste.com<br/>
             Website: <a href="https://www.minicon.eu" className="text-blue-600 dark:text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">www.minicon.eu</a>
           </p>
         </section>

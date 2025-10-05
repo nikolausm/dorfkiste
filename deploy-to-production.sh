@@ -30,7 +30,7 @@ echo ""
 echo "✅ Deployment complete!"
 echo ""
 echo "🌐 Your application should now be running at:"
-echo "   https://dorfkiste.org"
+echo "   https://dorfkiste.com"
 echo ""
 echo "📊 Check container status:"
 docker compose ps

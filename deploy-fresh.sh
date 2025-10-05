@@ -47,7 +47,7 @@ docker compose logs backend --tail 30
 
 echo ""
 echo "✨ Deployment complete!"
-echo "🌐 Visit: https://dorfkiste.org"
+echo "🌐 Visit: https://dorfkiste.com"
 echo ""
 echo "👤 Default admin login:"
 echo "   Email: admin@dorfkiste.de"

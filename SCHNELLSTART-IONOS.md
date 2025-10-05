@@ -87,12 +87,12 @@ OPENAI_API_KEY=sk-proj-your-key-here
 # Email Konfiguration (IONOS)
 EMAIL_SMTP_HOST=smtp.ionos.de
 EMAIL_SMTP_PORT=587
-EMAIL_FROM=noreply@dorfkiste.org
-EMAIL_USERNAME=noreply@dorfkiste.org
+EMAIL_FROM=noreply@dorfkiste.com
+EMAIL_USERNAME=noreply@dorfkiste.com
 EMAIL_PASSWORD=dein-email-passwort-hier
 
 # Domain
-DOMAIN=dorfkiste.org
+DOMAIN=dorfkiste.com
 ```
 
 **Speichern:** `CTRL+O`, `Enter`, `CTRL+X`
@@ -103,7 +103,7 @@ DOMAIN=dorfkiste.org
 
 **Bei IONOS Domain-Verwaltung:**
 
-1. Zu dorfkiste.org DNS-Einstellungen gehen
+1. Zu dorfkiste.com DNS-Einstellungen gehen
 2. A-Records hinzufügen:
 
 ```
@@ -155,12 +155,12 @@ docker-compose logs -f
 ## Schritt 8: Testen
 
 **Im Browser:**
-- https://dorfkiste.org
-- https://www.dorfkiste.org
+- https://dorfkiste.com
+- https://www.dorfkiste.com
 
 **SSL-Zertifikat prüfen:**
 ```bash
-curl -I https://dorfkiste.org
+curl -I https://dorfkiste.com
 # Sollte "HTTP/2 200" und "cert issuer: Let's Encrypt" zeigen
 ```
 
@@ -237,7 +237,7 @@ df -h
 ### Problem: "Let's Encrypt failed"
 ```bash
 # DNS prüfen
-nslookup dorfkiste.org
+nslookup dorfkiste.com
 # Sollte 194.164.199.151 anzeigen
 
 # Traefik neu starten

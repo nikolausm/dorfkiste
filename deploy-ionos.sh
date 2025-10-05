@@ -131,15 +131,15 @@ OPENAI_API_KEY=your-openai-api-key-here
 # Email Configuration
 EMAIL_SMTP_HOST=smtp.ionos.de
 EMAIL_SMTP_PORT=587
-EMAIL_FROM=noreply@dorfkiste.org
-EMAIL_USERNAME=noreply@dorfkiste.org
+EMAIL_FROM=noreply@dorfkiste.com
+EMAIL_USERNAME=noreply@dorfkiste.com
 EMAIL_PASSWORD=your-email-password-here
 
 # Database
 DATABASE_PATH=/app/data/dorfkiste.db
 
 # Domain
-DOMAIN=dorfkiste.org
+DOMAIN=dorfkiste.com
 EOF
     print_success ".env Datei erstellt (bitte OpenAI & Email konfigurieren!)"
 else
@@ -173,7 +173,7 @@ services:
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
       - "--certificatesresolvers.letsencrypt.acme.tlschallenge=true"
-      - "--certificatesresolvers.letsencrypt.acme.email=support@dorfkiste.org"
+      - "--certificatesresolvers.letsencrypt.acme.email=support@dorfkiste.com"
       - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
       - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
       - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
@@ -214,7 +214,7 @@ services:
       - traefik-network
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.dorfkiste.rule=Host(`dorfkiste.org`) || Host(`www.dorfkiste.org`)"
+      - "traefik.http.routers.dorfkiste.rule=Host(`dorfkiste.com`) || Host(`www.dorfkiste.com`)"
       - "traefik.http.routers.dorfkiste.entrypoints=websecure"
       - "traefik.http.routers.dorfkiste.tls.certresolver=letsencrypt"
       - "traefik.http.services.dorfkiste.loadbalancer.server.port=80"
@@ -307,8 +307,8 @@ echo "   → OPENAI_API_KEY eintragen"
 echo "   → EMAIL_PASSWORD eintragen"
 echo ""
 echo "3. DNS konfigurieren:"
-echo "   dorfkiste.org      → A Record → Server-IP"
-echo "   www.dorfkiste.org  → A Record → Server-IP"
+echo "   dorfkiste.com      → A Record → Server-IP"
+echo "   www.dorfkiste.com  → A Record → Server-IP"
 echo ""
 echo "4. Traefik starten:"
 echo "   cd /opt/dorfkiste"

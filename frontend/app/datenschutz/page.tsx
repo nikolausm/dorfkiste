@@ -335,8 +335,8 @@ export default function DatenschutzPage() {
           </ul>
           <p className="mt-4">
             Für Anfragen zum Datenschutz wenden Sie sich bitte an:{' '}
-            <a href="mailto:datenschutz@dorfkiste.org" className="text-blue-600 dark:text-blue-400 hover:underline">
-              datenschutz@dorfkiste.org
+            <a href="mailto:datenschutz@dorfkiste.com" className="text-blue-600 dark:text-blue-400 hover:underline">
+              datenschutz@dorfkiste.com
             </a>
           </p>
         </section>

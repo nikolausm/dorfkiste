@@ -54,8 +54,8 @@ export default function Footer() {
             <ul className="space-y-2 text-sm">
               <li>
                 E-Mail:{' '}
-                <a href="mailto:support@dorfkiste.org" className="hover:text-white transition-colors">
-                  support@dorfkiste.org
+                <a href="mailto:support@dorfkiste.com" className="hover:text-white transition-colors">
+                  support@dorfkiste.com
                 </a>
               </li>
               <li>

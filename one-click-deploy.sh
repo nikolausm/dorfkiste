@@ -99,12 +99,12 @@ OPENAI_API_KEY=sk-proj-your-key-here
 # Email - BITTE EINTRAGEN!
 EMAIL_SMTP_HOST=smtp.ionos.de
 EMAIL_SMTP_PORT=587
-EMAIL_FROM=noreply@dorfkiste.org
-EMAIL_USERNAME=noreply@dorfkiste.org
+EMAIL_FROM=noreply@dorfkiste.com
+EMAIL_USERNAME=noreply@dorfkiste.com
 EMAIL_PASSWORD=your-email-password-here
 
 DATABASE_PATH=/app/data/dorfkiste.db
-DOMAIN=dorfkiste.org
+DOMAIN=dorfkiste.com
 EOF
 print_success ".env Datei erstellt"
 
@@ -143,8 +143,8 @@ echo "     --exclude '.git' --exclude '.next' \\"
 echo "     ./ root@194.164.199.151:/opt/dorfkiste/"
 echo ""
 echo "3. 🌐 DNS konfigurieren:"
-echo "   dorfkiste.org → A → 194.164.199.151"
-echo "   www.dorfkiste.org → A → 194.164.199.151"
+echo "   dorfkiste.com → A → 194.164.199.151"
+echo "   www.dorfkiste.com → A → 194.164.199.151"
 echo ""
 echo "4. 🚀 Danach auf dem Server:"
 echo "   cd /opt/dorfkiste"
