@@ -69,7 +69,7 @@ export default function AdminReportsPage() {
 
   const handleToggleOffer = async (offerId: number) => {
     try {
-      await apiClient.toggleOfferActive(offerId);
+      await apiClient.adminToggleOfferActive(offerId);
       loadReports();
     } catch (err) {
       setError('Fehler beim Deaktivieren des Angebots');

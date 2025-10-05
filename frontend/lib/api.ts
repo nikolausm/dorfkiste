@@ -891,7 +891,7 @@ class ApiClient {
     return this.request('/admin/users');
   }
 
-  async toggleOfferActive(offerId: number): Promise<{ message: string; isActive: boolean }> {
+  async adminToggleOfferActive(offerId: number): Promise<{ message: string; isActive: boolean }> {
     return this.request(`/admin/offers/${offerId}/toggle-active`, {
       method: 'POST',
     });
