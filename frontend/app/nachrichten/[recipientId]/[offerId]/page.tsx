@@ -76,7 +76,8 @@ export default function ConversationPage() {
             id: publicUser.id,
             email: '',
             firstName: publicUser.firstName,
-            lastName: publicUser.lastName
+            lastName: publicUser.lastName,
+            isAdmin: false
           };
         } catch (err) {
           console.warn('Could not fetch recipient user info:', err);
@@ -85,7 +86,8 @@ export default function ConversationPage() {
             id: recipientId,
             email: '',
             firstName: 'Benutzer',
-            lastName: `#${recipientId}`
+            lastName: `#${recipientId}`,
+            isAdmin: false
           };
         }
       }
