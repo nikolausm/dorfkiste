@@ -173,10 +173,14 @@ export default function OfferDetailPage() {
     if (!offer) return;
 
     try {
+      setAdminDeleteModalOpen(false);
       await apiClient.adminDeleteOffer(offer.id);
+      // Successfully deleted, redirect to admin page
       router.push('/admin/angebote');
     } catch (err) {
+      console.error('Admin delete error:', err);
       setError(err instanceof Error ? err.message : 'Fehler beim Löschen des Angebots');
+      setAdminDeleteModalOpen(false);
     }
   };
 

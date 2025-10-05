@@ -2,25 +2,10 @@ import React from 'react';
 
 export default function AGBPage() {
   return (
-    <div className="min-h-screen bg-neutral-50 dark:bg-gray-900">
-      {/* Header */}
-      <section className="hero-gradient pt-20 pb-16">
-        <div className="container mx-auto px-4">
-          <div className="text-center">
-            <h1 className="text-4xl lg:text-5xl font-bold text-neutral-900 dark:text-gray-100 mb-4">
-              Allgemeine Geschäftsbedingungen
-            </h1>
-            <p className="text-xl text-neutral-600 dark:text-gray-400 max-w-3xl mx-auto">
-              Nutzungsbedingungen der Dorfkiste-Plattform
-            </p>
-          </div>
-        </div>
-      </section>
+    <div className="container mx-auto px-4 py-8 max-w-4xl">
+      <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">Allgemeine Geschäftsbedingungen</h1>
 
-      {/* Content */}
-      <section className="py-16">
-        <div className="container mx-auto px-4 max-w-4xl">
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 lg:p-12 shadow-soft space-y-8 text-gray-700 dark:text-gray-300">
+      <div className="space-y-6 text-gray-700 dark:text-gray-300">
         <section>
           <h2 className="text-2xl font-semibold mb-3 text-gray-900 dark:text-gray-100">§ 1 Geltungsbereich</h2>
           <p className="mb-2">
@@ -211,15 +196,13 @@ export default function AGBPage() {
           </p>
         </section>
 
-            <section className="pt-4 border-t border-gray-300 dark:border-gray-600">
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                Stand: 3. Oktober 2025<br/>
-                Dorfkiste - Minicon eG
-              </p>
-            </section>
-          </div>
-        </div>
-      </section>
+        <section className="pt-4 border-t border-gray-300 dark:border-gray-600">
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            Stand: 3. Oktober 2025<br/>
+            Dorfkiste - Minicon eG
+          </p>
+        </section>
+      </div>
     </div>
   );
 }

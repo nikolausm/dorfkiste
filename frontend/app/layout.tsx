@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import BackgroundLogo from "@/components/BackgroundLogo";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import CookieConsentBanner from "@/components/CookieConsentBanner";
@@ -24,8 +25,9 @@ export default function RootLayout({
       <body suppressHydrationWarning className={`${inter.className} min-h-screen flex flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors`}>
         <ThemeProvider>
           <AuthProvider>
+            <BackgroundLogo />
             <Header />
-            <main className="flex-grow">
+            <main className="flex-grow relative z-10">
               {children}
             </main>
             <Footer />

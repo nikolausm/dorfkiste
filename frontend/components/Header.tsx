@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
@@ -68,8 +69,26 @@ export default function Header() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <Link href="/" className="flex items-center">
-              <span className="text-2xl font-bold gradient-text">🏘️ Dorfkiste</span>
+            <Link href="/" className="flex items-center gap-3 group">
+              <div className="relative h-16 w-16">
+                {/* Dark mode logo */}
+                <Image
+                  src="/dorfkiste-logo.png"
+                  alt="Dorfkiste Logo"
+                  fill
+                  className="object-contain transition-transform duration-300 group-hover:scale-105 hidden dark:block"
+                  priority
+                />
+                {/* Light mode logo */}
+                <Image
+                  src="/dorfkiste-logo-bright.png"
+                  alt="Dorfkiste Logo"
+                  fill
+                  className="object-contain transition-transform duration-300 group-hover:scale-105 block dark:hidden"
+                  priority
+                />
+              </div>
+              <span className="text-2xl font-bold gradient-text hidden sm:block">Dorfkiste</span>
             </Link>
           </div>
 

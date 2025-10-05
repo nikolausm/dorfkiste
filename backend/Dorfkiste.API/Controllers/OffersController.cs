@@ -13,12 +13,18 @@ public class OffersController : ControllerBase
     private readonly IOfferRepository _offerRepository;
     private readonly IOfferService _offerService;
     private readonly IReportRepository _reportRepository;
+    private readonly ILogger<OffersController> _logger;
 
-    public OffersController(IOfferRepository offerRepository, IOfferService offerService, IReportRepository reportRepository)
+    public OffersController(
+        IOfferRepository offerRepository,
+        IOfferService offerService,
+        IReportRepository reportRepository,
+        ILogger<OffersController> logger)
     {
         _offerRepository = offerRepository;
         _offerService = offerService;
         _reportRepository = reportRepository;
+        _logger = logger;
     }
 
     [HttpGet]
@@ -192,16 +198,20 @@ public class OffersController : ControllerBase
 
         if (user == null || !user.IsAdmin)
         {
+            _logger.LogWarning($"Non-admin user {userId} attempted to delete offer {id}");
             return Forbid();
         }
 
         var offer = await _offerRepository.GetByIdAsync(id);
         if (offer == null)
         {
+            _logger.LogWarning($"Admin user {userId} tried to delete non-existent offer {id}");
             return NotFound();
         }
 
+        _logger.LogInformation($"Admin user {userId} deleting offer {id} ({offer.Title})");
         await _offerRepository.DeleteAsync(id);
+        _logger.LogInformation($"Offer {id} successfully deleted by admin {userId}");
         return NoContent();
     }
 
