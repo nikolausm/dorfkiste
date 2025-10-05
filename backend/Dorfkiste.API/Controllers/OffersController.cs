@@ -103,8 +103,8 @@ public class OffersController : ControllerBase
 
         var createdOffer = await _offerRepository.CreateAsync(offer);
         var result = await _offerRepository.GetByIdAsync(createdOffer.Id);
-        
-        return CreatedAtAction(nameof(GetOffer), new { id = createdOffer.Id }, MapToOfferDto(result!));
+
+        return CreatedAtAction(nameof(GetOffer), new { idOrSlug = createdOffer.Id.ToString() }, MapToOfferDto(result!));
     }
 
     [HttpPut("{id}")]
