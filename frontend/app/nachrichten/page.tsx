@@ -137,6 +137,10 @@ export default function InboxPage() {
     }
 
     try {
+      if (conversation.offerId === null) {
+        setError('Unterhaltung ohne Angebot kann nicht gelöscht werden');
+        return;
+      }
       await apiClient.deleteConversation(conversation.recipientId, conversation.offerId);
       // Remove the conversation from local state
       setConversations(prev => prev.filter(c =>
