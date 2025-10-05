@@ -15,11 +15,11 @@ services:
     labels:
       - "traefik.enable=true"
       # HTTP Router - redirects to HTTPS
-      - "traefik.http.routers.dorfkiste.rule=Host(`dorfkiste.com`) || Host(`www.dorfkiste.com`)"
+      - "traefik.http.routers.dorfkiste.rule=Host(`dorfkiste.com`) || Host(`www.dorfkiste.com`) || Host(`dahn.dorfkiste.com`)"
       - "traefik.http.routers.dorfkiste.entrypoints=web"
       - "traefik.http.routers.dorfkiste.middlewares=https-redirect"
       # HTTPS Router
-      - "traefik.http.routers.dorfkiste-secure.rule=Host(`dorfkiste.com`) || Host(`www.dorfkiste.com`)"
+      - "traefik.http.routers.dorfkiste-secure.rule=Host(`dorfkiste.com`) || Host(`www.dorfkiste.com`) || Host(`dahn.dorfkiste.com`)"
       - "traefik.http.routers.dorfkiste-secure.entrypoints=websecure"
       - "traefik.http.routers.dorfkiste-secure.tls=true"
       - "traefik.http.routers.dorfkiste-secure.tls.certresolver=letsencrypt"
@@ -38,25 +38,23 @@ services:
     container_name: dorfkiste-backend
     expose:
       - "8080"
+    env_file:
+      - .env
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:8080
       - ConnectionStrings__DefaultConnection=Data Source=/app/data/dorfkiste.db
-      - Jwt__Secret=${JWT_SECRET:-your-secret-key-min-32-characters-long-for-production}
-      - Jwt__Issuer=DorfkisteAPI
-      - Jwt__Audience=DorfkisteClient
-      - Jwt__ExpiryMinutes=60
-      - OpenAI__ApiKey=${OpenAI__ApiKey}
-      - OpenAI__Model=gpt-4o
+      - Jwt__Issuer=https://dorfkiste.com
+      - Jwt__Audience=https://dorfkiste.com
       - Email__SmtpHost=mailhog
       - Email__SmtpPort=1025
-      - Email__SmtpUsername=
+      - Email__SmtpUser=
       - Email__SmtpPassword=
       - Email__FromEmail=noreply@dorfkiste.com
       - Email__FromName=Dorfkiste
-      - Email__BaseUrl=https://dorfkiste.com
+      - Email__UseSsl=false
     volumes:
-      - backend-data:/app/data
+      - dorfkiste-data:/app/data
     networks:
       - dorfkiste-network
     restart: unless-stopped
@@ -91,8 +89,7 @@ services:
     restart: unless-stopped
 
 volumes:
-  backend-data:
-    driver: local
+  dorfkiste-data:
 
 networks:
   dorfkiste-network:
