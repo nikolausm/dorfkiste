@@ -85,16 +85,6 @@ export default function EditUserModal({
           state: state.trim() || undefined,
           country: country.trim() || undefined,
         },
-        privacySettings: {
-          marketingEmailsConsent,
-          dataProcessingConsent,
-          profileVisibilityConsent,
-          dataSharingConsent,
-          showPhoneNumber,
-          showMobileNumber,
-          showStreet,
-          showCity,
-        },
       });
 
       setSuccess(true);
