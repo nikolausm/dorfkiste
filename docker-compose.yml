@@ -46,7 +46,7 @@ services:
       - Jwt__Issuer=DorfkisteAPI
       - Jwt__Audience=DorfkisteClient
       - Jwt__ExpiryMinutes=60
-      - OpenAI__ApiKey=${OPENAI_API_KEY}
+      - OpenAI__ApiKey=${OpenAI__ApiKey}
       - OpenAI__Model=gpt-4o
       - Email__SmtpHost=mailhog
       - Email__SmtpPort=1025
