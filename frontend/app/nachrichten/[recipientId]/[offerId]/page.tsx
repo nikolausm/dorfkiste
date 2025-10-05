@@ -63,7 +63,8 @@ export default function ConversationPage() {
             id: offerData.user.id,
             email: '',
             firstName: offerData.user.firstName,
-            lastName: offerData.user.lastName
+            lastName: offerData.user.lastName,
+            isAdmin: false
           };
         }
       }
