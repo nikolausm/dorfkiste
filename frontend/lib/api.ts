@@ -788,17 +788,7 @@ class ApiClient {
     });
   }
 
-  // GDPR & Privacy Methods
-  async getPrivacySettings(): Promise<any> {
-    return this.request('/users/privacy-settings');
-  }
-
-  async updatePrivacySettings(settings: any): Promise<any> {
-    return this.request('/users/privacy-settings', {
-      method: 'PUT',
-      body: JSON.stringify(settings),
-    });
-  }
+  // GDPR & Privacy Methods (getPrivacySettings and updatePrivacySettings defined earlier)
 
   async exportUserData(): Promise<Blob> {
     const response = await fetch(`${API_BASE_URL}/users/export-data`, {
