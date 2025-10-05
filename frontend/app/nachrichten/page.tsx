@@ -11,7 +11,7 @@ import OfferThumbnail from '@/components/OfferThumbnail';
 interface ConversationPreview {
   recipientId: number;
   recipientName: string;
-  offerId: number;
+  offerId: number | null;
   offerTitle: string;
   offerImageId?: number;
   offer?: {
